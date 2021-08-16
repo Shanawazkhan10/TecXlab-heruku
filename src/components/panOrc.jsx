@@ -82,6 +82,15 @@ function PanOrc() {
                   //  height="200"
                   src={`data:image/png;base64,${backendData.encoded_signature}`}
                 />
+                <br />
+                <br />
+                <button
+                  type="submit"
+                  onClick={getSubmit}
+                  className="btn btn-primary btn-block btn-submit"
+                >
+                  Proceed To Esign
+                </button>
               </div>
             ) : (
               ""

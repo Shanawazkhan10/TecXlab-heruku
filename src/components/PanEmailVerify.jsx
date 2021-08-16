@@ -68,7 +68,7 @@ function PanEmailVerify() {
           console.log(data);
           data.data.verified !== true
             ? alert("failed")
-            : (window.location.href = "/PersonalInfo");
+            : (window.location.href = "/RazorPay");
         })
         .catch((err) => {
           console.error(err);

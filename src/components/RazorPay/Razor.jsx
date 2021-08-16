@@ -49,9 +49,10 @@ function Razor() {
       description: "Thank you for nothing. Please give us some money",
       //   image: "http://localhost:1337/logo.svg",
       handler: function (response) {
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+        window.location.href = "/PersonalInfo";
       },
       prefill: {
         name,
