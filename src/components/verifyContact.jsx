@@ -102,30 +102,46 @@ function VerifyContact() {
       })();
       // end timer
 
-      const smsDetail = {
-        smsContact: contact,
-        OTP: generateOtp,
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        contact_No: contact,
+        otp: generateOtp,
+      });
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
       };
-      await axios
-        .post(SERVER_ID + apiURL, smsDetail)
-        .then((data) => {
-          console.log(data);
-          {
-            data.data.jsonotpBKC && setgenerateOtp(data.data.jsonotpBKC);
-          }
+
+      fetch(SERVER_ID + "/api/MobileAuthentication/Send_OTP", requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+          result && setgenerateOtp(result);
         })
-        .catch((err) => {
-          console.error(err);
-        });
-      await axios
-        .post(SERVER_ID + apiURLJwt, smsDetail)
-        .then((data) => {
-          setToken(data);
-          console.log(data);
+        .catch((error) => console.log("error", error));
+
+      var requestOptions = {
+        method: "POST",
+        redirect: "follow",
+      };
+
+      fetch(
+        SERVER_ID +
+          "/GenerateJWTWebToken?Contact=" +
+          contact +
+          "&IsMobileVerified=true",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => {
+          console.log(result);
+          // setToken(result);
         })
-        .catch((err) => {
-          console.error(err);
-        });
+        .catch((error) => console.log("error", error));
     }
   };
   const getSubmit = async (e) => {
@@ -134,17 +150,17 @@ function VerifyContact() {
       smsContact: contact,
       flag: Status,
     };
-    await axios
-      .post(SERVER_ID + apiURLverify, verifyDetail)
-      .then((data) => {
-        setToken(data);
-        console.log(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    // await axios
+    //   .post(SERVER_ID + apiURLverify, verifyDetail)
+    //   .then((data) => {
+    //     setToken(data);
+    //     console.log(data);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
 
-    setUserToken(Token.data);
+    setUserToken(Token);
     window.location.href = "/EmailTemplate";
   };
 

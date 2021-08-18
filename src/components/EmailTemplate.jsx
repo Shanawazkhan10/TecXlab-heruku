@@ -32,14 +32,29 @@ function EmailTemplate() {
         emailOtp: val,
         user_token: localStorage.getItem("user-token"),
       };
-      await axios
-        .post(SERVER_ID + apiURL, smsDetail)
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        send_Email: email,
+        user_Token: localStorage.getItem("user-token"),
+      });
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch(
+        SERVER_ID + "/api/EmailAuthentication/EmailAuthentication",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
     } else {
       alert("Invalid Email");
       setEmail("");

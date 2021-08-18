@@ -39,40 +39,59 @@ function PanEmailVerify() {
         date_of_birth: dob,
       };
 
-      await axios
-        .post(SERVER_ID + apiURL, book)
-        .then((data) => {
-          console.log(data);
-          data.data.name_matched === true && data.data.is_pan_dob_valid === true
+      var requestOptions = {
+        method: "POST",
+        redirect: "follow",
+      };
+
+      fetch(
+        SERVER_ID +
+          "/PanAuthentication?pan_no=" +
+          pan +
+          "&full_name=" +
+          name +
+          "&date_of_birth=" +
+          dob +
+          "",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          response.name_matched === true && response.is_pan_dob_valid === true
             ? $(".div_bank").show() &&
               $(".btn-otp").hide() &&
               $(".btn-bank").show()
             : $(".div_bank").hide();
         })
-        .catch((err) => {
-          console.error(err);
-        });
+        .catch((error) => console.log("error", error));
     }
   };
   const bankVerify = async (e) => {
     e.preventDefault();
     if (ifsc.length >= 5 && bank !== "") {
-      const bankdetails = {
-        beneficiary_account_no: bank,
-        beneficiary_ifsc: ifsc,
+      var requestOptions = {
+        method: "POST",
+        redirect: "follow",
       };
 
-      await axios
-        .post(SERVER_ID + apiURLBank, bankdetails)
-        .then((data) => {
-          console.log(data);
-          data.data.verified !== true
+      fetch(
+        SERVER_ID +
+          "/VerifyBankAccount?beneficiary_account_no=" +
+          bank +
+          "&beneficiary_ifsc=" +
+          ifsc +
+          "",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          result.verified !== true
             ? alert("failed")
             : (window.location.href = "/RazorPay");
         })
-        .catch((err) => {
-          console.error(err);
-        });
+        .catch((error) => console.log("error", error));
     }
   };
 
