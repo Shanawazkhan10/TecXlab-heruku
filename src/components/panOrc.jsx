@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
+import React, { useState } from "react";
 import axios from "axios";
-import FileBase64 from "react-file-base64";
 import SERVER_ID from "../configure";
 function PanOrc() {
   const [panImg, setpanImg] = useState("");

@@ -76,8 +76,12 @@ function PanEmailVerify() {
         "https://localhost:5001/IFSCCheck?IFSC_code=" + ifsc + "",
         requestOptions
       )
-        .then((response) => response.text())
-        .then((result) => {setIFSCData(result)})
+        .then((response) => response.json())
+        .then((result) => {
+        console.log(result)
+        result && setIFSCData(result)
+        console.log(IFSCData)
+        })
         .catch((error) => console.log("error", error));
     }
   };
@@ -157,7 +161,7 @@ function PanEmailVerify() {
                   label="BANK ACCOUNT NO."
                 />
               </div> */}
-              <p>{IFSCData && IFSCData.ADDRESS}</p>
+             
               <div className="form-group">
                 {/* <label>Enter Contact</label> */}
                 <TextField
@@ -173,7 +177,17 @@ function PanEmailVerify() {
                 {/* <input type="text" value={contact} onChange={(e)=>setEmail(e.target.value)} className="form-control" placeholder="Enter Contact" /> */}
               </div>
             </div>
-
+<div>
+{
+  IFSCData ?(<div><p>
+              YOUR IFCS CODE : {IFSCData.IFSC}<br/>
+              YOUR BANK CODE :  {IFSCData.CITY}<br/>
+              YOUR BRANCH CODE :  {IFSCData.BRANCH}<br/>
+  </p>
+</div>
+  ):("")
+}
+</div>
             <div className="btn-class-submit">
               <button
                 type="submit"
