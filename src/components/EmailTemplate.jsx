@@ -17,21 +17,15 @@ function EmailTemplate() {
   useEffect(() => {
     $(".btn-verify").hide();
   }, []);
+
   const getSubmit = async (e) => {
     e.preventDefault();
     var val = Math.floor(1000 + Math.random() * 9000);
     if (EmailValidator.validate(email)) {
       // alert("Valid Email");
-      $(".btn-verify").show();
       $(".btn-submit").hide();
+      $("#Email").prop("disabled", true);
       setgenOtp(val);
-
-      // email send fun
-      const smsDetail = {
-        emailSend: email,
-        emailOtp: val,
-        user_token: localStorage.getItem("user-token"),
-      };
 
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -79,6 +73,7 @@ function EmailTemplate() {
               {/* <label>Enter Contact</label> */}
               <TextField
                 type="text"
+                id="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="form-control"
@@ -106,13 +101,13 @@ function EmailTemplate() {
               >
                 Verify Email
               </button>
-              <button
+              {/* <button
                 type="submit"
                 onClick={getVerify}
                 className="btn btn-primary btn-block btn-verify"
               >
                 Submit
-              </button>
+              </button> */}
             </div>
           </form>
         </div>

@@ -14,12 +14,9 @@ function PanEmailVerify() {
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
   const [otp, setOtp] = useState("");
-  const [panres, setPenRes] = useState("");
-  const [bank, setbank] = useState("");
   const [ifsc, setifsc] = useState("");
   const [submitB, setSubmitB] = useState("Verify PAN");
-  const [apiURL, setApiURL] = useState("/api/Notify/PanAPITest");
-  const [apiURLBank, setApiURLBank] = useState("/api/Notify/BankVerify");
+  const [IFSCData, setIFSCData] = useState("");
   useEffect(() => {
     // loadDataOnlyOnce();
     $(".div-otp").hide();
@@ -69,28 +66,18 @@ function PanEmailVerify() {
   };
   const bankVerify = async (e) => {
     e.preventDefault();
-    if (ifsc.length >= 5 && bank !== "") {
+    if (ifsc.length >= 5) {
       var requestOptions = {
         method: "POST",
         redirect: "follow",
       };
 
       fetch(
-        SERVER_ID +
-          "/VerifyBankAccount?beneficiary_account_no=" +
-          bank +
-          "&beneficiary_ifsc=" +
-          ifsc +
-          "",
+        "https://localhost:5001/IFSCCheck?IFSC_code=" + ifsc + "",
         requestOptions
       )
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result);
-          result.verified !== true
-            ? alert("failed")
-            : (window.location.href = "/RazorPay");
-        })
+        .then((response) => response.text())
+        .then((result) => {setIFSCData(result)})
         .catch((error) => console.log("error", error));
     }
   };
@@ -147,21 +134,21 @@ function PanEmailVerify() {
               />
               {/* <input type="text" value={contact} onChange={(e)=>setEmail(e.target.value)} className="form-control" placeholder="Enter Contact" /> */}
             </div>
+            <br />
             <div className="form-group">
               {/* <label>Enter Contact</label> */}
               <TextField
-                type="text"
+                type="date"
                 value={dob}
                 onChange={(e) => setDob(e.target.value)}
                 className="form-control"
-                label="Enter DOB"
+                // label="Enter DOB"
               />
               {/* <input type="text" value={contact} onChange={(e)=>setEmail(e.target.value)} className="form-control" placeholder="Enter Contact" /> */}
             </div>
 
             <div className="div_bank">
-              <div className="form-group">
-                {/* <label>Enter Contact</label> */}
+              {/* <div className="form-group">
                 <TextField
                   type="number"
                   value={bank}
@@ -169,8 +156,8 @@ function PanEmailVerify() {
                   className="form-control"
                   label="BANK ACCOUNT NO."
                 />
-                {/* <input type="text" value={contact} onChange={(e)=>setEmail(e.target.value)} className="form-control" placeholder="Enter Contact" /> */}
-              </div>
+              </div> */}
+              <p>{IFSCData && IFSCData.ADDRESS}</p>
               <div className="form-group">
                 {/* <label>Enter Contact</label> */}
                 <TextField
@@ -200,7 +187,7 @@ function PanEmailVerify() {
                 onClick={bankVerify}
                 className="btn btn-primary btn-block btn-bank"
               >
-                BANK VERIFYs
+                BANK VERIFYS
               </button>
               {/* <button type="submit" onClick={getSubmit} className="btn btn-primary btn-block btn-submit">Submit</button> */}
               {/* <a href="https://services.digitallocker.gov.in/savelocker/api/1/savelocker.js" type="submit" className="btn btn-primary btn-block">Connect to Digilocker</a> */}

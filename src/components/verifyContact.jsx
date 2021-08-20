@@ -139,17 +139,12 @@ function VerifyContact() {
         .then((response) => response.text())
         .then((result) => {
           console.log(result);
-          // setToken(result);
+          setToken(result);
         })
         .catch((error) => console.log("error", error));
     }
   };
   const getSubmit = async (e) => {
-    // e.preventDefault();
-    const verifyDetail = {
-      smsContact: contact,
-      flag: Status,
-    };
     // await axios
     //   .post(SERVER_ID + apiURLverify, verifyDetail)
     //   .then((data) => {
