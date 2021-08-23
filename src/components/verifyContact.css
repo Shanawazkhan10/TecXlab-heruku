@@ -1,3 +1,33 @@
 .btn-class-submit{
     margin-top: 30px !important;
 }
+.login-img-res{
+/* max-width: 380px;
+margin-top: 50px; */
+max-width: 99%;
+  max-height: 99%;
+}
+.header-reg{
+    float: left;
+}
+.form-verify{
+    margin-top: 90px;
+
+
+}
+.hr-verify {
+    border: 0;
+    /* border-top: 5px; */
+    height: 5px;
+    width: 40px;
+    margin-right: 380px;
+  }
+  .otp-time{
+      margin-top: 25px !important;
+  }
+@media only screen and (max-width: 600px) {
+    .form-verify {
+        margin-top: 0px;
+        /* float: left; */
+    }
+  }

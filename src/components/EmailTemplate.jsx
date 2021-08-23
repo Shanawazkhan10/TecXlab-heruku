@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
-import emailjs from "emailjs-com";
 import $ from "jquery";
 import * as EmailValidator from "email-validator";
-import axios from "axios";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
 import SERVER_ID from "../configure";
+
 // import $ from "jquery"
 // import "./verifyContact.css"
 
@@ -14,6 +15,14 @@ function EmailTemplate() {
   const [genOtp, setgenOtp] = useState("");
   const [otp, setOtp] = useState("");
   const [apiURL, setApiURL] = useState("/api/Notify/EmailAPITest");
+  const [open, setOpen] = React.useState(false);
+  const useStyles = makeStyles((theme) => ({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: "#fff",
+    },
+  }));
+  const classes = useStyles();
   useEffect(() => {
     $(".btn-verify").hide();
   }, []);
@@ -24,6 +33,7 @@ function EmailTemplate() {
     if (EmailValidator.validate(email)) {
       // alert("Valid Email");
       $(".btn-submit").hide();
+      $(".btn-verify").show();
       $("#Email").prop("disabled", true);
       setgenOtp(val);
 
@@ -56,15 +66,27 @@ function EmailTemplate() {
   };
   const getVerify = async (e) => {
     e.preventDefault();
-    if (otp == genOtp) {
-      window.location.href = "/PanEmailVerify";
+    if (localStorage.getItem("email-confirm")==="true") {
+      setOpen(true);
+      setTimeout(() => {
+        // setOpen(true);
+        window.location.href = "/PanEmailVerify";
+      }, 3000)
+
     } else {
-      alert("please enter proper OTP");
-      return;
+      setOpen(true);
+       setTimeout(() => {
+            alert("Please Verify Email");
+            return;
+          }, 3000)
+
     }
   };
   return (
     <div>
+           <Backdrop className={classes.backdrop} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <div className="auth-wrapper">
         <div className="auth-inner">
           <form>
@@ -99,15 +121,15 @@ function EmailTemplate() {
                 onClick={getSubmit}
                 className="btn btn-primary btn-block btn-submit"
               >
-                Verify Email
+                Submit Email
               </button>
-              {/* <button
+              <button
                 type="submit"
                 onClick={getVerify}
                 className="btn btn-primary btn-block btn-verify"
               >
-                Submit
-              </button> */}
+                Verify
+              </button>
             </div>
           </form>
         </div>

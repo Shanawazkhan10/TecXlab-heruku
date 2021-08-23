@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import $ from "jquery";
-import axios from "axios";
 import SERVER_ID from "../configure";
-// import panVerify from "./index";
-import { Alert } from "bootstrap";
-// import "./verifyContact.css"
-
+import { Container, Row, Col } from 'reactstrap'
+// import React from 'react';
+import Button from '@material-ui/core/Button';
+import "./PanEmailVerify.css"
 function PanEmailVerify() {
   const [email, setEmail] = useState("");
   const [pan, setPan] = useState("");
@@ -103,6 +101,115 @@ function PanEmailVerify() {
 
   return (
     <div>
+      <Container>
+        <Row>
+          <Col md="6">image</Col>
+          <Col md="6" className="div-PanEmail">
+          <Row>
+            <Col>
+            <h3 className="float-left">Let's get started
+            </h3>     
+            <br/> 
+            <hr className="hr-personal color-gradiant"/>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="" sm="12" md="6" className="margin-pan">
+            <TextField
+                type="text"
+                className="margin-pan"
+                 variant="outlined"
+                value={pan}
+                // onChange={(e) => {
+                //   let cData = e.target.value.toUpperCase();
+                //   setPan(cData);
+                // }}
+                className="form-control"
+                label="Enter Email ID"
+              />
+            </Col>
+            <Col className="mt-3" sm="12" md="6" className="margin-pan" >
+            <TextField
+                type="text"
+                 variant="outlined"
+                // value={pan}
+                // onChange={(e) => {
+                //   let cData = e.target.value.toUpperCase();
+                //   setPan(cData);
+                // }}
+                className="form-control"
+                label="Enter OTP sent on mail"
+              />
+            </Col>
+            </Row>
+          <Row className="mt-2">
+            <Col className="mt-3" sm="12" md="6" className="margin-pan">  <TextField
+                type="text"
+                 variant="outlined"
+                // value={pan}
+                // onChange={(e) => {
+                //   let cData = e.target.value.toUpperCase();
+                //   setPan(cData);
+                // }}
+                className="form-control"
+                label="Enter PAN Number"
+              /></Col>
+            <Col className="mt-3" sm="12" md="6" className="margin-pan">  <TextField
+                type="date"
+                 id="outlined-basic" variant="outlined"
+                // value={pan}
+                // onChange={(e) => {
+                //   let cData = e.target.value.toUpperCase();
+                //   setPan(cData);
+                // }}
+                className="form-control"
+                // label="Enter DOB"
+              /></Col>
+            </Row>
+          <Row className="mt-2">
+            <Col className="mt-3" sm="12" md="6" className="margin-pan">  <TextField
+                type="text"
+                 variant="outlined"
+                // value={pan}
+                // onChange={(e) => {
+                //   let cData = e.target.value.toUpperCase();
+                //   setPan(cData);
+                // }}
+                className="form-control"
+                label="Enter Bank A/C Number"
+              /></Col>
+            <Col className="mt-3" sm="12" md="6" className="margin-pan">  <TextField
+                type="text"
+                 variant="outlined"
+                value={pan}
+                onChange={(e) => {
+                  let cData = e.target.value.toUpperCase();
+                  setPan(cData);
+                }}
+                className="form-control"
+                label="Enter IFSC Code"
+              /></Col>
+            </Row>
+            <br/>
+            <br/>
+            <Row>
+       <Col md="3"></Col>
+       <Col md="6">
+        <Button
+        fullWidth="true"
+                type="submit"
+                // onClick={smsVerify}
+                className="btn-comman text-white"
+              >
+                Proceed
+              </Button>
+              </Col>
+              <Col md="3"></Col>
+        </Row>
+          </Col>
+          
+        </Row>
+      </Container>
       <div className="auth-wrapper">
         <div className="auth-inner">
           <form>
@@ -112,7 +219,7 @@ function PanEmailVerify() {
               {/* <label>Enter Contact</label> */}
               <TextField
                 type="text"
-                id="fieldSelectorId"
+                id="fieldSelectorI"
                 value={pan}
                 onChange={(e) => {
                   let cData = e.target.value.toUpperCase();
@@ -196,13 +303,7 @@ function PanEmailVerify() {
               >
                 {submitB}
               </button>
-              <button
-                type="submit"
-                onClick={bankVerify}
-                className="btn btn-primary btn-block btn-bank"
-              >
-                BANK VERIFYS
-              </button>
+              
               {/* <button type="submit" onClick={getSubmit} className="btn btn-primary btn-block btn-submit">Submit</button> */}
               {/* <a href="https://services.digitallocker.gov.in/savelocker/api/1/savelocker.js" type="submit" className="btn btn-primary btn-block">Connect to Digilocker</a> */}
               {/* <button type="submit" onClick={fetchData} className="btn btn-primary btn-block">Fetch API</button> */}

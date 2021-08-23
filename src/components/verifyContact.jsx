@@ -3,36 +3,54 @@ import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import $ from "jquery";
 import "./verifyContact.css";
-import axios from "axios";
 import SERVER_ID from "../configure";
 import { useLocalStorage } from "../CustomHooks/useLocalStorage";
-import { conVal, namVal } from "../Helper/Helper";
-// import Header from "./Header/Header";
+import { conVal } from "../Helper/Helper";
+import { Container, Row, Col } from 'reactstrap'
+import Image from 'react-bootstrap/Image'
+import { makeStyles } from "@material-ui/core/styles";
+import SubInputAdornment from './SubComponent/SubInputAdornment'
+import Button from '@material-ui/core/Button';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  margin: {
+    margin: theme.spacing(1)
+  },
+  textField: {
+    // width: 280,
+    "&:hover .MuiInputLabel-root": {
+      color: theme.palette.text.primary
+    },
+    "& .Mui-focused.MuiInputLabel-root": {
+      color: theme.palette.primary.main
+    }
+  },
+  outlinedInput: {
+    "&:hover .MuiInputAdornment-root .MuiSvgIcon-root": {
+      color: theme.palette.text.primary
+    },
+    "&.Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root": {
+      color: theme.palette.primary.main
+    }
+  }
+}));
 function VerifyContact() {
   const [contact, setContact] = useState("");
   const [otp, setOtp] = useState("");
-  const [name, setName] = useState("");
   const [generateOtp, setgenerateOtp] = useState("");
-  const [otpTime, setotpTime] = useState("");
+  const [otpTime, setotpTime] = useState("60");
   const [Token, setToken] = useState("");
-  const [apiURL, setApiURL] = useState("/api/Notify/smsAPI");
-  const [apiURLJwt, setApiURLJwt] = useState("/api/Notify/JWTWebToken");
-  const [apiURLverify, setApiURLverify] = useState("/api/Notify/VerifyNumber");
-  const [Status, setStatus] = useState("true");
   const [userToken, setUserToken] = useLocalStorage("user-token", "");
+  const classes = useStyles();
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
       errorOTP: "",
     },
   });
-  // useEffect(() => {
-  //   if (contact.length === 10) {
-  //     const val = Math.floor(1000 + Math.random() * 9000).toString();
-  //     setgenerateOtp(val);
-  //     console.log(val);
-  //   }
-  // }, [contact]);
-  // useEffect for OTP comparision
+
   useEffect(() => {
     if (otp.length === 4) {
       if (otp === generateOtp) {
@@ -79,14 +97,9 @@ function VerifyContact() {
     conVal();
     setContact(e.target.value);
   };
-  const handleNameChange = (e) => {
-    namVal();
-    let cData = e.target.value.toUpperCase();
-    setName(cData);
-  };
   const smsVerify = async (e) => {
     e.preventDefault();
-    if (contact.length == 10 && name !== "") {
+    if (contact.length == 10) {
       $(".btn-otp").hide();
       $(".btn-submit").show();
       $("#countdown").show();
@@ -145,40 +158,29 @@ function VerifyContact() {
     }
   };
   const getSubmit = async (e) => {
-    // await axios
-    //   .post(SERVER_ID + apiURLverify, verifyDetail)
-    //   .then((data) => {
-    //     setToken(data);
-    //     console.log(data);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
-
     setUserToken(Token);
     window.location.href = "/EmailTemplate";
   };
 
   return (
     <div>
-      {/* <Header /> */}
-      <div className="auth-wrapper">
-        <div className="auth-inner">
-          <form>
-            <h3>Verify Contact</h3>
-            <div className="form-group">
-              {/* <label>Enter Contact</label> */}
-              <TextField
-                type="text"
-                value={name}
-                id="fieldSelectorname"
-                onChange={handleNameChange}
-                className="form-control"
-                label="Enter Name"
-                autoComplete="off"
-              />
-              {/* <input type="text" value={contact} onChange={(e)=>setContact(e.target.value)} className="form-control" placeholder="Enter Contact" /> */}
-            </div>
+      <Container>
+      <Row> 
+        <Col className="mt-2" md="7">
+        <Image className="login-img-res" src={require("../images/LoginPage.png")} fluid />
+        </Col>
+        <Col md="3" className=" div-center">
+      {/* <FormControl
+          className={clsx(classes.margin, classes.textField)}
+          variant="outlined"
+        > */}
+          <form className="form-verify">
+            <h3 className="float-left">Registration
+            </h3>     
+            <br/> 
+            <hr className=" hr-verify color-gradiant"/>   
+            <p className="float-left font-weight-bold">Already have account? Signin</p>
+            <br/>
             <div className="form-group">
               {/* <label>Enter Contact</label> */}
               <TextField
@@ -189,23 +191,52 @@ function VerifyContact() {
                 onChange={handleChange}
                 className="form-control"
                 label="Enter Contact"
+                variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <SubInputAdornment Dataicon={<Image className="login-img-res" src={require("../assets/mobile.svg")} fluid />}/>
+                  ),
+                 }}
               />
               {/* <input type="text" value={contact} onChange={(e)=>setContact(e.target.value)} className="form-control" placeholder="Enter Contact" /> */}
             </div>
-
             <div className="form-group div-otp">
               {/* <label>OTP</label> */}
               <TextField
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className="form-control"
+                className="form-control mt-3"
                 label="Enter OTP"
+                variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <SubInputAdornment Dataicon={<Image className="login-img-res" src={require("../assets/Mobile-OTP.svg")} fluid />}/>
+                  ),
+                 }}
               />
               {/* <input type="text" value={otp} onChange={(e)=>setOtp(e.target.value)} className="form-control" placeholder="Enter password" /> */}
             </div>
             {errorMsg.errorOBJ.errorOTP && (
               <p className="text-error">{errorMsg.errorOBJ.errorOTP}</p>
             )}
+            {/* <br/> */}
+                <div className="form-group ">
+              <TextField
+                type="text"
+                // value={name}
+                id="fieldSelectorname"
+                // onChange={handleNameChange}
+                className="form-control mt-3"
+                label="Referal Code (Optional)"
+                autoComplete="off"
+                variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <SubInputAdornment Dataicon={<Image className="login-img-res" src={require("../assets/Referral Code grey.svg")} fluid />}/>
+                  ),
+                 }}
+              />
+               </div>
             <div className="form-group otp-time">
               <p id="countdown" style={{ textAlign: "center" }}>
                 Resend Link in {otpTime} sec.
@@ -220,13 +251,17 @@ function VerifyContact() {
               {/* <p id="counter" style={{textAlign: "center"}}></p> */}
             </div>
             <div className="btn-class-submit">
-              <button
+              <Button
                 type="submit"
+                fullWidth="true"
                 onClick={smsVerify}
-                className="btn btn-primary btn-block btn-otp"
+                className="btn font-weight-bold color-gradiant form-control text-white border-0 btn-block btn-comman btn-otp"
               >
-                GET OTP
-              </button>
+                Proceed
+              </Button>
+              {/* <Button variant="contained" fullWidth="true" color="primary" disableElevation>
+      Disable elevation
+    </Button> */}
               {/* <button
                 type="submit"
                 onClick={getSubmit}
@@ -235,9 +270,15 @@ function VerifyContact() {
                 Submit
               </button> */}
             </div>
+            <br/>
           </form>
-        </div>
-      </div>
+          {/* </FormControl> */}
+        {/* </div>
+      </div> */}
+        </Col>
+      </Row> 
+      </Container>
+
     </div>
   );
 }

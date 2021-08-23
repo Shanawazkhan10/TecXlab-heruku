@@ -21,13 +21,12 @@ const ConfirmPage = () => {
   console.log(user_id[2]);
   useEffect(() => {
     {
-      user_id[2] === localStorage.getItem("user-token")
-        ? setTimeout(() => {
+      setTimeout(() => {
             setOpen(false);
             setPopup(true);
           }, 3000)
-        : (window.location.href = "/");
     }
+    localStorage.setItem("email-confirm","true")
   }, []);
   const handleClick = () => {
     window.location.href = "/PanEmailVerify";
@@ -41,9 +40,10 @@ const ConfirmPage = () => {
 
       <SweetAlert
         show={Popup}
-        title="Accout Verify Successfully"
+        title="Accout Verify Successfully Go back to main tab"
         // text="SweetAlert in React"
         onConfirm={handleClick}
+        showConfirmButton={false}
       />
     </div>
   );
