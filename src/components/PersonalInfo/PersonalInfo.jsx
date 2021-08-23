@@ -69,7 +69,7 @@ const PersonalInfo = () => {
                 id="fieldSelectorname"
                 // onChange={handleNameChange}
                 className="form-control"
-                label="Father Name"
+                label="Father's Full Name"
                 autoComplete="off"
                 variant="outlined"
               />
@@ -84,7 +84,7 @@ const PersonalInfo = () => {
                 id="fieldSelectorname"
                 // onChange={handleNameChange}
                 className="form-control"
-                label="Mother Name"
+                label="Mother's Full Name"
                 autoComplete="off"
                 variant="outlined"
               />
@@ -96,27 +96,27 @@ const PersonalInfo = () => {
               <div className="form-group master-textField">
               <FormControl
             variant="outlined"
-            key="Appliances"
+            key="Marital Status"
             // error={Boolean(errors.appliance)}
             fullWidth
           >
-            <InputLabel required={true}>Appliances</InputLabel>
+            <InputLabel required={true}>Marital Status</InputLabel>
             <Controller
               render={(props) => (
                 <Select
                   size="large"
                   value={props.value}
                   onChange={props.onChange}
-                  label="Appliances"
+                  label="Marital Status"
                 >
                   <MenuItem value="" disabled>
-                    Choose your Appliance
+                  Marital Status
                   </MenuItem>
-                  <MenuItem value={"Refrigerator"}>Refrigerator</MenuItem>
-                  <MenuItem value={"Freezer"}>Freezer</MenuItem>
-                  <MenuItem value={"Ice Maker"}>Ice Maker</MenuItem>
-                  <MenuItem value={"Range"}>Range</MenuItem>
-                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem>
+                  <MenuItem value={"Refrigerator"}>Single</MenuItem>
+                  <MenuItem value={"Freezer"}>Married</MenuItem>
+                  <MenuItem value={"Ice Maker"}>Divorced</MenuItem>
+                  {/* <MenuItem value={"Range"}>Range</MenuItem>
+                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                 </Select>
               )}
               name="appliance"
@@ -138,23 +138,23 @@ const PersonalInfo = () => {
             // error={Boolean(errors.appliance)}
             fullWidth
           >
-            <InputLabel required={true}>Appliances</InputLabel>
+            <InputLabel required={true}>Gender</InputLabel>
             <Controller
               render={(props) => (
                 <Select
                   size="large"
                   value={props.value}
                   onChange={props.onChange}
-                  label="Appliances"
+                  label="Gender"
                 >
                   <MenuItem value="" disabled>
-                    Choose your Appliance
+                    Gender
                   </MenuItem>
-                  <MenuItem value={"Refrigerator"}>Refrigerator</MenuItem>
-                  <MenuItem value={"Freezer"}>Freezer</MenuItem>
-                  <MenuItem value={"Ice Maker"}>Ice Maker</MenuItem>
-                  <MenuItem value={"Range"}>Range</MenuItem>
-                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem>
+                  <MenuItem value={"Refrigerator"}>Male</MenuItem>
+                  <MenuItem value={"Freezer"}>Female</MenuItem>
+                  <MenuItem value={"Ice Maker"}>Other</MenuItem>
+                  {/* <MenuItem value={"Range"}>Range</MenuItem>
+                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                 </Select>
               )}
               name="appliance"
@@ -182,11 +182,11 @@ const PersonalInfo = () => {
             <div className=" master-textField">
             <FormControl
             variant="outlined"
-            key="Appliances"
+            key="Annual Income"
             // error={Boolean(errors.appliance)}
             fullWidth
           >
-            <InputLabel required={true}>Appliances</InputLabel>
+            <InputLabel required={true}>Annual Income</InputLabel>
             <Controller
               render={(props) => (
                 <Select
@@ -196,13 +196,13 @@ const PersonalInfo = () => {
                   label="Appliances"
                 >
                   <MenuItem value="" disabled>
-                    Choose your Appliance
+                  Annual Income
                   </MenuItem>
-                  <MenuItem value={"Refrigerator"}>Refrigerator</MenuItem>
-                  <MenuItem value={"Freezer"}>Freezer</MenuItem>
-                  <MenuItem value={"Ice Maker"}>Ice Maker</MenuItem>
-                  <MenuItem value={"Range"}>Range</MenuItem>
-                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem>
+                  <MenuItem value={"Refrigerator"}>less then 500000</MenuItem>
+                  <MenuItem value={"Freezer"}>More then 500000</MenuItem>
+                  <MenuItem value={"Ice Maker"}>less then 1000000</MenuItem>
+                  <MenuItem value={"Range"}>More then 1000000</MenuItem>
+                  {/* <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                 </Select>
               )}
               name="appliance"
@@ -224,7 +224,7 @@ const PersonalInfo = () => {
             // error={Boolean(errors.appliance)}
             fullWidth
           >
-            <InputLabel required={true}>Appliances</InputLabel>
+            <InputLabel required={true}>Occupation</InputLabel>
             <Controller
               render={(props) => (
                 <Select
@@ -234,13 +234,13 @@ const PersonalInfo = () => {
                   label="Appliances"
                 >
                   <MenuItem value="" disabled>
-                    Choose your Appliance
+                    Occupation
                   </MenuItem>
-                  <MenuItem value={"Refrigerator"}>Refrigerator</MenuItem>
-                  <MenuItem value={"Freezer"}>Freezer</MenuItem>
-                  <MenuItem value={"Ice Maker"}>Ice Maker</MenuItem>
-                  <MenuItem value={"Range"}>Range</MenuItem>
-                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem>
+                  <MenuItem value={"Refrigerator"}>Private Sector</MenuItem>
+                  <MenuItem value={"Freezer"}>Govt. Sector</MenuItem>
+                  <MenuItem value={"Ice Maker"}>Self</MenuItem>
+                  {/* <MenuItem value={"Range"}>Range</MenuItem>
+                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                 </Select>
               )}
               name="appliance"
@@ -264,7 +264,7 @@ const PersonalInfo = () => {
             // error={Boolean(errors.appliance)}
             fullWidth
           >
-            <InputLabel required={true}>Appliances</InputLabel>
+            <InputLabel required={true}>Trading Experience</InputLabel>
             <Controller
               render={(props) => (
                 <Select
@@ -274,13 +274,13 @@ const PersonalInfo = () => {
                   label="Appliances"
                 >
                   <MenuItem value="" disabled>
-                    Choose your Appliance
+                  Trading Experience
                   </MenuItem>
-                  <MenuItem value={"Refrigerator"}>Refrigerator</MenuItem>
-                  <MenuItem value={"Freezer"}>Freezer</MenuItem>
-                  <MenuItem value={"Ice Maker"}>Ice Maker</MenuItem>
-                  <MenuItem value={"Range"}>Range</MenuItem>
-                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem>
+                  <MenuItem value={"Refrigerator"}>Begginer</MenuItem>
+                  <MenuItem value={"Freezer"}>Intermediate</MenuItem>
+                  <MenuItem value={"Ice Maker"}>Advanced</MenuItem>
+                  {/* <MenuItem value={"Range"}>Range</MenuItem>
+                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                 </Select>
               )}
               name="appliance"
@@ -302,7 +302,7 @@ const PersonalInfo = () => {
             // error={Boolean(errors.appliance)}
             fullWidth
           >
-            <InputLabel required={true}>Appliances</InputLabel>
+            <InputLabel required={true}>Politically Exposed</InputLabel>
             <Controller
               render={(props) => (
                 <Select
@@ -312,13 +312,13 @@ const PersonalInfo = () => {
                   label="Appliances"
                 >
                   <MenuItem value="" disabled>
-                    Choose your Appliance
+                  Politically Exposed
                   </MenuItem>
-                  <MenuItem value={"Refrigerator"}>Refrigerator</MenuItem>
-                  <MenuItem value={"Freezer"}>Freezer</MenuItem>
-                  <MenuItem value={"Ice Maker"}>Ice Maker</MenuItem>
+                  <MenuItem value={"Refrigerator"}>Yes</MenuItem>
+                  <MenuItem value={"Freezer"}>No</MenuItem>
+                  {/* <MenuItem value={"Ice Maker"}>Ice Maker</MenuItem>
                   <MenuItem value={"Range"}>Range</MenuItem>
-                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem>
+                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                 </Select>
               )}
               name="appliance"
