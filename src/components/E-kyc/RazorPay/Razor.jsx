@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import logo from "./logo.svg";
 // import './App.css'
-import SERVER_ID from "../../configure";
+import SERVER_ID from "../Configure/configure";
 function loadScript(src) {
   return new Promise((resolve) => {
     const script = document.createElement("script");

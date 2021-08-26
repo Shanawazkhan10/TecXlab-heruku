@@ -5,7 +5,7 @@ import * as EmailValidator from "email-validator";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
-import SERVER_ID from "../configure";
+import SERVER_ID from "./Configure/configure";
 
 // import $ from "jquery"
 // import "./verifyContact.css"

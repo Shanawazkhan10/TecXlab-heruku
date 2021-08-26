@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import "./PersonalInfo.css";
 import TextField from "@material-ui/core/TextField";
 import { Container, Row, Col } from 'reactstrap'
-// import SubInputAdornment from '../SubComponent/SubInputAdornment'
 import Image from 'react-bootstrap/Image'
-// import { MenuItem } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import { makeStyles, MenuItem } from "@material-ui/core";
 import InputLabel from '@material-ui/core/InputLabel';
 import { useForm, Controller } from "react-hook-form";
-// import React from 'react';
 import Button from '@material-ui/core/Button';
 const PersonalInfo = () => {
   const [inputs, setInputs] = useState({

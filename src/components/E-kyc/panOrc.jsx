@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import SERVER_ID from "../configure";
+import SERVER_ID from "./Configure/configure";
 function PanOrc() {
   const [panImg, setpanImg] = useState("");
   const [backendData, setbackendData] = useState("");

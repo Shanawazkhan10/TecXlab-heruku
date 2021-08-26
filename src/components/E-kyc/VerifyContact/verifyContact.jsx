@@ -3,40 +3,13 @@ import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import $ from "jquery";
 import "./verifyContact.css";
-import SERVER_ID from "../configure";
+import SERVER_ID from "../Configure/configure";
 import { useLocalStorage } from "../CustomHooks/useLocalStorage";
 import { conVal } from "../Helper/Helper";
 import { Container, Row, Col } from 'reactstrap'
 import Image from 'react-bootstrap/Image'
-import { makeStyles } from "@material-ui/core/styles";
-import SubInputAdornment from './SubComponent/SubInputAdornment'
+import SubInputAdornment from '../SubComponent/SubInputAdornment'
 import Button from '@material-ui/core/Button';
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  margin: {
-    margin: theme.spacing(1)
-  },
-  textField: {
-    // width: 280,
-    "&:hover .MuiInputLabel-root": {
-      color: theme.palette.text.primary
-    },
-    "& .Mui-focused.MuiInputLabel-root": {
-      color: theme.palette.primary.main
-    }
-  },
-  outlinedInput: {
-    "&:hover .MuiInputAdornment-root .MuiSvgIcon-root": {
-      color: theme.palette.text.primary
-    },
-    "&.Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root": {
-      color: theme.palette.primary.main
-    }
-  }
-}));
 function VerifyContact() {
   const [contact, setContact] = useState("");
   const [otp, setOtp] = useState("");
@@ -44,17 +17,73 @@ function VerifyContact() {
   const [otpTime, setotpTime] = useState("60");
   const [Token, setToken] = useState("");
   const [userToken, setUserToken] = useLocalStorage("user-token", "");
-  const classes = useStyles();
+
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
       errorOTP: "",
     },
   });
-
+// OTP CHECKING
+  // useEffect(() => {
+  //   if (otp.length === 4) {
+  //     if (otp === generateOtp) {
+  //       console.log("OTP VERIFIED")
+  //       $('.btn-class-submit').show();
+  //     } else {
+  //       seterrorMsg((prevState) => ({
+  //         ...prevState,
+  //         errorOBJ: {
+  //           ...prevState.errorOBJ,
+  //           errorOTP: "WRONG OTP!",
+  //         },
+  //       }));
+  //     }
+  //   }
+  //   if (otp.length <= 3) {
+  //     seterrorMsg((prevState) => ({
+  //       ...prevState,
+  //       errorOBJ: {
+  //         ...prevState.errorOBJ,
+  //         errorOTP: "",
+  //       },
+  //     }));
+  //   }
+  // }, [otp]);
+// first time page Load
   useEffect(() => {
+    $("#resend").hide();
+    $("#countdown").hide();
+    $(".btn-class-submit").hide();
+  }, []);
+
+  // for OTP TIMER
+  useEffect(() => {
+    if (otpTime === 0) {
+      $("#resend").show();
+      $("#countdown").hide();
+    } else {
+      $("#resend").hide();
+    }
+  }, [otpTime]);
+//  mobile No checking
+useEffect(() => {
+if(contact.length===10){
+  $(".btn-class-submit").show();
+  smsVerify();
+}
+}, [contact],)
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    conVal();
+    setContact(e.target.value);
+  };
+  const GoTo =(e)=>{
+    e.preventDefault();
     if (otp.length === 4) {
       if (otp === generateOtp) {
-        getSubmit();
+        console.log("OTP VERIFIED")
+        window.location="/Email"
       } else {
         seterrorMsg((prevState) => ({
           ...prevState,
@@ -74,33 +103,11 @@ function VerifyContact() {
         },
       }));
     }
-  }, [otp]);
 
-  useEffect(() => {
-    $(".btn-submit").hide();
-    $("#resend").hide();
-    $("#countdown").hide();
-    setContact("");
-    setOtp("");
-  }, []);
-  useEffect(() => {
-    if (otpTime === 0) {
-      $("#resend").show();
-      $("#countdown").hide();
-    } else {
-      $("#resend").hide();
-    }
-  }, [otpTime]);
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    conVal();
-    setContact(e.target.value);
-  };
-  const smsVerify = async (e) => {
-    e.preventDefault();
-    if (contact.length == 10) {
-      $(".btn-otp").hide();
+  }
+  const smsVerify = async () => {
+    if (contact.length === 10) {
       $(".btn-submit").show();
       $("#countdown").show();
       $("#resend").hide();
@@ -114,34 +121,33 @@ function VerifyContact() {
         }, 1000);
       })();
       // end timer
-
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-
+  
       var raw = JSON.stringify({
         contact_No: contact,
         otp: generateOtp,
       });
-
+  
       var requestOptions = {
         method: "POST",
         headers: myHeaders,
         body: raw,
         redirect: "follow",
       };
-
+  
       fetch(SERVER_ID + "/api/MobileAuthentication/Send_OTP", requestOptions)
         .then((response) => response.text())
         .then((result) => {
           result && setgenerateOtp(result);
         })
         .catch((error) => console.log("error", error));
-
+  
       var requestOptions = {
         method: "POST",
         redirect: "follow",
       };
-
+  
       fetch(
         SERVER_ID +
           "/GenerateJWTWebToken?Contact=" +
@@ -156,10 +162,7 @@ function VerifyContact() {
         })
         .catch((error) => console.log("error", error));
     }
-  };
-  const getSubmit = async (e) => {
-    setUserToken(Token);
-    window.location.href = "/EmailTemplate";
+
   };
 
   return (
@@ -167,13 +170,9 @@ function VerifyContact() {
       <Container>
       <Row> 
         <Col className="mt-2" md="7">
-        <Image className="login-img-res" src={require("../images/LoginPage.png")} fluid />
+        <Image className="login-img-res" src={require("../../../images/LoginPage.png")} fluid />
         </Col>
         <Col md="3" className=" div-center">
-      {/* <FormControl
-          className={clsx(classes.margin, classes.textField)}
-          variant="outlined"
-        > */}
           <form className="form-verify">
             <h3 className="float-left">Registration
             </h3>     
@@ -194,7 +193,7 @@ function VerifyContact() {
                 variant="outlined"
                 InputProps={{
                   endAdornment: (
-                    <SubInputAdornment Dataicon={<Image className="login-img-res" src={require("../assets/mobile.svg")} fluid />}/>
+                    <SubInputAdornment Dataicon={<Image className="login-img-res" src={require("../../../assets/mobile.svg")} fluid />}/>
                   ),
                  }}
               />
@@ -210,7 +209,7 @@ function VerifyContact() {
                 variant="outlined"
                 InputProps={{
                   endAdornment: (
-                    <SubInputAdornment Dataicon={<Image className="login-img-res" src={require("../assets/Mobile-OTP.svg")} fluid />}/>
+                    <SubInputAdornment Dataicon={<Image className="login-img-res" src={require("../../../assets/Mobile-OTP.svg")} fluid />}/>
                   ),
                  }}
               />
@@ -232,7 +231,7 @@ function VerifyContact() {
                 variant="outlined"
                 InputProps={{
                   endAdornment: (
-                    <SubInputAdornment Dataicon={<Image className="login-img-res" src={require("../assets/Referral Code grey.svg")} fluid />}/>
+                    <SubInputAdornment Dataicon={<Image className="login-img-res" src={require("../../../assets/Referral Code grey.svg")} fluid />}/>
                   ),
                  }}
               />
@@ -244,37 +243,23 @@ function VerifyContact() {
               <p
                 id="resend"
                 style={{ textAlign: "center" }}
-                onClick={smsVerify}
+                //
               >
-                Resend via <Link to=""> sms.</Link>
+                {/* Resend via <Button onClick={smsVerify}> sms.</Button> */}
               </p>
-              {/* <p id="counter" style={{textAlign: "center"}}></p> */}
             </div>
             <div className="btn-class-submit">
               <Button
                 type="submit"
                 fullWidth="true"
-                onClick={smsVerify}
+                onClick={GoTo}
                 className="btn font-weight-bold color-gradiant form-control text-white border-0 btn-block btn-comman btn-otp"
               >
                 Proceed
               </Button>
-              {/* <Button variant="contained" fullWidth="true" color="primary" disableElevation>
-      Disable elevation
-    </Button> */}
-              {/* <button
-                type="submit"
-                onClick={getSubmit}
-                className="btn btn-primary btn-block btn-submit"
-              >
-                Submit
-              </button> */}
             </div>
             <br/>
           </form>
-          {/* </FormControl> */}
-        {/* </div>
-      </div> */}
         </Col>
       </Row> 
       </Container>

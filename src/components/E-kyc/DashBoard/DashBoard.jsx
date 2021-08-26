@@ -4,7 +4,7 @@ const DashBoard = () => {
   return (
     <div>
       {/* <Header /> */}
-      <img className="img-fluid" src={require("../../assets/landing.png")} />
+      <img className="img-fluid" src={require("../../../assets/landing.png")} />
       <br />
       <button className="color-gradiant text-white border-0 btn-comman">
         Sign up now
@@ -16,7 +16,7 @@ const DashBoard = () => {
             <img
               classNameName="img-fluid"
               style={{ width: 500 }}
-              src={require("../../assets/landing.png")}
+              src={require("../../../assets/landing.png")}
             />
           </div>
           <div className="col">
@@ -42,7 +42,7 @@ const DashBoard = () => {
         <br />
         <img
           className="img-fluid"
-          src={require("../../assets/ecosystem.png")}
+          src={require("../../../assets/ecosystem.png")}
         />
       </div>
       <br />

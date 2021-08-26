@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import React, { useState, useRef, useEffect } from "react";
 import RecordRTC from "recordrtc";
-import { getLocation } from "../../Helper/Helper";
+import { getLocation } from "../Helper/Helper";
 const captureCamera = (callback) => {
   navigator.mediaDevices
     .getUserMedia({

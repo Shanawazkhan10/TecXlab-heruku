@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import useScript from "../../CustomHooks/LoadScript";
+// import useScript from "../../CustomHooks/LoadScript";
 import Script from "react-load-script";
 
 function DigiLock() {
-  useScript("https://app.digio.in/sdk/v9/digio.js");
+  // useScript("https://app.digio.in/sdk/v9/digio.js");
   function abc() {
     var options = {
       environment: "sandbox",
