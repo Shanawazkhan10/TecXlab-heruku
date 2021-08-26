@@ -17,6 +17,8 @@ import PersonalInfo from "./components/E-kyc/PersonalInfo/PersonalInfo";
 import DashBoard from "./components/E-kyc/DashBoard/DashBoard";
 import VideoRecord from "./components/E-kyc/VideoRecord/VideoRecord";
 import Header from "./components/E-kyc/Header/Header";
+import LastStep from "./components/E-kyc/LastStep/LastStep";
+import FnoNominee from "./components/E-kyc/FnoNominee/FnoNominee";
 function App() {
   return (
     <Router>
@@ -38,6 +40,8 @@ function App() {
           <Route exact path="/DashBoard" component={DashBoard} />
           <Route exact path="/VideoRecord" component={VideoRecord} />
           <Route exact path="/Mobile" component={VerifyContact} />
+          <Route exact path="/LastStep" component={LastStep} />
+          <Route exact path="/FnoNominee" component={FnoNominee} />
           <ProtectedPages path="/PanOrc" Cmp={PanOrc} />
         </Switch>
       </div>

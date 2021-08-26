@@ -11,6 +11,14 @@
   /* margin-right: 380px; */
   margin-left: 0px;
 }
-.form-info{
+.form-info {
   margin-top: 70px;
+}
+.hr-center {
+  border: 0;
+  /* border-top: 5px; */
+  height: 5px;
+  width: 40px;
+  margin-left: 239px;
+  margin-top: 6px;
 }
