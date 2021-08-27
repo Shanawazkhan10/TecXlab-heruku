@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
-import $ from "jquery";
-import SERVER_ID from "../Configure/configure";
-import { Container, Row, Col } from "reactstrap";
-import Button from "@material-ui/core/Button";
-import "./PanBankEmail.css";
+import React, { useState, useEffect } from 'react';
+import TextField from '@material-ui/core/TextField';
+import $ from 'jquery';
+import SERVER_ID from '../Configure/configure';
+import { Container, Row, Col } from 'reactstrap';
+import Button from '@material-ui/core/Button';
+import Image from 'react-bootstrap/Image';
+import './PanBankEmail.css';
 function PanBankEmail() {
   const [inputs, setInputs] = useState({
-    email: "",
-    otp: "",
-    pan: "",
-    dob: "",
-    AcNo: "",
-    ifsc: "",
+    email: '',
+    otp: '',
+    pan: '',
+    dob: '',
+    AcNo: '',
+    ifsc: '',
   });
   useEffect(() => {
     let regEmail =
@@ -36,15 +37,20 @@ function PanBankEmail() {
     console.log(inputs.email);
   };
 
-  $("#input_capital").keyup(function (e) {
+  $('#input_capital').keyup(function (e) {
     var str = $(this).val();
-    $("#input_capital").val(str.toUpperCase());
+    $('#input_capital').val(str.toUpperCase());
   });
   return (
     <div>
       <Container>
         <Row>
-          <Col md="6">image</Col>
+          <Col className="mt-5" md="6">
+            <Image
+              src={require('../../../images/Get_Started_Illustration.png')}
+              fluid
+            />
+          </Col>
           <Col md="6" className="div-PanEmail">
             <Row>
               <Col>
@@ -57,7 +63,7 @@ function PanBankEmail() {
               <Col className="" sm="12" md="6" className="margin-pan">
                 <TextField
                   type="text"
-                  inputProps={{ style: { textTransform: "capitalize" } }}
+                  inputProps={{ style: { textTransform: 'capitalize' } }}
                   className=" margin-pan"
                   id="input_capital"
                   variant="outlined"
@@ -75,7 +81,7 @@ function PanBankEmail() {
               </Col>
               <Col className="mt-3" sm="12" md="6" className="margin-pan">
                 <TextField
-                  type="text"
+                  type="password"
                   variant="outlined"
                   name="otp"
                   value={inputs.otp}
@@ -92,7 +98,7 @@ function PanBankEmail() {
             </Row>
             <Row className="mt-2">
               <Col className="mt-3" sm="12" md="6" className="margin-pan">
-                {" "}
+                {' '}
                 <TextField
                   type="text"
                   variant="outlined"
@@ -109,7 +115,7 @@ function PanBankEmail() {
                 />
               </Col>
               <Col className="mt-3" sm="12" md="6" className="margin-pan">
-                {" "}
+                {' '}
                 <TextField
                   type="date"
                   id="outlined-basic"
@@ -129,7 +135,7 @@ function PanBankEmail() {
             </Row>
             <Row className="mt-2">
               <Col className="mt-3" sm="12" md="6" className="margin-pan">
-                {" "}
+                {' '}
                 <TextField
                   type="text"
                   variant="outlined"
@@ -146,7 +152,7 @@ function PanBankEmail() {
                 />
               </Col>
               <Col className="mt-3" sm="12" md="6" className="margin-pan">
-                {" "}
+                {' '}
                 <TextField
                   type="text"
                   variant="outlined"

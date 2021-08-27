@@ -1,32 +1,23 @@
-import React from "react";
-import { Container, Row, Col } from "reactstrap";
-import Button from "@material-ui/core/Button";
-import Card from "react-bootstrap/Card";
+import React from 'react';
+import { Container, Row, Col } from 'reactstrap';
+import Button from '@material-ui/core/Button';
+import Card from 'react-bootstrap/Card';
+import Image from 'react-bootstrap/Image';
 // import "./LastStep.css";
-import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
+import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
 const FnoNominee = () => {
   return (
     <div>
       <Container>
         <Row>
           <Col md="7" className="div-PanEmail">
-            {/* <Col>
-              <h3 className="float-left">Last step !</h3>
-              <br />
-              <hr className="hr-personal color-gradiant" />
-            </Col>
-            <Col>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Dolorem ducimus sapiente impedit culpa ullam reiciendis aliquam
-                inventore
-              </p>
-            </Col>
-            <Col>
-              <hr /> */}
-            {/* </Col> */}
+            <Image
+              className="ml-4 w-5"
+              src={require('../../../images/Congratulations_Illustration_Web.png')}
+              fluid
+            />
             <Col className="text-center">
-              <h3>Last step !</h3>
+              <h3>Congratulations !</h3>
               <hr className="hr-center color-gradiant" />
             </Col>
             <Col className="text-center">
@@ -43,7 +34,7 @@ const FnoNominee = () => {
                   // onClick={consoleData}
                   className="btn-comman text-white"
                 >
-                  E-sign
+                  Open FNO account
                 </Button>
               </Col>
               <Col md="6" className="mt-3">
@@ -53,14 +44,14 @@ const FnoNominee = () => {
                   // onClick={consoleData}
                   className="btn-comman text-white"
                 >
-                  E-sign
+                  Add Nominee
                 </Button>
               </Col>
             </Row>
           </Col>
           <Col md="5" className="div-PanEmail">
             <Col>
-              <Card style={{ width: "22rem" }}>
+              <Card style={{ width: '22rem' }}>
                 <Card.Body>
                   {/* <Card.Title>Card Title</Card.Title> */}
                   <Row>
@@ -70,7 +61,7 @@ const FnoNominee = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {""}
+                        {''}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -83,7 +74,7 @@ const FnoNominee = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {""}
+                        {''}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -93,7 +84,7 @@ const FnoNominee = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {""}
+                        {''}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -105,7 +96,7 @@ const FnoNominee = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {""}
+                        {''}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -115,7 +106,7 @@ const FnoNominee = () => {
                       className="class-icons"
                       fontSize="small"
                     />
-                    {""}
+                    {''}
                     Some quick example text to build on the card title and make
                     up the bulk of the card's content.
                   </Card.Subtitle>
