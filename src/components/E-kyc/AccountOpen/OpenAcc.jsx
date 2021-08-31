@@ -64,7 +64,7 @@ const OpenAcc = () => {
                       label="Currency"
                     />
                   </Col>
-                  <Col md="5" sm="12">
+                  <Col className="ml-5" md="5" sm="12">
                     <FormControlLabel
                       control={<Checkbox color="primary" />}
                       label="F&O"

@@ -25,12 +25,18 @@ const PanBankEmail = () => {
         }}
         validate={(values) => {
           const errors = {};
-          if (!values.email) {
+          if (!values.email && values.pan && values.ifsc) {
             errors.email = 'Required';
+            errors.pan = 'Required';
+            errors.ifsc = 'Required';
           } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email) &&
+            !/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/i.test(values.pan) &&
+            !/^[A-Z]{4}[0][A-Z0-9]{6}$/i.test(values.ifsc)
           ) {
             errors.email = 'Please enter the valid email address.';
+            errors.pan = 'Please enter the valid PAN.';
+            errors.ifsc = 'Invalid IFSC';
           }
           return errors;
         }}
@@ -76,7 +82,7 @@ const PanBankEmail = () => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.email}
-                              label="Enter email"
+                              label="Enter your email"
                             />
                             <span style={{ color: 'red', fontSize: '9px' }}>
                               {errors.email && touched.email && errors.email}
@@ -105,15 +111,13 @@ const PanBankEmail = () => {
                             {' '}
                             <TextField
                               type="text"
-                              // id="fieldSelectorNo"
-                              // pattern="[1-9]{1}[0-9]{9}"
+                              fullWidth
                               variant="outlined"
                               autoComplete="off"
                               name="pan"
                               value={values.pan}
                               onChange={handleChange}
-                              // onInput={PanValidator}
-                              className="form-control"
+                              onBlur={handleBlur}
                               inputProps={{
                                 style: { textTransform: 'uppercase' },
                               }}
@@ -134,7 +138,7 @@ const PanBankEmail = () => {
                               id="date"
                               name="dob"
                               variant="outlined"
-                              label="Birthday"
+                              label="Date of Birth"
                               type="date"
                               value={values.dob}
                               // defaultValue={moment().format("MM-DD-YYYY")}
@@ -174,22 +178,22 @@ const PanBankEmail = () => {
                             {' '}
                             <TextField
                               type="text"
-                              // id="input_capital"
+                              fullWidth
                               variant="outlined"
                               autoComplete="off"
                               name="ifsc"
                               id="fieldSelectorNo"
                               value={values.ifsc}
-                              // pattern="^[A-Z]{4}0[A-Z0-9]{6}$"
-                              // pattern="/^[A-Za-z]{4}\d{7}$/"
-                              // value={inputs.ifsc}
                               onChange={handleChange}
-                              className="form-control"
+                              onBlur={handleBlur}
                               inputProps={{
                                 style: { textTransform: 'uppercase' },
                               }}
                               label="Enter IFSC Code"
                             />
+                            <span style={{ color: 'red', fontSize: '9px' }}>
+                              {errors.ifsc && touched.ifsc && errors.ifsc}
+                            </span>
                           </Col>
                         </Row>
 

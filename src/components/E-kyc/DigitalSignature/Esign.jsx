@@ -58,6 +58,7 @@ const Esign = (props) => {
         <div
           style={{
             border: '1px solid black',
+            borderRadius: '10px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -72,20 +73,33 @@ const Esign = (props) => {
             }}
           />
         </div>
-        <Button variant="contained" color="primary" onClick={ClearHandler}>
-          Clear
-        </Button>
-        <Button
-          ref={BtnRef}
-          variant="contained"
-          color="primary"
-          onClick={SaveHandler}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: '15px',
+          }}
         >
-          Save
-        </Button>
-        {/* </div>
-        </div> */}
-        {/* </FinalizeData.Provider> */}
+          <Button
+            className="btn-comman text-white"
+            variant="contained"
+            color="primary"
+            onClick={ClearHandler}
+            style={{ marginRight: '80px' }}
+          >
+            Clear
+          </Button>
+          <Button
+            ref={BtnRef}
+            className="btn-comman text-white"
+            variant="contained"
+            color="primary"
+            onClick={SaveHandler}
+            style={{ marginLeft: '80px' }}
+          >
+            Save
+          </Button>
+        </div>
       </>
     </div>
   );

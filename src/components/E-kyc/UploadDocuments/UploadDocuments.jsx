@@ -11,10 +11,10 @@ const UploadDocument = () => {
       const fileArray = Array.from(eve.target.files).map((file) =>
         URL.createObjectURL(file)
       );
-      // console.log(fileArray);
+      console.log(fileArray);
 
-      SetPhoto((prevImg) => prevImg.concat(fileArray));
-      Array.from(eve.target.files).map((file) => URL.revokeObjectURL(file));
+      // SetPhoto((prevImg) => prevImg.concat(fileArray));
+      // Array.from(eve.target.files).map((file) => URL.revokeObjectURL(file));
     }
   };
 

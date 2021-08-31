@@ -9,14 +9,16 @@ import Esign from '../DigitalSignature/Esign';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import { useHistory } from 'react-router';
 import uploadImg from '../../../images/Upload_Documents_Illustration.png';
+import $ from 'jquery';
 import { TextField } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
     width: 400,
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: '#000',
     boxShadow: theme.shadows[5],
+    borderRadius: '10px',
     padding: theme.spacing(2, 4, 3),
   },
 }));
@@ -32,6 +34,7 @@ function getModalStyle() {
   };
 }
 const AdhaarKyc = () => {
+  const [photo, SetPhoto] = useState([]);
   const history = useHistory();
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -46,12 +49,17 @@ const AdhaarKyc = () => {
   const handleClick = () => {
     history.push('/LastStep');
   };
+  const handleTrigger = (eve) => {
+    $('#panCard').trigger('click');
+    if (eve.target.files) {
+      const fileArray = Array.from(eve.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      console.log(fileArray);
+    }
+  };
   const body = (
-    <div
-      style={modalStyle}
-      // style={{ borderRadius: '15px' }}
-      className={classes.paper}
-    >
+    <div style={modalStyle} className={classes.paper}>
       <Row
         style={{
           display: 'flex',
@@ -97,23 +105,20 @@ const AdhaarKyc = () => {
                   }}
                 >
                   <text>Upload a signed copy of your PAN Card</text>
-                  <text style={{ fontSize: '10px' }}>
+                  {/* <text style={{ fontSize: '10px' }}>
                     Format: <b>JPG</b>,<b>PNG</b>,<b>PDF</b>
-                  </text>
+                  </text> */}
                 </Col>
                 <br />
-                <TextField
-                  // type="file"
+                <input id="panCard" type="file" style={{ display: 'none' }} />
+                <Button
+                  type="file"
                   className="btn-comman text-white"
-                  label="Upload Images"
-                  style={{
-                    textTransform: 'capitalize',
-                    marginLeft: '10px',
-                    width: '150px',
-                  }}
+                  onClick={handleTrigger}
+                  // label="Upload Images"
                 >
                   Upload
-                </TextField>
+                </Button>
               </Container>
               <hr className="hr" />
               {/* <br /> */}
