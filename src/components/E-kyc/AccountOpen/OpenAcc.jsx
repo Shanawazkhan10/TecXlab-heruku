@@ -1,27 +1,19 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-// import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
-// import { Label, FormGroup } from 'reactstrap';
 import Image from 'react-bootstrap/Image';
-import {
-  makeStyles,
-  //   MenuItem,
-  //   InputLabel,
-  //   Button,
-  //   FormControl,
-  Button,
-  FormControlLabel,
-  Checkbox,
-  Select,
-} from '@material-ui/core';
-import { useForm } from 'react-hook-form';
+import accImg from '../../../images/Account_Opening_Fee_Illustration.png';
+import { Button, FormControlLabel, Checkbox } from '@material-ui/core';
+import { useHistory } from 'react-router';
 
 const OpenAcc = () => {
+  const history = useHistory();
+  const handleClick = () => {
+    history.push('/AdhaarKYC');
+  };
   return (
     <div>
       <Container>
         <Row>
-          {/* <Col mr="6">sss</Col> */}
           <Col md="7">
             <div className="form-info">
               <Row>
@@ -34,159 +26,87 @@ const OpenAcc = () => {
                   <hr className="hr-personal color-gradiant" />
                 </Col>
               </Row>
-              <Row
+              <Col
                 style={{
-                  display: 'flex',
-                  flexDirection: 'column',
                   fontSize: '13px',
                   border: '1px solid #3457D5',
                   borderRadius: '10px',
                   padding: '10px',
                 }}
               >
-                <Col
-                  style={{
-                    display: 'flex',
-                    // border: '4px solid blue',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <FormControlLabel
-                    // style={{
-                    //   // border: '2px solid red',
-                    //   display: 'flex',
-                    //   flexDirection: 'row',
-                    // }}
-                    control={
-                      <Checkbox
-                        //   style={{ border: '1px solid black' }}
-                        //   checked={state.checkedB}
-                        //   onChange={handleChange}
-                        name="checkedB"
-                        color="primary"
-                      />
-                    }
-                    label="Equity"
-                  />
-                  ₹20
-                </Col>
-
-                <text style={{ marginLeft: '30px' }}>
-                  Buy and sell shares, mutual funds and derivatives on NSE and
-                  BSE
-                </text>
-
-                <Col>
-                  <Col>
-                    <div style={{ display: 'flex', flexDirection: 'row  ' }}>
-                      {' '}
-                      <FormControlLabel
-                        style={{
-                          // border: '2px solid red',
-                          display: 'flex',
-                          flexDirection: 'row',
-                        }}
-                        control={
-                          <Checkbox
-                            //   style={{ border: '1px solid black' }}
-                            //   checked={state.checkedB}
-                            //   onChange={handleChange}
-                            name="checkedB"
-                            color="primary"
-                          />
-                        }
-                        label="Equity"
-                      />
-                      <FormControlLabel
-                        style={{
-                          // border: '2px solid red',
-                          display: 'flex',
-                          flexDirection: 'row',
-                        }}
-                        control={
-                          <Checkbox
-                            //   style={{ border: '1px solid black' }}
-                            //   checked={state.checkedB}
-                            //   onChange={handleChange}
-                            name="checkedB"
-                            color="primary"
-                          />
-                        }
-                        label="F&O"
-                      />{' '}
-                      <FormControlLabel
-                        style={{
-                          // border: '2px solid red',
-                          display: 'flex',
-                          flexDirection: 'row',
-                        }}
-                        control={
-                          <Checkbox
-                            //   style={{ border: '1px solid black' }}
-                            //   checked={state.checkedB}
-                            //   onChange={handleChange}
-                            name="checkedB"
-                            color="primary"
-                          />
-                        }
-                        label="Currency"
-                      />{' '}
-                      <FormControlLabel
-                        style={{
-                          // border: '2px solid red',
-                          display: 'flex',
-                          flexDirection: 'row',
-                        }}
-                        control={
-                          <Checkbox
-                            //   style={{ border: '1px solid black' }}
-                            //   checked={state.checkedB}
-                            //   onChange={handleChange}
-                            name="checkedB"
-                            color="primary"
-                          />
-                        }
-                        label="Commodity    "
-                      />
-                    </div>
+                <Row className="ml-2" style={{ alignItems: 'center' }}>
+                  <Col md="10">
+                    <FormControlLabel
+                      control={<Checkbox color="primary" />}
+                      label="Equity"
+                    />
                   </Col>
-                </Col>
-                <text style={{ marginLeft: '30px' }}>
-                  ₹<b>20</b> per order for F&O, Currency and Commodity
-                </text>
-              </Row>
+                  <Col md="2">
+                    <b>₹20</b>
+                  </Col>
+                </Row>
+                <Row className="ml-5">
+                  <Col>
+                    {' '}
+                    Buy and sell shares, mutual funds and derivatives on NSE and
+                    BSE
+                  </Col>
+                </Row>
+
+                <Row className="ml-1">
+                  <Col md="5" sm="12" className="ml-5">
+                    <FormControlLabel
+                      control={<Checkbox color="primary" />}
+                      label="Equity"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox color="primary" />}
+                      label="Currency"
+                    />
+                  </Col>
+                  <Col md="5" sm="12">
+                    <FormControlLabel
+                      control={<Checkbox color="primary" />}
+                      label="F&O"
+                    />{' '}
+                    <FormControlLabel
+                      control={<Checkbox color="primary" />}
+                      label="Commodity"
+                    />
+                  </Col>
+                </Row>
+                <Row className="ml-5">
+                  <Col>
+                    ₹<b>20</b> per order for F&O, Currency and Commodity
+                  </Col>
+                </Row>
+              </Col>
             </div>
             <Row
               className="mt-4"
-              md="7"
               style={{
                 borderTop: '1px solid #8C92AC',
                 borderBottom: '1px solid #8C92AC',
                 padding: '10px',
               }}
             >
-              <Col style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Col md="10">
                 <text>TOTAL</text>
+              </Col>
+              <Col md="2">
                 <b style={{ color: '#3457D5' }}>₹20</b>
               </Col>
             </Row>
           </Col>
           <Col className="mt-5" md="5">
-            <Image
-              // style={{
-              //   marginTop: '36px',
-              //   marginLeft: '30px',
-              //   border: '1px solid blue',
-              // }}
-              src={require('../../../images/Account_Opening_Fee_Illustration.png')}
-              fluid
-            />
+            <Image src={accImg} fluid />
+            <br />
+            <br />
             <Col className="ml-5 mt-4">
               <Button
                 // fullWidth="true"
                 type="submit"
-                // onClick={smsVerify}
+                onClick={handleClick}
                 className="btn-comman text-white"
                 style={{ textTransform: 'capitalize' }}
               >

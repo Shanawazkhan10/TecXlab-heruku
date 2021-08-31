@@ -4,7 +4,12 @@ import Button from "@material-ui/core/Button";
 import Card from "react-bootstrap/Card";
 import "./LastStep.css";
 import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
+import { useHistory } from "react-router";
 const LastStep = () => {
+  const history = useHistory();
+  const handleClick = () => {
+    history.push("/FnoNominee");
+  };
   return (
     <div>
       <Container>
@@ -143,7 +148,7 @@ const LastStep = () => {
                   <Button
                     fullWidth="true"
                     type="submit"
-                    // onClick={consoleData}
+                    onClick={handleClick}
                     className="btn-comman text-white"
                   >
                     Finish

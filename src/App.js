@@ -4,9 +4,9 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import VerifyContact from './components/E-kyc/VerifyContact/verifyContact';
 import PanBankEmail from './components/E-kyc/PanBankEmail/PanBankEmail';
-import VerifyPin from './components/E-kyc/verifyPin';
+// import VerifyPin from './components/E-kyc/verifyPin';
 import SignUp from './components/E-kyc/signupComponent';
-import AllowAccess from './components/E-kyc/allowAccess';
+// import AllowAccess from './components/E-kyc/allowAccess';
 import EmailTemplate from './components/E-kyc/EmailTemplate';
 import PanOrc from './components/E-kyc/panOrc';
 import ProtectedPages from './components/E-kyc/ProtectedPage/ProtectedPages';
@@ -34,9 +34,9 @@ function App() {
           {/* {localStorage.getItem("user-token") === null && (
             <Route exact path="/verifyContact" component={VerifyContact} />
           )} */}
-          <Route exact path="/" component={DashBoard} />
-          <Route exact path="/verifyPin" component={VerifyPin} />
-          <Route exact path="/AllowAccess" component={AllowAccess} />
+          {/* <Route exact path="/" component={DashBoard} /> */}
+          {/* <Route exact path="/verifyPin" component={VerifyPin} /> */}
+          {/* <Route exact path="/AllowAccess" component={AllowAccess} /> */}
           <Route path="/ConfirmPage" component={ConfirmPage} />
           <Route exact path="/Email" component={PanBankEmail} />
           <Route exact path="/EmailTemplate" component={EmailTemplate} />
@@ -45,7 +45,7 @@ function App() {
           <Route exact path="/PersonalInfo" component={PersonalInfo} />
           <Route exact path="/DashBoard" component={DashBoard} />
           <Route exact path="/VideoRecord" component={VideoRecord} />
-          <Route exact path="/Mobile" component={VerifyContact} />
+          <Route exact path="/" component={VerifyContact} />
           <Route exact path="/LastStep" component={LastStep} />
           <Route exact path="/FnoNominee" component={FnoNominee} />
           <Route exact path="/AdhaarKYC" component={AdhaarKyc} />

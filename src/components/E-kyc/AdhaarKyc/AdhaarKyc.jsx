@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 // import './PersonalInfo.css';
 import { Container, Row, Col } from 'reactstrap';
-import { Image, Figure } from 'react-bootstrap';
+import { Image } from 'react-bootstrap';
 import Digi from '../../../images/digiLocker.jpg';
-import { makeStyles } from '@material-ui/core';
-import { useForm } from 'react-hook-form';
+import aadharImg from '../../../images/Aadhar_KYC_Illustration.png';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router';
 
 const AdhaarKyc = () => {
+  const history = useHistory();
+  const handleClick = () => {
+    history.push('/UploadUi');
+  };
   return (
     <div>
       <Container className="container-md">
@@ -22,7 +26,7 @@ const AdhaarKyc = () => {
                 </Col>
               </Row>
               <Col>
-                <img src={Digi} alt="broken" width="200px" height="65px"></img>
+                <img src={Digi} alt="broken" width="200px" height="65px" />
               </Col>
               <br />
               <Container>
@@ -42,7 +46,7 @@ const AdhaarKyc = () => {
                 <Button
                   // fullWidth="true"
                   type="submit"
-                  // onClick={smsVerify}
+                  onClick={handleClick}
                   className="btn-comman text-white"
                   style={{ textTransform: 'capitalize', marginLeft: '10px' }}
                 >
@@ -66,10 +70,7 @@ const AdhaarKyc = () => {
             </div>
           </Col>
           <Col className="mt-5" md="6">
-            <Image
-              src={require('../../../images/Aadhar_KYC_Illustration.png')}
-              fluid
-            />
+            <Image src={aadharImg} fluid />
           </Col>
         </Row>
       </Container>

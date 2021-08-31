@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { makeStyles } from '@material-ui/core';
 import Image from 'react-bootstrap/Image';
-import DigiModal from '../Modal/Modal';
-import { useForm } from 'react-hook-form';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Esign from '../DigitalSignature/Esign';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
-
+import { useHistory } from 'react-router';
+import uploadImg from '../../../images/Upload_Documents_Illustration.png';
+import { TextField } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
@@ -32,6 +32,7 @@ function getModalStyle() {
   };
 }
 const AdhaarKyc = () => {
+  const history = useHistory();
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [show, SetShow] = useState(false);
@@ -42,7 +43,9 @@ const AdhaarKyc = () => {
   const handleClose = () => {
     SetShow(false);
   };
-
+  const handleClick = () => {
+    history.push('/LastStep');
+  };
   const body = (
     <div
       style={modalStyle}
@@ -99,11 +102,10 @@ const AdhaarKyc = () => {
                   </text>
                 </Col>
                 <br />
-                <Button
-                  type="submit"
-                  // fullWidth
-                  // onClick={smsVerify}
+                <TextField
+                  // type="file"
                   className="btn-comman text-white"
+                  label="Upload Images"
                   style={{
                     textTransform: 'capitalize',
                     marginLeft: '10px',
@@ -111,7 +113,7 @@ const AdhaarKyc = () => {
                   }}
                 >
                   Upload
-                </Button>
+                </TextField>
               </Container>
               <hr className="hr" />
               {/* <br /> */}
@@ -167,7 +169,7 @@ const AdhaarKyc = () => {
                   <Col>
                     <Button
                       type="submit"
-                      // onClick={smsVerify}
+                      onClick={handleClick}
                       className="btn-comman text-white"
                       style={{
                         textTransform: 'capitalize',
@@ -187,10 +189,7 @@ const AdhaarKyc = () => {
             md="5"
             // style={{ border: '2px solid black' }}
           >
-            <Image
-              src={require('../../../images/Upload_Documents_Illustration.png')}
-              fluid
-            />
+            <Image src={uploadImg} fluid />
           </Col>
         </Row>
       </Container>
