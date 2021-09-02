@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 const FinalizeData = createContext();
 
 const Esign = (props) => {
+  const [disable, SetDisable] = useState(false);
   const SignRef = useRef({});
   const BtnRef = useRef();
   // const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const Esign = (props) => {
     SignRef.current.clear();
   };
 
+  //Disable Handler only for normal buttons
   const DisableButtonHandler = () => {
     if (BtnRef.current) {
       BtnRef.current.setAttribute('disabled', 'disabled');
@@ -26,6 +28,7 @@ const Esign = (props) => {
     DisableButtonHandler();
     const data = SignRef.current.toDataURL();
     console.log(data);
+    SetDisable(true);
 
     // dispatch(
     //   SignData({
@@ -94,6 +97,7 @@ const Esign = (props) => {
             className="btn-comman text-white"
             variant="contained"
             color="primary"
+            disabled={disable}
             onClick={SaveHandler}
             style={{ marginLeft: '80px' }}
           >

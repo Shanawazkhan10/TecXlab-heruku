@@ -25,7 +25,7 @@ const PanBankEmail = () => {
         }}
         validate={(values) => {
           const errors = {};
-          if (!values.email && values.pan && values.ifsc) {
+          if (!values.email && !values.pan && !values.ifsc) {
             errors.email = 'Required';
             errors.pan = 'Required';
             errors.ifsc = 'Required';
@@ -72,7 +72,10 @@ const PanBankEmail = () => {
                   <form onSubmit={handleSubmit}>
                     <>
                       <Container>
-                        <Row>
+                        <Row
+                          className="mt-2"
+                          // style={{ border: '1px solid black' }}
+                        >
                           <Col sm="12" md="6" className="margin-pan">
                             <TextField
                               variant="outlined"
@@ -101,9 +104,12 @@ const PanBankEmail = () => {
                             />
                           </Col>
                         </Row>
-                        <Row className="mt-2">
+                        <Row
+                          className="mt-2"
+                          // style={{ border: '1px solid red' }}
+                        >
                           <Col
-                            className="mt-3"
+                            // className="mt-3"
                             sm="12"
                             md="6"
                             className="margin-pan"
@@ -128,7 +134,7 @@ const PanBankEmail = () => {
                             </span>
                           </Col>
                           <Col
-                            className="mt-3"
+                            // className="mt-3"
                             sm="12"
                             md="6"
                             className="margin-pan"
@@ -138,7 +144,7 @@ const PanBankEmail = () => {
                               id="date"
                               name="dob"
                               variant="outlined"
-                              label="Date of Birth"
+                              label="Enter DOB"
                               type="date"
                               value={values.dob}
                               // defaultValue={moment().format("MM-DD-YYYY")}
@@ -147,12 +153,18 @@ const PanBankEmail = () => {
                               InputLabelProps={{
                                 shrink: true,
                               }}
+                              style={{
+                                marginBottom: '15px',
+                              }}
                             />
                           </Col>
                         </Row>
-                        <Row className="mt-2">
+                        <Row
+                          className="mt-2"
+                          // style={{ border: '1px solid blue' }}
+                        >
                           <Col
-                            className="mt-3"
+                            // className="mt-3"
                             sm="12"
                             md="6"
                             className="margin-pan"
@@ -167,10 +179,13 @@ const PanBankEmail = () => {
                               onChange={handleChange}
                               className="form-control"
                               label="Enter Bank A/C Number"
+                              style={{
+                                marginBottom: '15px',
+                              }}
                             />
                           </Col>
                           <Col
-                            className="mt-3"
+                            // className="mt-3"
                             sm="12"
                             md="6"
                             className="margin-pan"

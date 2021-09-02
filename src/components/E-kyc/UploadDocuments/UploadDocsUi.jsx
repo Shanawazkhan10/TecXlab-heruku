@@ -10,7 +10,9 @@ import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import { useHistory } from 'react-router';
 import uploadImg from '../../../images/Upload_Documents_Illustration.png';
 import $ from 'jquery';
-import { TextField } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
@@ -34,11 +36,15 @@ function getModalStyle() {
   };
 }
 const AdhaarKyc = () => {
-  const [photo, SetPhoto] = useState([]);
   const history = useHistory();
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [show, SetShow] = useState(false);
+  const [photo, SetPhoto] = useState([]);
+  const [digiSign, SetDigiSign] = useState([]);
+  const [disable, SetDisable] = useState(false);
+  const [preview, SetPreview] = useState(false);
+  const [icoDisable, SetIcoDisable] = useState(false);
 
   const HandleOpen = () => {
     SetShow(true);
@@ -47,17 +53,83 @@ const AdhaarKyc = () => {
     SetShow(false);
   };
   const handleClick = () => {
-    history.push('/LastStep');
+    // history.push('/LastStep');
   };
-  const handleTrigger = (eve) => {
+  const handleTrigger = () => {
     $('#panCard').trigger('click');
+  };
+  const previewOpenHandler = () => {
+    SetPreview(true);
+    SetIcoDisable(true);
+  };
+  const previewCloseHandler = () => {
+    SetPreview(false);
+  };
+
+  const ImageHandler = (eve) => {
     if (eve.target.files) {
       const fileArray = Array.from(eve.target.files).map((file) =>
         URL.createObjectURL(file)
       );
       console.log(fileArray);
+      SetPhoto((revImg) => revImg.concat(fileArray));
+      Array.from(eve.target.files).map((image) => URL.revokeObjectURL(image));
     }
+    SetDisable(true);
   };
+
+  const RendImageHandler = (src) => {
+    return src.map((Img, idx) => {
+      return (
+        <>
+          <div style={{ textAlign: 'center' }}>
+            <img src={Img} key={idx} alt="Image" width="150px" height="150px" />
+            <br />
+            <Button type="submit" onClick={previewOpenHandler}>
+              <CheckCircleIcon />
+            </Button>
+            <Button
+              type="submit"
+              disabled={icoDisable}
+              onClick={previewOpenHandler}
+            >
+              <VisibilityIcon />
+            </Button>
+            <Button type="submit" onClick={HandleOpen}>
+              <DeleteIcon />
+            </Button>
+          </div>
+        </>
+      );
+    });
+  };
+  const EsignHandler = (event) => {
+    if (event.target.files) {
+      const DigiFileArray = Array.from(event.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      console.log(DigiFileArray);
+      SetDigiSign((revImg) => revImg.concat(DigiFileArray));
+      console.log(SetDigiSign);
+      Array.from(event.target.files).map((data) => URL.revokeObjectURL(data));
+    }
+    // SetDisable(true);
+  };
+
+  const RendImg = (src) => {
+    return src.map((Img, idx) => {
+      return (
+        <>
+          <img src={Img} key={idx} alt="Image" width="150px" height="150px" />
+          <br />
+          <button type="submit">Test1</button>
+          <button type="submit">Test2</button>
+          <button type="submit">Test3</button>
+        </>
+      );
+    });
+  };
+
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <Row
@@ -75,12 +147,39 @@ const AdhaarKyc = () => {
       <Esign />
     </div>
   );
+  const PreviewModal = (
+    <div style={modalStyle} className={classes.paper}>
+      <Row
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <p>Preview your image</p>
+        <CloseRoundedIcon
+          onClick={previewCloseHandler}
+          style={{ marginRight: '12px', cursor: 'pointer' }}
+        />
+      </Row>
+      <Col>
+        <div>{RendImageHandler(photo)}</div>
+      </Col>
+    </div>
+  );
 
   return (
     <div>
-      <Container className="container-md">
+      <Container
+        // style={{ border: '1px solid red' }}
+        className="container-md"
+        fluid
+        // style={{ border: '2px solid blue' }}
+      >
         <Row>
-          <Col md="6">
+          <Col
+            md="7"
+            //  style={{ border: '2px solid black' }}
+          >
             <div className="form-info">
               <Row>
                 <Col style={{ marginLeft: '30px' }}>
@@ -90,81 +189,94 @@ const AdhaarKyc = () => {
                 </Col>
               </Row>
               <br />
-              <Container>
+              <Container
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  // border: '3px solid blue',
+                }}
+              >
                 <Col>
                   <text>
                     <b>Copy of PAN</b>
                   </text>
-                </Col>
-                <br />
-                <Col
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    fontSize: '13px',
-                  }}
-                >
+                  <br />
+                  <br />
                   <text>Upload a signed copy of your PAN Card</text>
-                  {/* <text style={{ fontSize: '10px' }}>
-                    Format: <b>JPG</b>,<b>PNG</b>,<b>PDF</b>
-                  </text> */}
+                  <br />
+                  <text style={{ fontSize: '10px' }}>
+                    Format: <b>PNG</b>,<b>JPG</b>,<b>JPEG </b>
+                  </text>
+                  <br />
+                  <br />
+                  <input
+                    id="panCard"
+                    onChange={(e) => ImageHandler(e)}
+                    type="file"
+                    style={{ display: 'none' }}
+                    // accept=".png, .jpeg, .jpeg, .pdf"
+                  />
+                  <Button
+                    type="file"
+                    className="btn-comman text-white"
+                    onClick={handleTrigger}
+                    disabled={disable}
+                  >
+                    Upload
+                  </Button>
                 </Col>
-                <br />
-                <input id="panCard" type="file" style={{ display: 'none' }} />
-                <Button
-                  type="file"
-                  className="btn-comman text-white"
-                  onClick={handleTrigger}
-                  // label="Upload Images"
-                >
-                  Upload
-                </Button>
-              </Container>
-              <hr className="hr" />
-              {/* <br /> */}
-              <Container>
                 <Col>
+                  <div>{RendImageHandler(photo)}</div>
+                </Col>
+                <Modal
+                  open={preview}
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                >
+                  {PreviewModal}
+                </Modal>
+              </Container>
+              <hr />
+              <Container>
+                <Col md="12">
                   <text>
                     <b>Signature</b>
                   </text>
                 </Col>
                 <br />
-                <Col
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    fontSize: '13px',
-                  }}
-                >
-                  <text>
-                    Please sign on a blank paper with a pen & upload a photo of
-                    the same.
-                  </text>
-                  <text>You can also sign on the digital pad.</text>
-                </Col>
+                <Row>
+                  <Col
+                    style={{
+                      fontSize: '13px',
+                      // border: '1px solid red',
+                    }}
+                  >
+                    <div>
+                      Please sign on a blank paper with a pen & <br /> upload a
+                      photo of the same. You can also <br /> sign on the digital
+                      pad.
+                    </div>
+                  </Col>
+                  <Col>
+                    <div>{RendImg(digiSign)}</div>
+                  </Col>
+                </Row>
                 <br />
-                <Row
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Col md="6">
+                <br />
+                <Row>
+                  <Col>
                     <Button
                       type="submit"
                       onClick={HandleOpen}
                       className="btn-comman text-white"
                       style={{
                         textTransform: 'capitalize',
-                        marginLeft: '10px',
-                        width: '150px',
                       }}
                     >
                       Digital Pad
                     </Button>
                     <Modal
                       open={show}
-                      // onClose={handleClose}
                       aria-labelledby="simple-modal-title"
                       aria-describedby="simple-modal-description"
                     >
@@ -172,14 +284,19 @@ const AdhaarKyc = () => {
                     </Modal>
                   </Col>
                   <Col>
+                    <input
+                      id="panCard"
+                      onChange={(e) => EsignHandler(e)}
+                      type="file"
+                      style={{ display: 'none' }}
+                      // accept=".png, .jpeg, .jpeg, .pdf"
+                    />
                     <Button
                       type="submit"
-                      onClick={handleClick}
+                      onClick={handleTrigger}
                       className="btn-comman text-white"
                       style={{
                         textTransform: 'capitalize',
-                        marginLeft: '10px',
-                        width: '150px',
                       }}
                     >
                       Upload Image
@@ -189,11 +306,7 @@ const AdhaarKyc = () => {
               </Container>
             </div>
           </Col>
-          <Col
-            className="mt-5 ml-5 p-4"
-            md="5"
-            // style={{ border: '2px solid black' }}
-          >
+          <Col className="mt-5 ml-5" md="4">
             <Image src={uploadImg} fluid />
           </Col>
         </Row>

@@ -34,14 +34,22 @@ const OpenAcc = () => {
                   padding: '10px',
                 }}
               >
-                <Row className="ml-2" style={{ alignItems: 'center' }}>
-                  <Col md="10">
+                <Row
+                  // className="ml-2"
+                  style={{
+                    // border: '1px solid black',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Col>
                     <FormControlLabel
                       control={<Checkbox color="primary" />}
                       label="Equity"
                     />
                   </Col>
-                  <Col md="2">
+                  <Col>
                     <b>₹20</b>
                   </Col>
                 </Row>
@@ -88,31 +96,36 @@ const OpenAcc = () => {
                 borderTop: '1px solid #8C92AC',
                 borderBottom: '1px solid #8C92AC',
                 padding: '10px',
+                // border: '1px solid black',
+                display: 'flex',
+                justifyContent: 'space-between',
               }}
             >
-              <Col md="10">
+              <Col>
                 <text>TOTAL</text>
               </Col>
-              <Col md="2">
+              <Col>
                 <b style={{ color: '#3457D5' }}>₹20</b>
               </Col>
             </Row>
           </Col>
           <Col className="mt-5" md="5">
             <Image src={accImg} fluid />
-            <br />
-            <br />
-            <Col className="ml-5 mt-4">
-              <Button
-                // fullWidth="true"
-                type="submit"
-                onClick={handleClick}
-                className="btn-comman text-white"
-                style={{ textTransform: 'capitalize' }}
-              >
-                Proceed
-              </Button>
-            </Col>
+            {/* <br />
+            <br /> */}
+            <Button
+              fullWidth="true"
+              type="submit"
+              onClick={handleClick}
+              className="btn-comman text-white"
+              // style={{
+              //   textTransform: 'capitalize',
+              //   alignItems: 'center',
+              //   textAlign: 'center',
+              // }}
+            >
+              Proceed
+            </Button>
           </Col>
         </Row>
       </Container>
