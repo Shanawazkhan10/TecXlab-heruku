@@ -161,25 +161,14 @@ const AdhaarKyc = () => {
           style={{ marginRight: '12px', cursor: 'pointer' }}
         />
       </Row>
-      <Col>
-        <div>{RendImageHandler(photo)}</div>
-      </Col>
     </div>
   );
 
   return (
     <div>
-      <Container
-        // style={{ border: '1px solid red' }}
-        className="container-md"
-        fluid
-        // style={{ border: '2px solid blue' }}
-      >
+      <Container className="container-md" fluid>
         <Row>
-          <Col
-            md="7"
-            //  style={{ border: '2px solid black' }}
-          >
+          <Col md="7">
             <div className="form-info">
               <Row>
                 <Col style={{ marginLeft: '30px' }}>
@@ -238,29 +227,29 @@ const AdhaarKyc = () => {
               </Container>
               <hr />
               <Container>
-                <Col md="12">
+                <Col>
                   <text>
                     <b>Signature</b>
                   </text>
                 </Col>
                 <br />
-                <Row>
-                  <Col
-                    style={{
-                      fontSize: '13px',
-                      // border: '1px solid red',
-                    }}
-                  >
-                    <div>
-                      Please sign on a blank paper with a pen & <br /> upload a
-                      photo of the same. You can also <br /> sign on the digital
-                      pad.
-                    </div>
-                  </Col>
-                  <Col>
-                    <div>{RendImg(digiSign)}</div>
-                  </Col>
-                </Row>
+                {/* <Row style={{ border: '2px solid black' }}> */}
+                <Col
+                  style={{
+                    fontSize: '13px',
+                    // border: '1px solid red',
+                  }}
+                >
+                  <div>
+                    Please sign on a blank paper with a pen & <br /> upload a
+                    photo of the same. You can also <br /> sign on the digital
+                    pad.
+                  </div>
+                </Col>
+                <Col>
+                  <div>{RendImg(digiSign)}</div>
+                </Col>
+                {/* </Row> */}
                 <br />
                 <br />
                 <Row>
@@ -289,7 +278,8 @@ const AdhaarKyc = () => {
                       onChange={(e) => EsignHandler(e)}
                       type="file"
                       style={{ display: 'none' }}
-                      // accept=".png, .jpeg, .jpeg, .pdf"
+                      accept=".png, .jpg, .jpeg, .pdf,"
+                      hidden
                     />
                     <Button
                       type="submit"

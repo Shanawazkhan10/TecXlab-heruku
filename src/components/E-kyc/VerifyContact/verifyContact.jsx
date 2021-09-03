@@ -1,46 +1,47 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
-import $ from "jquery";
-import "./verifyContact.css";
-import SERVER_ID from "../Configure/configure";
-import { useLocalStorage } from "../CustomHooks/useLocalStorage";
-import { conVal } from "../Helper/Helper";
-import { Container, Row, Col } from "reactstrap";
-import Image from "react-bootstrap/Image";
-import SubInputAdornment from "../SubComponent/SubInputAdornment";
-import Button from "@material-ui/core/Button";
-import loginImg from "../../../images/LoginPage.png";
-import otpImg from "../../../assets/Mobile-OTP.svg";
-import mobileImg from "../../../assets/mobile.svg";
-import ReferalImg from "../../../assets/Referral Code grey.svg";
-import { useHistory } from "react-router-dom";
-import { getLocation } from "../Helper/Helper";
+import React, { useState, useEffect } from 'react';
+import TextField from '@material-ui/core/TextField';
+import $ from 'jquery';
+import './verifyContact.css';
+import SERVER_ID from '../Configure/configure';
+import { useLocalStorage } from '../CustomHooks/useLocalStorage';
+import { conVal } from '../Helper/Helper';
+import { Container, Row, Col } from 'reactstrap';
+import Image from 'react-bootstrap/Image';
+import SubInputAdornment from '../SubComponent/SubInputAdornment';
+import Button from '@material-ui/core/Button';
+import loginImg from '../../../images/LoginPage.png';
+import otpImg from '../../../assets/Mobile-OTP.svg';
+import mobileImg from '../../../assets/mobile.svg';
+import ReferalImg from '../../../assets/Referral Code grey.svg';
+import { useHistory } from 'react-router-dom';
+import { getLocation } from '../Helper/Helper';
+import axios from 'axios';
 function VerifyContact() {
-  const [contact, setContact] = useState("");
-  const [otp, setOtp] = useState("");
-  const [generateOtp, setgenerateOtp] = useState("");
-  const [otpTime, setotpTime] = useState("60");
+  const [contact, setContact] = useState('');
+  const [otp, setOtp] = useState('');
+  const [generateOtp, setgenerateOtp] = useState('');
+  const [otpTime, setotpTime] = useState('60');
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const [Token, setToken] = useState("");
-  const [userToken, setUserToken] = useLocalStorage("user-token", "");
+  const [Token, setToken] = useState('');
+  const [userToken, setUserToken] = useLocalStorage('user-token', '');
   let history = useHistory();
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
-      errorOTP: "",
+      errorOTP: '',
     },
   });
   useEffect(() => {
-    $("#resend").hide();
-    $("#countdown").hide();
+    $('#resend').hide();
+    $('#countdown').hide();
   }, []);
 
   // for OTP TIMER
   useEffect(() => {
     if (otpTime === 0) {
-      $("#resend").show();
-      $("#countdown").hide();
+      $('#resend').show();
+      $('#countdown').hide();
     } else {
-      $("#resend").hide();
+      $('#resend').hide();
     }
   }, [otpTime]);
   //  mobile No checking
@@ -61,15 +62,15 @@ function VerifyContact() {
   const GoTo = (e) => {
     e.preventDefault();
     if (otp.length === 4) {
-      if (otp == generateOtp.otp) {
-        console.log("OTP VERIFIED");
-        history.push("/Email");
+      if (otp === generateOtp.otp) {
+        console.log('OTP VERIFIED');
+        history.push('/Email');
       } else {
         seterrorMsg((prevState) => ({
           ...prevState,
           errorOBJ: {
             ...prevState.errorOBJ,
-            errorOTP: "WRONG OTP!",
+            errorOTP: 'WRONG OTP!',
           },
         }));
       }
@@ -79,7 +80,7 @@ function VerifyContact() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorOTP: "",
+          errorOTP: '',
         },
       }));
     }
@@ -87,9 +88,9 @@ function VerifyContact() {
   const smsVerify = async () => {
     // e.preventDefault();
     try {
-      $(".btn-submit").show();
-      $("#countdown").show();
-      $("#resend").hide();
+      $('.btn-submit').show();
+      $('#countdown').show();
+      $('#resend').hide();
       // for timer
       var i = 60;
       (function timer() {
@@ -100,46 +101,87 @@ function VerifyContact() {
         }, 1000);
       })();
       // end timer
+      // var myHeaders = new Headers();
+      // myHeaders.append(
+      //   'Cookie',
+      //   '.AspNetCore.Session=CfDJ8CvWZjij8S1Gs%2F47xWKSoRJZs%2BWayJIk%2BOKlmtMILcJ1CkSZQ922QO4qMpd95j3uoVCNEH8rPnZl6Flo%2BOdBbH5F5j16MORHEWEUKYuw7ySAHCbUKki8YSan42Pl8dThGPCB4tk0VuaXsiJa0SLvMxqPdSDGOq9x1kRSOrbbqfxa'
+      // );
+
+      // var requestOptions = {
+      //   method: 'POST',
+      //   headers: myHeaders,
+      //   redirect: 'follow',
+      // };
+
+      // fetch(
+      //   `${SERVER_ID}/api/MobileAuthentication/Send_OTP?mobileNo=${contact}`,
+      //   requestOptions
+      // )
+      //   .then((response) => response.json())
+      //   .then((result) => setgenerateOtp(result))
+      //   .catch((error) => console.log('error', error));
+
+      // var requestOptions = {
+      //   method: 'POST',
+      //   redirect: 'follow',
+      // };
+
+      // fetch(
+      //   SERVER_ID +
+      //     '/GenerateJWTWebToken?Contact=' +
+      //     contact +
+      //     '&IsMobileVerified=true',
+      //   requestOptions
+      // )
+      //   .then((response) => response.text())
+      //   .then((result) => {
+      //     console.log(result);
+      //     setToken(result);
+      //   })
+      //   .catch((error) => console.log('error', error));
+
+      const mobile = '';
       var myHeaders = new Headers();
-      myHeaders.append(
-        "Cookie",
-        ".AspNetCore.Session=CfDJ8CvWZjij8S1Gs%2F47xWKSoRJZs%2BWayJIk%2BOKlmtMILcJ1CkSZQ922QO4qMpd95j3uoVCNEH8rPnZl6Flo%2BOdBbH5F5j16MORHEWEUKYuw7ySAHCbUKki8YSan42Pl8dThGPCB4tk0VuaXsiJa0SLvMxqPdSDGOq9x1kRSOrbbqfxa"
-      );
+      myHeaders.append('Mobile_no', mobile);
+
+      var formdata = new FormData();
 
       var requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
-        redirect: "follow",
+        body: formdata,
+        redirect: 'follow',
       };
 
       fetch(
-        `${SERVER_ID}/api/MobileAuthentication/Send_OTP?mobileNo=${contact}`,
-        requestOptions
-      )
-        .then((response) => response.json())
-        .then((result) => setgenerateOtp(result))
-        .catch((error) => console.log("error", error));
-
-      var requestOptions = {
-        method: "POST",
-        redirect: "follow",
-      };
-
-      fetch(
-        SERVER_ID +
-          "/GenerateJWTWebToken?Contact=" +
-          contact +
-          "&IsMobileVerified=true",
+        `https://localhost:5001/api/Lead/GetLead?Mobile_no=${mobile}`,
         requestOptions
       )
         .then((response) => response.text())
-        .then((result) => {
-          console.log(result);
-          setToken(result);
-        })
-        .catch((error) => console.log("error", error));
+        .then((result) => console.log(result))
+        .catch((error) => console.log('error', error));
+
+      // const mobile = '';
+      // var myHeaders = new Headers();
+      // myHeaders.append('Mobile_no', mobile);
+
+      // var formdata = new FormData();
+
+      // var requestOptions = {
+      //   headers: myHeaders,
+      //   body: formdata,
+      //   redirect: 'follow',
+      // };
+      // const data = await axios
+      //   .post(
+      //     `https://localhost:5001/api/Lead/GetLead?Mobile_no=${mobile}`,
+      //     requestOptions
+      //   )
+      //   .then((res) => res.text())
+      //   .then((result) => console.log(result));
+      // .catch((error) => console.log('error', error));
     } catch (e) {
-      console.log("error", e);
+      console.log('error', e);
     }
   };
 
@@ -240,19 +282,19 @@ function VerifyContact() {
                 />
               </div>
               <div className="form-group otp-time">
-                <p id="countdown" style={{ textAlign: "center" }}>
+                <p id="countdown" style={{ textAlign: 'center' }}>
                   Resend Link in {otpTime} sec.
                 </p>
                 <p
                   id="resend"
-                  style={{ textAlign: "center" }}
+                  style={{ textAlign: 'center' }}
                   //
                 >
                   {/* Resend via <Button onClick={smsVerify}> sms.</Button> */}
                 </p>
               </div>
               <div className="btn-class-submit mt-4">
-                {}{" "}
+                {}{' '}
                 <Button
                   disabled={btnDisabled}
                   type="submit"

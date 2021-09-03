@@ -29,30 +29,28 @@ const OpenAcc = () => {
               <Col
                 style={{
                   fontSize: '13px',
-                  border: '1px solid #3457D5',
+                  border: '1.5px solid #3457D5',
                   borderRadius: '10px',
                   padding: '10px',
                 }}
               >
-                <Row
-                  // className="ml-2"
-                  style={{
-                    // border: '1px solid black',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Col>
+                <Col>
+                  <Col
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      // border: '1px solid black',
+                      alignItems: 'center',
+                    }}
+                  >
                     <FormControlLabel
                       control={<Checkbox color="primary" />}
                       label="Equity"
                     />
-                  </Col>
-                  <Col>
                     <b>₹20</b>
                   </Col>
-                </Row>
+                </Col>
                 <Row className="ml-5">
                   <Col>
                     {' '}
@@ -72,7 +70,7 @@ const OpenAcc = () => {
                       label="Currency"
                     />
                   </Col>
-                  <Col className="ml-5" md="5" sm="12">
+                  <Col md="5" sm="12" className="ml-5">
                     <FormControlLabel
                       control={<Checkbox color="primary" />}
                       label="F&O"
@@ -97,15 +95,18 @@ const OpenAcc = () => {
                 borderBottom: '1px solid #8C92AC',
                 padding: '10px',
                 // border: '1px solid black',
-                display: 'flex',
-                justifyContent: 'space-between',
               }}
             >
-              <Col>
+              <Col
+                // md="10"
+                style={{
+                  // border: '1px solid black',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+              >
                 <text>TOTAL</text>
-              </Col>
-              <Col>
-                <b style={{ color: '#3457D5' }}>₹20</b>
+                <b style={{ color: '#3457D5', marginRight: '33px' }}>₹20</b>
               </Col>
             </Row>
           </Col>
