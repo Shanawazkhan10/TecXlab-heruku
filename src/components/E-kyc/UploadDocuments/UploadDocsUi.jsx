@@ -182,11 +182,13 @@ const AdhaarKyc = () => {
               </Row>
               <br />
               <Container
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  // border: '3px solid blue',
-                }}
+                style={
+                  {
+                    // display: "flex",
+                    // flexDirection: "row",
+                    // border: '3px solid blue',
+                  }
+                }
               >
                 <Col>
                   <text>
@@ -241,17 +243,6 @@ const AdhaarKyc = () => {
                     <text>
                       <b>Signature</b>
                     </text>
-                  </Col>
-                </Row>
-                <br />
-                {/* <Row style={{ border: '2px solid black' }}> */}
-                <Row>
-                  <Col
-                    style={{
-                      fontSize: "13px",
-                      // border: '1px solid red',
-                    }}
-                  >
                     <div>
                       Please sign on a blank paper with a pen & <br /> upload a
                       photo of the same. You can also <br /> sign on the digital
@@ -263,7 +254,7 @@ const AdhaarKyc = () => {
                     {dataSign && (
                       <img
                         width="200"
-                        height="200"
+                        height="100"
                         src={dataSign}
                         alt="avatar"
                       />
