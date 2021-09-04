@@ -163,6 +163,13 @@ const AdhaarKyc = () => {
   return (
     <div>
       <Modal
+        open={preview}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {PreviewModal}
+      </Modal>
+      <Modal
         open={show}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -181,16 +188,9 @@ const AdhaarKyc = () => {
                 </Col>
               </Row>
               <br />
-              <Container
-                style={
-                  {
-                    // display: "flex",
-                    // flexDirection: "row",
-                    // border: '3px solid blue',
-                  }
-                }
-              >
-                <Col>
+              {/* <Container> */}
+              <Row>
+                <Col md="8">
                   <text>
                     <b>Copy of PAN</b>
                   </text>
@@ -222,20 +222,14 @@ const AdhaarKyc = () => {
                     Upload
                   </Button>
                 </Col>
-                <Col>
+                <Col md="4">
                   {" "}
                   {dataUri && (
                     <img width="200" height="200" src={dataUri} alt="avatar" />
                   )}
                 </Col>
-                <Modal
-                  open={preview}
-                  aria-labelledby="simple-modal-title"
-                  aria-describedby="simple-modal-description"
-                >
-                  {PreviewModal}
-                </Modal>
-              </Container>
+              </Row>
+              {/* </Container> */}
               <hr />
               <Container>
                 <Row>
@@ -248,59 +242,58 @@ const AdhaarKyc = () => {
                       photo of the same. You can also <br /> sign on the digital
                       pad.
                     </div>
+                    <Row>
+                      <Col md="4">
+                        <Button
+                          type="submit"
+                          onClick={HandleOpen}
+                          className="btn-comman-small  text-white"
+                          style={{
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          Digital Pad
+                        </Button>
+                      </Col>
+                      <Col md="4">
+                        <input
+                          id="UploadSign"
+                          // onChange={(event) =>
+                          //   handleSign(event.target.files[0] || null)
+                          // }
+                          onChange={(event) => uploadSign(event)}
+                          type="file"
+                          style={{ display: "none" }}
+                          accept=".png, .jpg, .jpeg, .pdf,"
+                          hidden
+                        />
+                        <Button
+                          type="submit"
+                          onClick={handleTriggerSign}
+                          className="btn-comman-small  text-white"
+                          style={{
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          Upload Image
+                        </Button>
+                      </Col>
+                      {/* <Row> */}
+
+                      {/* </Row> */}
+                    </Row>
                   </Col>
                   <Col md="4">
                     {" "}
                     {dataSign && (
                       <img
                         width="200"
-                        height="100"
+                        height="200"
                         src={dataSign}
                         alt="avatar"
                       />
                     )}
                   </Col>
-                </Row>
-                <br />
-                <Row>
-                  <Col md="4">
-                    <Button
-                      type="submit"
-                      onClick={HandleOpen}
-                      className="btn-comman-small  text-white"
-                      style={{
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      Digital Pad
-                    </Button>
-                  </Col>
-                  <Col md="4">
-                    <input
-                      id="UploadSign"
-                      // onChange={(event) =>
-                      //   handleSign(event.target.files[0] || null)
-                      // }
-                      onChange={(event) => uploadSign(event)}
-                      type="file"
-                      style={{ display: "none" }}
-                      accept=".png, .jpg, .jpeg, .pdf,"
-                      hidden
-                    />
-                    <Button
-                      type="submit"
-                      onClick={handleTriggerSign}
-                      className="btn-comman-small  text-white"
-                      style={{
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      Upload Image
-                    </Button>
-                  </Col>
-                  {/* <Row> */}
-
-                  {/* </Row> */}
                 </Row>
               </Container>
             </div>
