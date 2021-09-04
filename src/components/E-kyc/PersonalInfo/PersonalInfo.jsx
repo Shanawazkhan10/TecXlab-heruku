@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
-import './PersonalInfo.css';
-import TextField from '@material-ui/core/TextField';
-import { Container, Row, Col } from 'reactstrap';
-import Image from 'react-bootstrap/Image';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import { makeStyles, MenuItem } from '@material-ui/core';
-import InputLabel from '@material-ui/core/InputLabel';
-import { useForm, Controller } from 'react-hook-form';
-import Button from '@material-ui/core/Button';
-import PersonalImg from '../../../images/Personal_Details_Illustration.png';
-import { useHistory } from 'react-router';
+import React, { useState } from "react";
+import "./PersonalInfo.css";
+import TextField from "@material-ui/core/TextField";
+import { Container, Row, Col } from "reactstrap";
+import Image from "react-bootstrap/Image";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import { makeStyles, MenuItem } from "@material-ui/core";
+import InputLabel from "@material-ui/core/InputLabel";
+import { useForm, Controller } from "react-hook-form";
+import Button from "@material-ui/core/Button";
+import PersonalImg from "../../../images/Personal_Details_Illustration.png";
+import { useHistory } from "react-router";
 const PersonalInfo = () => {
   const history = useHistory();
   const [inputs, setInputs] = useState({
-    mstatus: '',
-    income: '',
-    gender: '',
-    political: '',
-    occupation: '',
-    experience: '',
-    motherName: '',
-    fatherName: '',
+    mstatus: "",
+    income: "",
+    gender: "",
+    political: "",
+    occupation: "",
+    experience: "",
+    motherName: "",
+    fatherName: "",
+    education: "",
   });
   const { control } = useForm();
   const useStyles = makeStyles((theme) => ({
@@ -40,7 +41,7 @@ const PersonalInfo = () => {
   const handleSubmit = (e) => {
     // e.preventDefault();
     console.log(inputs);
-    history.push('/AccountOpen');
+    history.push("/AccountOpen");
     // window.location = "/PanOrc";
     // console.log(state);
   };
@@ -115,16 +116,16 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Marital Status
                             </MenuItem>
-                            <MenuItem value={'Single'}>Single</MenuItem>
-                            <MenuItem value={'Married'}>Married</MenuItem>
-                            <MenuItem value={'Divorced'}>Divorced</MenuItem>
+                            <MenuItem value={"Single"}>Single</MenuItem>
+                            <MenuItem value={"Married"}>Married</MenuItem>
+                            <MenuItem value={"Divorced"}>Divorced</MenuItem>
                           </Select>
                         )}
                         name="appliance"
                         control={control}
                         // defaultValue=""
                         rules={{
-                          required: 'Please Choose Your Appliance.',
+                          required: "Please Choose Your Appliance.",
                         }}
                       />
                     </FormControl>
@@ -146,16 +147,16 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Gender
                             </MenuItem>
-                            <MenuItem value={'Male'}>Male</MenuItem>
-                            <MenuItem value={'Female'}>Female</MenuItem>
-                            <MenuItem value={'Other'}>Other</MenuItem>
+                            <MenuItem value={"Male"}>Male</MenuItem>
+                            <MenuItem value={"Female"}>Female</MenuItem>
+                            <MenuItem value={"Other"}>Other</MenuItem>
                           </Select>
                         )}
                         name="appliance"
                         control={control}
                         // defaultValue=""
                         rules={{
-                          required: 'Please Choose Your Appliance.',
+                          required: "Please Choose Your Appliance.",
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -191,16 +192,16 @@ const PersonalInfo = () => {
                             label="Annual Income"
                           >
                             <MenuItem disabled>Annual Income</MenuItem>
-                            <MenuItem value={'less then 500000'}>
+                            <MenuItem value={"less then 500000"}>
                               less then 500000
                             </MenuItem>
-                            <MenuItem value={'More then 500000'}>
+                            <MenuItem value={"More then 500000"}>
                               More then 500000
                             </MenuItem>
-                            <MenuItem value={'less then 1000000'}>
+                            <MenuItem value={"less then 1000000"}>
                               less then 1000000
                             </MenuItem>
-                            <MenuItem value={'More then 1000000'}>
+                            <MenuItem value={"More then 1000000"}>
                               More then 1000000
                             </MenuItem>
                             {/* <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
@@ -210,7 +211,7 @@ const PersonalInfo = () => {
                         control={control}
                         defaultValue=""
                         rules={{
-                          required: 'Please Choose Your Appliance.',
+                          required: "Please Choose Your Appliance.",
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -238,13 +239,13 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Occupation
                             </MenuItem>
-                            <MenuItem value={'Private Sector'}>
+                            <MenuItem value={"Private Sector"}>
                               Private Sector
                             </MenuItem>
-                            <MenuItem value={'Govt. Sector'}>
+                            <MenuItem value={"Govt. Sector"}>
                               Govt. Sector
                             </MenuItem>
-                            <MenuItem value={'Self'}>Self</MenuItem>
+                            <MenuItem value={"Self"}>Self</MenuItem>
                             {/* <MenuItem value={"Range"}>Range</MenuItem>
                   <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                           </Select>
@@ -253,7 +254,7 @@ const PersonalInfo = () => {
                         control={control}
                         defaultValue=""
                         rules={{
-                          required: 'Please Choose Your Appliance.',
+                          required: "Please Choose Your Appliance.",
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -285,11 +286,11 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Trading Experience
                             </MenuItem>
-                            <MenuItem value={'Begginer'}>Begginer</MenuItem>
-                            <MenuItem value={'Intermediate'}>
+                            <MenuItem value={"Begginer"}>Begginer</MenuItem>
+                            <MenuItem value={"Intermediate"}>
                               Intermediate
                             </MenuItem>
-                            <MenuItem value={'Advanced'}>Advanced</MenuItem>
+                            <MenuItem value={"Advanced"}>Advanced</MenuItem>
                             {/* <MenuItem value={"Range"}>Range</MenuItem>
                   <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                           </Select>
@@ -298,7 +299,7 @@ const PersonalInfo = () => {
                         control={control}
                         defaultValue=""
                         rules={{
-                          required: 'Please Choose Your Appliance.',
+                          required: "Please Choose Your Appliance.",
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -328,10 +329,53 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Politically Exposed
                             </MenuItem>
-                            <MenuItem value={'yes'}>Yes</MenuItem>
-                            <MenuItem value={'no'}>No</MenuItem>
-                            {/* <MenuItem value={"Ice Maker"}>Ice Maker</MenuItem>
-                  <MenuItem value={"Range"}>Range</MenuItem>
+                            <MenuItem value={"yes"}>Yes</MenuItem>
+                            <MenuItem value={"no"}>No</MenuItem>
+                          </Select>
+                        )}
+                        name="appliance"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: "Please Choose Your Appliance.",
+                        }}
+                      />
+                    </FormControl>
+                  </div>
+                </Col>
+              </Row>
+              <Row className="">
+                <Col md="6" sm="12">
+                  <div className="form-group master-textField">
+                    <FormControl
+                      variant="outlined"
+                      key="Appliances"
+                      // error={Boolean(errors.appliance)}
+                      fullWidth
+                    >
+                      <InputLabel required={true}>Education</InputLabel>
+                      <Controller
+                        render={(props) => (
+                          <Select
+                            size="large"
+                            name="education"
+                            defaultValue={inputs.education}
+                            onChange={handleInputChange}
+                            label="education"
+                          >
+                            <MenuItem value="" disabled>
+                              Education
+                            </MenuItem>
+                            <MenuItem value={"Formal Education."}>
+                              Formal Education.
+                            </MenuItem>
+                            <MenuItem value={"Informal Education."}>
+                              Informal Education.
+                            </MenuItem>
+                            <MenuItem value={"Non-formal Education."}>
+                              Non-formal Education.
+                            </MenuItem>
+                            {/* <MenuItem value={"Range"}>Range</MenuItem>
                   <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                           </Select>
                         )}
@@ -339,7 +383,7 @@ const PersonalInfo = () => {
                         control={control}
                         defaultValue=""
                         rules={{
-                          required: 'Please Choose Your Appliance.',
+                          required: "Please Choose Your Appliance.",
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}

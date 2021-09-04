@@ -1,18 +1,24 @@
-
-.margin-pan{
-    margin-top: 20px !important;
+.margin-pan {
+  margin-top: 20px !important;
 }
-.div-PanEmail{
-    margin-top: 90px;
+.div-PanEmail {
+  margin-top: 90px;
 }
-.button-pan{
-    text-align: center;
+.button-pan {
+  text-align: center;
+}
+.modal_open {
+  cursor: pointer;
+  float: right;
+}
+.close {
+  cursor: pointer;
 }
 @media only screen and (max-width: 600px) {
-    .margin-pan{
-        margin-top: 25px !important;
-    }
-    .div-PanEmail{
-        margin-top: 0px;
-    }
+  .margin-pan {
+    margin-top: 25px !important;
   }
+  .div-PanEmail {
+    margin-top: 0px;
+  }
+}

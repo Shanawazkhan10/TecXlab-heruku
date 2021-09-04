@@ -1,47 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import TextField from '@material-ui/core/TextField';
-import $ from 'jquery';
-import './verifyContact.css';
-import SERVER_ID from '../Configure/configure';
-import { useLocalStorage } from '../CustomHooks/useLocalStorage';
-import { conVal } from '../Helper/Helper';
-import { Container, Row, Col } from 'reactstrap';
-import Image from 'react-bootstrap/Image';
-import SubInputAdornment from '../SubComponent/SubInputAdornment';
-import Button from '@material-ui/core/Button';
-import loginImg from '../../../images/LoginPage.png';
-import otpImg from '../../../assets/Mobile-OTP.svg';
-import mobileImg from '../../../assets/mobile.svg';
-import ReferalImg from '../../../assets/Referral Code grey.svg';
-import { useHistory } from 'react-router-dom';
-import { getLocation } from '../Helper/Helper';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import TextField from "@material-ui/core/TextField";
+import $ from "jquery";
+import "./verifyContact.css";
+import SERVER_ID from "../Configure/configure";
+import { useLocalStorage } from "../CustomHooks/useLocalStorage";
+import { conVal } from "../Helper/Helper";
+import { Container, Row, Col } from "reactstrap";
+import Image from "react-bootstrap/Image";
+import SubInputAdornment from "../SubComponent/SubInputAdornment";
+import Button from "@material-ui/core/Button";
+import loginImg from "../../../images/LoginPage.png";
+import otpImg from "../../../assets/Mobile-OTP.svg";
+import mobileImg from "../../../assets/mobile.svg";
+import ReferalImg from "../../../assets/Referral Code grey.svg";
+import { useHistory } from "react-router-dom";
+import { getLocation } from "../Helper/Helper";
+import axios from "axios";
 function VerifyContact() {
-  const [contact, setContact] = useState('');
-  const [otp, setOtp] = useState('');
-  const [generateOtp, setgenerateOtp] = useState('');
-  const [otpTime, setotpTime] = useState('60');
+  const [contact, setContact] = useState("");
+  const [otp, setOtp] = useState("");
+  const [generateOtp, setgenerateOtp] = useState("");
+  const [otpTime, setotpTime] = useState("60");
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const [Token, setToken] = useState('');
-  const [userToken, setUserToken] = useLocalStorage('user-token', '');
+  const [Token, setToken] = useState("");
+  const [userToken, setUserToken] = useLocalStorage("user-token", "");
   let history = useHistory();
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
-      errorOTP: '',
+      errorOTP: "",
     },
   });
   useEffect(() => {
-    $('#resend').hide();
-    $('#countdown').hide();
+    $("#resend").hide();
+    $("#countdown").hide();
   }, []);
 
   // for OTP TIMER
   useEffect(() => {
     if (otpTime === 0) {
-      $('#resend').show();
-      $('#countdown').hide();
+      $("#resend").show();
+      $("#countdown").hide();
     } else {
-      $('#resend').hide();
+      $("#resend").hide();
     }
   }, [otpTime]);
   //  mobile No checking
@@ -63,14 +63,14 @@ function VerifyContact() {
     e.preventDefault();
     if (otp.length === 4) {
       if (otp === generateOtp.otp) {
-        console.log('OTP VERIFIED');
-        history.push('/Email');
+        console.log("OTP VERIFIED");
+        history.push("/Email");
       } else {
         seterrorMsg((prevState) => ({
           ...prevState,
           errorOBJ: {
             ...prevState.errorOBJ,
-            errorOTP: 'WRONG OTP!',
+            errorOTP: "WRONG OTP!",
           },
         }));
       }
@@ -80,7 +80,7 @@ function VerifyContact() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorOTP: '',
+          errorOTP: "",
         },
       }));
     }
@@ -88,9 +88,9 @@ function VerifyContact() {
   const smsVerify = async () => {
     // e.preventDefault();
     try {
-      $('.btn-submit').show();
-      $('#countdown').show();
-      $('#resend').hide();
+      $(".btn-submit").show();
+      $("#countdown").show();
+      $("#resend").hide();
       // for timer
       var i = 60;
       (function timer() {
@@ -140,17 +140,17 @@ function VerifyContact() {
       //   })
       //   .catch((error) => console.log('error', error));
 
-      const mobile = '';
+      const mobile = "";
       var myHeaders = new Headers();
-      myHeaders.append('Mobile_no', mobile);
+      myHeaders.append("Mobile_no", mobile);
 
       var formdata = new FormData();
 
       var requestOptions = {
-        method: 'POST',
+        method: "POST",
         headers: myHeaders,
         body: formdata,
-        redirect: 'follow',
+        redirect: "follow",
       };
 
       fetch(
@@ -159,7 +159,7 @@ function VerifyContact() {
       )
         .then((response) => response.text())
         .then((result) => console.log(result))
-        .catch((error) => console.log('error', error));
+        .catch((error) => console.log("error", error));
 
       // const mobile = '';
       // var myHeaders = new Headers();
@@ -181,7 +181,7 @@ function VerifyContact() {
       //   .then((result) => console.log(result));
       // .catch((error) => console.log('error', error));
     } catch (e) {
-      console.log('error', e);
+      console.log("error", e);
     }
   };
 
@@ -189,20 +189,19 @@ function VerifyContact() {
     <div>
       <Container>
         <Row>
-          <Col className="mt-2" md="7">
+          <Col className="mt-5" md="7">
             <Image className="login-img-res" src={loginImg} fluid />
           </Col>
-          <Col md="3" className=" div-center">
-            <form className="form-verify">
-              <h3 className="float-left">Registration</h3>
-              <br />
-              <hr className=" hr-verify color-gradiant" />
-              <p className="float-left font-weight-bold">
-                Already have account? Signin
-              </p>
-              <br />
-              <div className="form-group">
-                {/* <label>Enter Contact</label> */}
+          <Col className="mt-5" md="5">
+            <Row>
+              <Col>
+                <h3 className="float-left">Registration</h3>
+                <br />
+                <hr className="hr-personal color-gradiant" />
+              </Col>
+            </Row>
+            <Row>
+              <Col className="" sm="12" md="8">
                 <TextField
                   type="number"
                   id="fieldSelectorNo"
@@ -226,10 +225,10 @@ function VerifyContact() {
                     ),
                   }}
                 />
-                {/* <input type="text" value={contact} onChange={(e)=>setContact(e.target.value)} className="form-control" placeholder="Enter Contact" /> */}
-              </div>
-              <div className="form-group div-otp mt-4">
-                {/* <label>OTP</label> */}
+              </Col>
+            </Row>
+            <Row className="mt-2">
+              <Col className="" sm="12" md="8">
                 <TextField
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
@@ -246,17 +245,17 @@ function VerifyContact() {
                     ),
                   }}
                 />
-                {/* <input type="text" value={otp} onChange={(e)=>setOtp(e.target.value)} className="form-control" placeholder="Enter password" /> */}
-              </div>
-              <div className="mt-4">
+              </Col>
+              <div className="mt-2">
                 {errorMsg.errorOBJ.errorOTP && (
                   <span className="text-error">
                     {errorMsg.errorOBJ.errorOTP}
                   </span>
                 )}
               </div>
-              {/* <br/> */}
-              <div className="form-group ">
+            </Row>
+            <Row className="mt-2">
+              <Col className="" sm="12" md="8">
                 <TextField
                   type="text"
                   // value={name}
@@ -280,21 +279,22 @@ function VerifyContact() {
                     ),
                   }}
                 />
-              </div>
-              <div className="form-group otp-time">
-                <p id="countdown" style={{ textAlign: 'center' }}>
-                  Resend Link in {otpTime} sec.
-                </p>
-                <p
-                  id="resend"
-                  style={{ textAlign: 'center' }}
-                  //
-                >
-                  {/* Resend via <Button onClick={smsVerify}> sms.</Button> */}
-                </p>
-              </div>
-              <div className="btn-class-submit mt-4">
-                {}{' '}
+              </Col>
+            </Row>
+
+            <div className="form-group otp-time">
+              <p id="countdown" style={{ textAlign: "center" }}>
+                Resend Link in {otpTime} sec.
+              </p>
+              <p
+                id="resend"
+                style={{ textAlign: "center" }}
+                //
+              >
+              </p>
+            </div>
+            <Row>
+              <Col md="8">
                 <Button
                   disabled={btnDisabled}
                   type="submit"
@@ -304,9 +304,8 @@ function VerifyContact() {
                 >
                   Proceed
                 </Button>
-              </div>
-              <br />
-            </form>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Container>
