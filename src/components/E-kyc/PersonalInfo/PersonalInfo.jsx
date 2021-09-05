@@ -71,7 +71,7 @@ const PersonalInfo = () => {
                       value={inputs.fatherName}
                       onChange={handleInputChange}
                       className="form-control"
-                      label="Father's Full Name"
+                      label="Father's Full Name*"
                       autoComplete="off"
                       variant="outlined"
                     />
@@ -87,7 +87,7 @@ const PersonalInfo = () => {
                       value={inputs.motherName}
                       onChange={handleInputChange}
                       className="form-control"
-                      label="Mother's Full Name"
+                      label="Mother's Full Name*"
                       autoComplete="off"
                       variant="outlined"
                     />

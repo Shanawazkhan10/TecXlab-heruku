@@ -11,13 +11,19 @@ import SearchIcon from "@material-ui/icons/Search";
 // import moment from 'moment';
 // import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-
+import BackDrop from "../SubComponent/BackDrop";
 import DialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router";
+// import { IfscValidator } from "../Helper/Helper";
 function PanBankEmail() {
   const history = useHistory();
   const [open, setOpen] = useState("");
+  const [openIfsc, setOpenIfsc] = useState("");
+  const [IfscResponse, setIfscResponse] = useState("");
+  const [emailResponse, setemailResponse] = useState("");
+  const [BackDropOption, setBackDropOption] = useState(false);
+  // const [BackDropTrue, setBackDropTrue] = useState(false);
   const [inputs, setInputs] = useState({
     email: "",
     otp: "",
@@ -25,7 +31,14 @@ function PanBankEmail() {
     dob: "",
     AcNo: "",
     ifsc: "",
+    address: "",
   });
+  useEffect(() => {
+    // console.log("runnin.....");
+    if (emailResponse !== "") {
+      setBackDropOption(false);
+    }
+  }, [emailResponse]);
   const handleInputChange = (event) => {
     let value = event.target.value;
     let name = event.target.name;
@@ -61,11 +74,61 @@ function PanBankEmail() {
   const handleClose = () => {
     setOpen(false);
   };
+  // const openIfscModal = () => {
+  //   setOpenIfsc(true);
+  // };
+
+  const handleIfscClose = () => {
+    setOpenIfsc(false);
+  };
+
+  const handleBlur = async () => {
+    console.log("blur happed");
+    const ifscCode = inputs.ifsc;
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    const response = await fetch(
+      `https://ifsc.razorpay.com/${ifscCode}`,
+      requestOptions
+    );
+    // .then((response) => response.json())
+    // .then((result) => setIfscc(result))
+    // .catch((error) => console.log("error", error));
+    const getIfscData = await response.json();
+    setIfscResponse(getIfscData);
+    console.log(IfscResponse);
+    setOpenIfsc(true);
+  };
+  const handleEmailBlur = () => {
+    const EmailToValidate = inputs.email;
+    if (EmailToValidate === "") {
+      return;
+    }
+    setBackDropOption(true);
+    var requestOptions = {
+      method: "POST",
+      redirect: "follow",
+    };
+
+    fetch(
+      `https://api.email-validator.net/api/verify?EmailAddress=${EmailToValidate}&APIKey=ev-46e887f0634a578dc7d95bdc76b66e08`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setemailResponse(result);
+      })
+      .catch((error) => console.log("error", error));
+  };
   return (
     <div>
       {/* modal */}
       {/* <div> */}
       {/* <Container> */}
+      <BackDrop data={BackDropOption} />
       <Dialog
         maxWidth="xs"
         open={open}
@@ -132,6 +195,62 @@ function PanBankEmail() {
         </DialogContent>
         <br />
       </Dialog>
+      {/* dialog for IFSC CHECK */}
+      <Dialog
+        maxWidth="xs"
+        open={openIfsc}
+        onClose={handleIfscClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogContent>
+          <Row>
+            <Col md="10">
+              <span>Confirm Bank Details</span>
+            </Col>
+            <Col md="2">
+              <CloseIcon className="close" onClick={handleIfscClose} />
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <p>
+                <span> IFSC Code: </span> {IfscResponse.IFSC}
+                <br />
+                <span> Bank Name:</span> {IfscResponse.BANK}
+                <br />
+                <span> Address:</span> {IfscResponse.ADDRESS}
+              </p>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col className="mt-3">
+              <Button
+                fullWidth="true"
+                type="submit"
+                onClick={consoleData}
+                className="btn-comman text-white"
+              >
+                Confirm
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="mt-3">
+              <Button
+                fullWidth="true"
+                type="submit"
+                onClick={handleIfscClose}
+                className="btn-comman text-white"
+              >
+                cancel
+              </Button>
+            </Col>
+          </Row>
+        </DialogContent>
+        <br />
+      </Dialog>
       {/* </Container> */}
       {/* modal */}
       <Container>
@@ -157,10 +276,33 @@ function PanBankEmail() {
                   name="email"
                   defaultValue={inputs.email}
                   onChange={handleInputChange}
-                  // onBlur={consoleData}
+                  onBlur={handleEmailBlur}
                   className="form-control"
                   label="Enter Email ID"
                 />
+              </Col>
+            </Row>
+            <Row>
+              <Col className="" sm="12" md="8">
+                {/* <div> */}
+
+                {emailResponse !== "" &&
+                  (emailResponse.status !== 200 ? (
+                    <div>
+                      {" "}
+                      <br />
+                      <span className="error-email">
+                        please provide valid email
+                      </span>
+                    </div>
+                  ) : (
+                    <div>
+                      {" "}
+                      <br />
+                      <span className="error-email">valid email</span>
+                    </div>
+                  ))}
+                {/* </div> */}
               </Col>
             </Row>
             <Row className="mt-2">
@@ -218,11 +360,13 @@ function PanBankEmail() {
                 <TextField
                   type="text"
                   // id="input_capital"
+                  inputProps={{ style: { textTransform: "uppercase" } }}
                   variant="outlined"
                   autoComplete="off"
                   name="ifsc"
                   value={inputs.ifsc}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                   className="form-control"
                   label="Enter IFSC Code"
                 />
@@ -231,9 +375,16 @@ function PanBankEmail() {
             <Row className="mt-2">
               <Col sm="12" md="8" className="margin-pan">
                 {" "}
-                <p className="modal_open" onClick={openModal}>
-                  <SearchIcon /> Find Your IFSC Code
-                </p>
+                <small>
+                  {" "}
+                  <p
+                    // className=""
+                    className="link-comman modal_open"
+                    onClick={openModal}
+                  >
+                    <SearchIcon fontSize="small" /> Find Your IFSC Code
+                  </p>
+                </small>
               </Col>
             </Row>
             <Row>
@@ -247,7 +398,7 @@ function PanBankEmail() {
                   Proceed
                 </Button>
               </Col>
-              <Col md="3"></Col>
+              {/* <Col md="3">{Ifscc && <p>{Ifscc.ADDRESS}</p>}</Col> */}
             </Row>
           </Col>
         </Row>

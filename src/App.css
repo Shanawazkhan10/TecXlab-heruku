@@ -69,7 +69,11 @@ input[type="number"] {
   color: white;
   border: none;
 }
-
+.link-comman {
+  text-decoration: underline;
+  color: #7f00ff;
+  cursor: pointer;
+}
 .div-center {
   text-align: center;
   align-items: center;

@@ -1,30 +1,39 @@
-
-.login-img-res{
-
-max-width: 99%;
+.login-img-res {
+  max-width: 99%;
   max-height: 99%;
 }
-.header-reg{
-    float: left;
+.header-reg {
+  float: left;
 }
-.form-verify{
-    margin-top: 90px;
-
-
+.form-verify {
+  margin-top: 90px;
+}
+.error-contact {
+  /* margin-top: 22px;
+  margin-left: 0px; */
+  color: red;
+  font-size: 12px !important;
+}
+.error-div-contact {
+  margin-top: 22px;
+  margin-left: 16px;
+  /* color: red;
+  font-size: 12px !important; */
 }
 .hr-verify {
-    border: 0;
-    /* border-top: 5px; */
-    height: 5px;
-    width: 40px;
-    margin-right: 380px;
-  }
-  .otp-time{
-      margin-top: 25px !important;
-  }
+  border: 0;
+  /* border-top: 5px; */
+  height: 5px;
+  width: 40px;
+  margin-right: 380px;
+}
+
+.otp-time {
+  margin-top: 25px !important;
+}
 @media only screen and (max-width: 600px) {
-    .form-verify {
-        margin-top: 0px;
-        /* float: left; */
-    }
+  .form-verify {
+    margin-top: 0px;
+    /* float: left; */
   }
+}

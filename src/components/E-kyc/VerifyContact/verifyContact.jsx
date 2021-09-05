@@ -21,8 +21,9 @@ function VerifyContact() {
   const [otp, setOtp] = useState("");
   const [generateOtp, setgenerateOtp] = useState("");
   const [otpTime, setotpTime] = useState("60");
+  const [countResend, setCountResend] = useState(0);
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const [Token, setToken] = useState("");
+  const [MobileDisable, setMobileDisable] = useState(false);
   const [userToken, setUserToken] = useLocalStorage("user-token", "");
   let history = useHistory();
   const [errorMsg, seterrorMsg] = useState({
@@ -33,6 +34,7 @@ function VerifyContact() {
   useEffect(() => {
     $("#resend").hide();
     $("#countdown").hide();
+    $(".class-referal").hide();
   }, []);
 
   // for OTP TIMER
@@ -59,9 +61,38 @@ function VerifyContact() {
     conVal();
     setContact(e.target.value);
   };
-  const GoTo = (e) => {
+  const GoTo = async (e) => {
     e.preventDefault();
     if (otp.length === 4) {
+      try {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+          mobile_No: contact,
+          method_Name: "Check_Mobile_No",
+        });
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+
+        let response = await fetch(
+          "http://localhost:44333/api/Lead/Read_Lead",
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+        let user = await response.json();
+      } catch (err) {
+        // catches errors both in fetch and response.json
+        alert(err);
+      }
+
       if (otp === generateOtp.otp) {
         console.log("OTP VERIFIED");
         history.push("/Email");
@@ -101,44 +132,6 @@ function VerifyContact() {
         }, 1000);
       })();
       // end timer
-      // var myHeaders = new Headers();
-      // myHeaders.append(
-      //   'Cookie',
-      //   '.AspNetCore.Session=CfDJ8CvWZjij8S1Gs%2F47xWKSoRJZs%2BWayJIk%2BOKlmtMILcJ1CkSZQ922QO4qMpd95j3uoVCNEH8rPnZl6Flo%2BOdBbH5F5j16MORHEWEUKYuw7ySAHCbUKki8YSan42Pl8dThGPCB4tk0VuaXsiJa0SLvMxqPdSDGOq9x1kRSOrbbqfxa'
-      // );
-
-      // var requestOptions = {
-      //   method: 'POST',
-      //   headers: myHeaders,
-      //   redirect: 'follow',
-      // };
-
-      // fetch(
-      //   `${SERVER_ID}/api/MobileAuthentication/Send_OTP?mobileNo=${contact}`,
-      //   requestOptions
-      // )
-      //   .then((response) => response.json())
-      //   .then((result) => setgenerateOtp(result))
-      //   .catch((error) => console.log('error', error));
-
-      // var requestOptions = {
-      //   method: 'POST',
-      //   redirect: 'follow',
-      // };
-
-      // fetch(
-      //   SERVER_ID +
-      //     '/GenerateJWTWebToken?Contact=' +
-      //     contact +
-      //     '&IsMobileVerified=true',
-      //   requestOptions
-      // )
-      //   .then((response) => response.text())
-      //   .then((result) => {
-      //     console.log(result);
-      //     setToken(result);
-      //   })
-      //   .catch((error) => console.log('error', error));
 
       const mobile = "";
       var myHeaders = new Headers();
@@ -160,31 +153,21 @@ function VerifyContact() {
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
-
-      // const mobile = '';
-      // var myHeaders = new Headers();
-      // myHeaders.append('Mobile_no', mobile);
-
-      // var formdata = new FormData();
-
-      // var requestOptions = {
-      //   headers: myHeaders,
-      //   body: formdata,
-      //   redirect: 'follow',
-      // };
-      // const data = await axios
-      //   .post(
-      //     `https://localhost:5001/api/Lead/GetLead?Mobile_no=${mobile}`,
-      //     requestOptions
-      //   )
-      //   .then((res) => res.text())
-      //   .then((result) => console.log(result));
-      // .catch((error) => console.log('error', error));
     } catch (e) {
       console.log("error", e);
     }
   };
-
+  const contactBlock = () => {
+    setCountResend(countResend + 1);
+  };
+  useEffect(() => {
+    if (countResend >= 4) {
+      setMobileDisable(true);
+    }
+  }, [countResend]);
+  const referalFun = () => {
+    $(".class-referal").show();
+  };
   return (
     <div>
       <Container>
@@ -192,7 +175,7 @@ function VerifyContact() {
           <Col className="mt-5" md="7">
             <Image className="login-img-res" src={loginImg} fluid />
           </Col>
-          <Col className="mt-5" md="5">
+          <Col className="div-PanEmail" md="5">
             <Row>
               <Col>
                 <h3 className="float-left">Registration</h3>
@@ -200,6 +183,16 @@ function VerifyContact() {
                 <hr className="hr-personal color-gradiant" />
               </Col>
             </Row>
+
+            <Row>
+              <Col className="" sm="12" md="8">
+                <p>
+                  <span> Already have an account? </span>
+                  <span className="link-comman">Sign in </span>
+                </p>
+              </Col>
+            </Row>
+
             <Row>
               <Col className="" sm="12" md="8">
                 <TextField
@@ -207,6 +200,7 @@ function VerifyContact() {
                   id="fieldSelectorNo"
                   pattern="[1-9]{1}[0-9]{9}"
                   value={contact}
+                  disabled={MobileDisable}
                   onChange={handleChange}
                   className="form-control"
                   label="Enter Contact"
@@ -232,7 +226,7 @@ function VerifyContact() {
                 <TextField
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
-                  className="form-control mt-3"
+                  className="form-control mt-3 class-referal"
                   label="Enter OTP"
                   variant="outlined"
                   InputProps={{
@@ -246,15 +240,30 @@ function VerifyContact() {
                   }}
                 />
               </Col>
-              <div className="mt-2">
-                {errorMsg.errorOBJ.errorOTP && (
-                  <span className="text-error">
+            </Row>
+            <Row>
+              {/* <Col className="" sm="12" md="8"> */}
+              {errorMsg.errorOBJ.errorOTP && (
+                <div className="error-div-contact">
+                  {/* <br /> */}
+                  <span className="error-contact">
                     {errorMsg.errorOBJ.errorOTP}
                   </span>
-                )}
-              </div>
+                </div>
+              )}
+              {/* </Col> */}
             </Row>
-            <Row className="mt-2">
+            <Row className="mt-3">
+              <Col className="" sm="12" md="8">
+                <small>
+                  {/* <span> Do you have a </span> */}
+                  <span onClick={contactBlock} className="link-comman">
+                    Resend Code?{" "}
+                  </span>
+                </small>
+              </Col>
+            </Row>
+            <Row>
               <Col className="" sm="12" md="8">
                 <TextField
                   type="text"
@@ -282,17 +291,37 @@ function VerifyContact() {
               </Col>
             </Row>
 
-            <div className="form-group otp-time">
-              <p id="countdown" style={{ textAlign: "center" }}>
-                Resend Link in {otpTime} sec.
-              </p>
-              <p
-                id="resend"
-                style={{ textAlign: "center" }}
-                //
-              >
-              </p>
-            </div>
+            <Row>
+              <Col sm="12" md="12">
+                <br />
+                <small>
+                  <span> Do you have a </span>
+                  <span onClick={referalFun} className="link-comman">
+                    Referal Code?{" "}
+                  </span>
+                </small>
+                <br />
+                <small>
+                  <span> By clicking on procees agree to all the </span>
+                  <span className="link-comman">Term & Condition </span>
+                </small>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="" sm="12" md="8">
+                <div className="form-group otp-time">
+                  <p id="countdown" style={{ textAlign: "center" }}>
+                    Resend Link in {otpTime} sec.
+                  </p>
+                  <p
+                    id="resend"
+                    style={{ textAlign: "center" }}
+                    //
+                  ></p>
+                </div>
+              </Col>
+            </Row>
+
             <Row>
               <Col md="8">
                 <Button
