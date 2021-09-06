@@ -13,6 +13,7 @@ import $ from "jquery";
 import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import "./UploadDocs.css";
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
@@ -89,31 +90,6 @@ const AdhaarKyc = () => {
     reader.readAsDataURL(file);
   }
 
-  // const RendImageHandler = (src) => {
-  //   return src.map((Img, idx) => {
-  //     return (
-  //       <>
-  //         <div style={{ textAlign: "center" }}>
-  //           <img src={Img} key={idx} alt="Image" width="150px" height="150px" />
-  //           <br />
-  //           <Button type="submit" onClick={previewOpenHandler}>
-  //             <CheckCircleIcon />
-  //           </Button>
-  //           <Button
-  //             type="submit"
-  //             disabled={icoDisable}
-  //             onClick={previewOpenHandler}
-  //           >
-  //             <VisibilityIcon />
-  //           </Button>
-  //           <Button type="submit" onClick={HandleOpen}>
-  //             <DeleteIcon />
-  //           </Button>
-  //         </div>
-  //       </>
-  //     );
-  //   });
-  // };
   const EsignHandler = (event) => {
     if (event.target.files) {
       const DigiFileArray = Array.from(event.target.files).map((file) =>
@@ -181,121 +157,165 @@ const AdhaarKyc = () => {
           <Col md="7">
             <div className="form-info">
               <Row>
-                <Col style={{ marginLeft: "30px" }}>
-                  <h3 className="float-left ml=2">Upload Documents</h3>
-                  <br />
-                  <hr className="hr-personal color-gradiant" />
+                <Col md="7">
+                  <Row>
+                    <Col>
+                      {" "}
+                      <h3 className="float-left">Upload Documents</h3>
+                      <br />
+                      <hr className="hr-personal color-gradiant" />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      {" "}
+                      <h4>Copy of PAN</h4>
+                      {/* <br /> */}
+                      {/* <br /> */}
+                      <div className="mt-3">
+                        <text>Upload a signed copy of your PAN Card</text>
+                      </div>
+                      {/* <br /> */}
+                      <text style={{ fontSize: "11px" }}>
+                        Format: PNG,JPG,JPEG
+                      </text>
+                      <br />
+                      <br />
+                      <input
+                        id="panCard"
+                        onChange={(event) => uploadFile(event)}
+                        type="file"
+                        style={{ display: "none" }}
+                      />
+                      <Button
+                        type="file"
+                        className="btn-comman text-white"
+                        onClick={handleTrigger}
+                        disabled={disable}
+                      >
+                        Upload
+                      </Button>
+                    </Col>
+                  </Row>
                 </Col>
-              </Row>
-              <br />
-              {/* <Container> */}
-              <Row>
-                <Col md="8">
-                  <text>
-                    <b>Copy of PAN</b>
-                  </text>
-                  <br />
-                  <br />
-                  <text>Upload a signed copy of your PAN Card</text>
-                  <br />
-                  <text style={{ fontSize: "10px" }}>
-                    Format: <b>PNG</b>,<b>JPG</b>,<b>JPEG </b>
-                  </text>
-                  <br />
-                  <br />
-                  <input
-                    id="panCard"
-                    onChange={(event) => uploadFile(event)}
-                    // onChange={(event) =>
-                    //   onChanges(event.target.files[0] || null)
-                    // }
-                    type="file"
-                    style={{ display: "none" }}
-                    // accept=".png, .jpeg, .jpeg, .pdf"
-                  />
-                  <Button
-                    type="file"
-                    className="btn-comman text-white"
-                    onClick={handleTrigger}
-                    disabled={disable}
-                  >
-                    Upload
-                  </Button>
-                </Col>
-                <Col md="4">
-                  {" "}
-                  {dataUri && (
-                    <img width="200" height="200" src={dataUri} alt="avatar" />
-                  )}
-                </Col>
-              </Row>
-              {/* </Container> */}
-              <hr />
-              <Container>
-                <Row>
-                  <Col md="8">
-                    <text>
-                      <b>Signature</b>
-                    </text>
-                    <div>
-                      Please sign on a blank paper with a pen & <br /> upload a
-                      photo of the same. You can also <br /> sign on the digital
-                      pad.
-                    </div>
+                {dataUri && (
+                  <Col md="5">
                     <Row>
-                      <Col md="4">
-                        <Button
-                          type="submit"
-                          onClick={HandleOpen}
-                          className="btn-comman-small  text-white"
-                          style={{
-                            textTransform: "capitalize",
-                          }}
-                        >
-                          Digital Pad
-                        </Button>
+                      <Col className="text-center">
+                        {" "}
+                        {
+                          <img
+                            className="image-select"
+                            width="200"
+                            height="180"
+                            src={dataUri}
+                            alt="avatar"
+                          />
+                        }
                       </Col>
-                      <Col md="4">
-                        <input
-                          id="UploadSign"
-                          // onChange={(event) =>
-                          //   handleSign(event.target.files[0] || null)
-                          // }
-                          onChange={(event) => uploadSign(event)}
-                          type="file"
-                          style={{ display: "none" }}
-                          accept=".png, .jpg, .jpeg, .pdf,"
-                          hidden
-                        />
-                        <Button
-                          type="submit"
-                          onClick={handleTriggerSign}
-                          className="btn-comman-small  text-white"
-                          style={{
-                            textTransform: "capitalize",
-                          }}
-                        >
-                          Upload Image
-                        </Button>
+                    </Row>
+                    <Row>
+                      <Col className="text-center mt-2">
+                        <div>
+                          <CheckCircleIcon />
+                          &nbsp; &nbsp;
+                          <VisibilityIcon />
+                          &nbsp; &nbsp;
+                          <DeleteIcon />
+                        </div>
                       </Col>
-                      {/* <Row> */}
-
-                      {/* </Row> */}
                     </Row>
                   </Col>
-                  <Col md="4">
-                    {" "}
-                    {dataSign && (
-                      <img
-                        width="200"
-                        height="200"
-                        src={dataSign}
-                        alt="avatar"
+                )}
+              </Row>
+
+              <br />
+              <hr />
+              {/* <Container> */}
+              <Row>
+                <Col md="7">
+                  <Row>
+                    <Col>
+                      <h4>Signature</h4>
+                      {/* <br /> */}
+                      <div className="mt-3">
+                        Please sign on a blank paper with a pen & <br /> upload
+                        a photo of the same. You can also <br /> sign on the
+                        digital pad.
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-3">
+                    {/* <Col> */}
+                    <Col md="4" sm="6">
+                      <Button
+                        type="submit"
+                        onClick={HandleOpen}
+                        className="btn-comman-small  text-white"
+                        style={{
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        Digital Pad
+                      </Button>
+                    </Col>
+                    <Col md="4" sm="6">
+                      <input
+                        id="UploadSign"
+                        // onChange={(event) =>
+                        //   handleSign(event.target.files[0] || null)
+                        // }
+                        onChange={(event) => uploadSign(event)}
+                        type="file"
+                        style={{ display: "none" }}
+                        accept=".png, .jpg, .jpeg, .pdf,"
+                        hidden
                       />
-                    )}
+                      <Button
+                        type="submit"
+                        onClick={handleTriggerSign}
+                        className="btn-comman-small  text-white"
+                        style={{
+                          textTransform: "capitalize",
+                        }}
+                      >
+                        Upload Image
+                      </Button>
+                    </Col>
+                    {/* </Col> */}
+                  </Row>
+                </Col>
+                {dataSign && (
+                  <Col md="5">
+                    <Row>
+                      <Col className="text-center">
+                        {" "}
+                        {
+                          <img
+                            width="200"
+                            className="image-select"
+                            height="135"
+                            src={dataSign}
+                            alt="avatar"
+                          />
+                        }
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col className="text-center mt-2">
+                        <div>
+                          <CheckCircleIcon />
+                          &nbsp; &nbsp;
+                          <VisibilityIcon />
+                          &nbsp; &nbsp;
+                          <DeleteIcon />
+                        </div>
+                      </Col>
+                    </Row>
                   </Col>
-                </Row>
-              </Container>
+                )}
+              </Row>
+              {/* </Container> */}
             </div>
           </Col>
           <Col className="mt-5 ml-5" md="4">

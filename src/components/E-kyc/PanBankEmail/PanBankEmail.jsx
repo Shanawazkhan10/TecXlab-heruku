@@ -15,6 +15,9 @@ import BackDrop from "../SubComponent/BackDrop";
 import DialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router";
+import SubInputAdornment from "../SubComponent/SubInputAdornment";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 // import { IfscValidator } from "../Helper/Helper";
 function PanBankEmail() {
   const history = useHistory();
@@ -23,6 +26,7 @@ function PanBankEmail() {
   const [IfscResponse, setIfscResponse] = useState("");
   const [emailResponse, setemailResponse] = useState("");
   const [BackDropOption, setBackDropOption] = useState(false);
+  const [textifsc, setTextifsc] = useState(false);
   // const [BackDropTrue, setBackDropTrue] = useState(false);
   const [inputs, setInputs] = useState({
     email: "",
@@ -108,20 +112,30 @@ function PanBankEmail() {
       return;
     }
     setBackDropOption(true);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var emailInput = inputs.email;
+    var raw = JSON.stringify({
+      mobile_No: localStorage.getItem("userInfo"),
+      email: emailInput,
+      method_Name: "",
+    });
+
     var requestOptions = {
       method: "POST",
+      headers: myHeaders,
+      body: raw,
       redirect: "follow",
     };
 
-    fetch(
-      `https://api.email-validator.net/api/verify?EmailAddress=${EmailToValidate}&APIKey=ev-46e887f0634a578dc7d95bdc76b66e08`,
-      requestOptions
-    )
+    fetch(`${SERVER_ID}/api/email/Email_Status`, requestOptions)
       .then((response) => response.json())
-      .then((result) => {
-        setemailResponse(result);
-      })
+      .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
+  };
+  const ifscConfirm = () => {
+    setTextifsc(true);
+    setOpenIfsc(false);
   };
   return (
     <div>
@@ -136,121 +150,128 @@ function PanBankEmail() {
         aria-labelledby="form-dialog-title"
       >
         <DialogContent>
-          <Row>
-            <Col md="10">
-              <span>Find your IFSC Code</span>
-            </Col>
-            <Col md="2">
-              <CloseIcon className="close" onClick={handleClose} />
-            </Col>
-          </Row>
-          <TextField
-            variant="outlined"
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Enter IFSC Code"
-            type="email"
-            fullWidth
-          />
+          <Container style={{ width: 300 }}>
+            <Row>
+              <Col md="10">
+                <span>Find your IFSC Code</span>
+              </Col>
+              <Col md="2">
+                <CloseIcon className="close" onClick={handleClose} />
+              </Col>
+            </Row>
+            <TextField
+              variant="outlined"
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Enter IFSC Code"
+              type="email"
+              fullWidth
+            />
 
-          <Row>
-            <Col className="text-center">
-              {" "}
-              <span align="center">Or</span>
-            </Col>
-          </Row>
+            <Row>
+              <Col className="text-center">
+                {" "}
+                <span align="center">Or</span>
+              </Col>
+            </Row>
 
-          <TextField
-            variant="outlined"
-            // autoFocus
-            margin="dense"
-            id="name"
-            label="Enter Bank Name"
-            type="email"
-            fullWidth
-          />
+            <TextField
+              variant="outlined"
+              // autoFocus
+              margin="dense"
+              id="name"
+              label="Enter Bank Name"
+              type="email"
+              fullWidth
+            />
 
-          <TextField
-            variant="outlined"
-            // autoFocus
-            margin="dense"
-            // id="name"Enter Branch Location
-            label="Enter Branch Location"
-            type="email"
-            fullWidth
-          />
-          <Row>
-            <Col className="mt-3">
-              <Button
-                fullWidth="true"
-                type="submit"
-                onClick={consoleData}
-                className="btn-comman text-white"
-              >
-                Search
-              </Button>
-            </Col>
-          </Row>
+            <TextField
+              variant="outlined"
+              // autoFocus
+              margin="dense"
+              // id="name"Enter Branch Location
+              label="Enter Branch Location"
+              type="email"
+              fullWidth
+            />
+            <Row>
+              <Col className="mt-3">
+                <Button
+                  fullWidth="true"
+                  type="submit"
+                  onClick={consoleData}
+                  className="btn-comman text-white"
+                >
+                  Search
+                </Button>
+              </Col>
+            </Row>
+          </Container>
         </DialogContent>
         <br />
       </Dialog>
       {/* dialog for IFSC CHECK */}
-      <Dialog
-        maxWidth="xs"
-        open={openIfsc}
-        onClose={handleIfscClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogContent>
-          <Row>
-            <Col md="10">
-              <span>Confirm Bank Details</span>
-            </Col>
-            <Col md="2">
-              <CloseIcon className="close" onClick={handleIfscClose} />
-            </Col>
-          </Row>
+      {IfscResponse !== "Not Found" && (
+        <Dialog
+          maxWidth="xs"
+          open={openIfsc}
+          onClose={handleIfscClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogContent>
+            <Container style={{ width: 300 }}>
+              <Row>
+                <Col md="10">
+                  <span>Confirm Bank Details</span>
+                </Col>
+                <Col md="2">
+                  <CloseIcon className="close" onClick={handleIfscClose} />
+                </Col>
+              </Row>
 
-          <Row>
-            <Col>
-              <p>
-                <span> IFSC Code: </span> {IfscResponse.IFSC}
-                <br />
-                <span> Bank Name:</span> {IfscResponse.BANK}
-                <br />
-                <span> Address:</span> {IfscResponse.ADDRESS}
-              </p>
-            </Col>
-          </Row>
+              <Row>
+                <Col>
+                  <p>
+                    <span> IFSC Code: </span> {IfscResponse.IFSC}
+                    <br />
+                    <span> Bank Name:</span> {IfscResponse.BANK}
+                    <br />
+                    <span> Address:</span> {IfscResponse.ADDRESS}
+                  </p>
+                </Col>
+              </Row>
 
-          <Row>
-            <Col className="mt-3">
-              <Button
-                fullWidth="true"
-                type="submit"
-                onClick={consoleData}
-                className="btn-comman text-white"
-              >
-                Confirm
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="mt-3">
-              <Button
-                fullWidth="true"
-                type="submit"
-                onClick={handleIfscClose}
-                className="btn-comman text-white"
-              >
-                cancel
-              </Button>
-            </Col>
-          </Row>
-        </DialogContent>
-        <br />
-      </Dialog>
+              <Row>
+                <Col className="mt-3">
+                  <Button
+                    fullWidth="true"
+                    type="submit"
+                    onClick={ifscConfirm}
+                    className="btn-comman text-white"
+                  >
+                    Confirm
+                  </Button>
+                </Col>
+              </Row>
+              <Row>
+                <Col className="mt-3">
+                  <Button
+                    fullWidth="true"
+                    type="submit"
+                    onClick={handleIfscClose}
+                    className="btn-comman text-white"
+                  >
+                    cancel
+                  </Button>
+                </Col>
+              </Row>
+            </Container>
+          </DialogContent>
+          <br />
+        </Dialog>
+      )}
+
       {/* </Container> */}
       {/* modal */}
       <Container>
@@ -296,11 +317,7 @@ function PanBankEmail() {
                       </span>
                     </div>
                   ) : (
-                    <div>
-                      {" "}
-                      <br />
-                      <span className="error-email">valid email</span>
-                    </div>
+                    ""
                   ))}
                 {/* </div> */}
               </Col>
@@ -369,6 +386,16 @@ function PanBankEmail() {
                   onBlur={handleBlur}
                   className="form-control"
                   label="Enter IFSC Code"
+                  disabled={textifsc}
+                  InputProps={{
+                    endAdornment:
+                      IfscResponse &&
+                      (IfscResponse !== "Not Found" ? (
+                        <SubInputAdornment Dataicon={<CheckCircleIcon />} />
+                      ) : (
+                        <SubInputAdornment Dataicon={<ErrorOutlineIcon />} />
+                      )),
+                  }}
                 />
               </Col>
             </Row>

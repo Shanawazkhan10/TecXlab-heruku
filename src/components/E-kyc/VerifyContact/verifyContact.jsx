@@ -32,23 +32,22 @@ function VerifyContact() {
     },
   });
   useEffect(() => {
-    $("#resend").hide();
     $("#countdown").hide();
     $(".class-referal").hide();
+    $(".link-resend").hide();
   }, []);
 
   // for OTP TIMER
   useEffect(() => {
     if (otpTime === 0) {
-      $("#resend").show();
       $("#countdown").hide();
     } else {
-      $("#resend").hide();
     }
   }, [otpTime]);
   //  mobile No checking
   useEffect(() => {
     if (contact.length === 10) {
+      $(".link-resend").show();
       getLocation();
       setBtnDisabled(false);
       smsVerify();
@@ -70,7 +69,8 @@ function VerifyContact() {
 
         var raw = JSON.stringify({
           mobile_No: contact,
-          method_Name: "Check_Mobile_No",
+          otp: otp,
+          method_Name: "Check_OTP",
         });
 
         var requestOptions = {
@@ -80,31 +80,41 @@ function VerifyContact() {
           redirect: "follow",
         };
 
-        let response = await fetch(
-          "http://localhost:44333/api/Lead/Read_Lead",
-          requestOptions
-        )
-          .then((response) => response.text())
-          .then((result) => console.log(result))
+        fetch(`${SERVER_ID}/api/lead/Verify_OTP`, requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            if (result.res_Output[0].result_Id === 1) {
+              localStorage.setItem("userInfo", contact);
+              console.log("OTP VERIFIED");
+              history.push("/Email");
+            } else {
+              seterrorMsg((prevState) => ({
+                ...prevState,
+                errorOBJ: {
+                  ...prevState.errorOBJ,
+                  errorOTP: "WRONG OTP!",
+                },
+              }));
+            }
+          })
           .catch((error) => console.log("error", error));
-        let user = await response.json();
       } catch (err) {
         // catches errors both in fetch and response.json
         alert(err);
       }
 
-      if (otp === generateOtp.otp) {
-        console.log("OTP VERIFIED");
-        history.push("/Email");
-      } else {
-        seterrorMsg((prevState) => ({
-          ...prevState,
-          errorOBJ: {
-            ...prevState.errorOBJ,
-            errorOTP: "WRONG OTP!",
-          },
-        }));
-      }
+      // if (otp === generateOtp) {
+      //   console.log("OTP VERIFIED");
+      //   // history.push("/Email");
+      // } else {
+      //   seterrorMsg((prevState) => ({
+      //     ...prevState,
+      //     errorOBJ: {
+      //       ...prevState.errorOBJ,
+      //       errorOTP: "WRONG OTP!",
+      //     },
+      //   }));
+      // }
     }
     if (otp.length <= 3) {
       seterrorMsg((prevState) => ({
@@ -118,51 +128,39 @@ function VerifyContact() {
   };
   const smsVerify = async () => {
     // e.preventDefault();
-    try {
-      $(".btn-submit").show();
-      $("#countdown").show();
-      $("#resend").hide();
-      // for timer
-      var i = 60;
-      (function timer() {
-        if (--i < 0) return;
-        setTimeout(function () {
-          setotpTime(i);
-          timer();
-        }, 1000);
-      })();
-      // end timer
+    $(".btn-submit").show();
+    $("#countdown").show();
+    $("#resend").hide();
 
-      const mobile = "";
-      var myHeaders = new Headers();
-      myHeaders.append("Mobile_no", mobile);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-      var formdata = new FormData();
+    var raw = JSON.stringify({
+      mobile_No: contact,
+      method_Name: "Check_Mobile_No",
+    });
 
-      var requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: formdata,
-        redirect: "follow",
-      };
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
 
-      fetch(
-        `https://localhost:5001/api/Lead/GetLead?Mobile_no=${mobile}`,
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
-    } catch (e) {
-      console.log("error", e);
-    }
+    fetch(`${SERVER_ID}/api/lead/Read_Lead`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => setgenerateOtp(result.res_Output[0].result_Extra_Key))
+      .catch((error) => console.log("error", error));
   };
   const contactBlock = () => {
+    setotpTime("");
+    smsVerify();
     setCountResend(countResend + 1);
   };
   useEffect(() => {
     if (countResend >= 4) {
       setMobileDisable(true);
+      $(".link-resend").hide();
     }
   }, [countResend]);
   const referalFun = () => {
@@ -226,7 +224,7 @@ function VerifyContact() {
                 <TextField
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
-                  className="form-control mt-3 class-referal"
+                  className="form-control mt-3 "
                   label="Enter OTP"
                   variant="outlined"
                   InputProps={{
@@ -257,7 +255,10 @@ function VerifyContact() {
               <Col className="" sm="12" md="8">
                 <small>
                   {/* <span> Do you have a </span> */}
-                  <span onClick={contactBlock} className="link-comman">
+                  <span
+                    onClick={contactBlock}
+                    className="link-comman link-resend"
+                  >
                     Resend Code?{" "}
                   </span>
                 </small>
@@ -270,7 +271,7 @@ function VerifyContact() {
                   // value={name}
                   id="fieldSelectorname"
                   // onChange={handleNameChange}
-                  className="form-control mt-3"
+                  className="form-control mt-3 class-referal"
                   label="Referal Code (Optional)"
                   autoComplete="off"
                   variant="outlined"
@@ -307,21 +308,16 @@ function VerifyContact() {
                 </small>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col className="" sm="12" md="8">
                 <div className="form-group otp-time">
                   <p id="countdown" style={{ textAlign: "center" }}>
                     Resend Link in {otpTime} sec.
                   </p>
-                  <p
-                    id="resend"
-                    style={{ textAlign: "center" }}
-                    //
-                  ></p>
                 </div>
               </Col>
-            </Row>
-
+            </Row> */}
+            <br />
             <Row>
               <Col md="8">
                 <Button
