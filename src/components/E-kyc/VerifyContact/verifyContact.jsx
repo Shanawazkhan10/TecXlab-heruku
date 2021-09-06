@@ -83,6 +83,11 @@ function VerifyContact() {
         fetch(`${SERVER_ID}/api/lead/Verify_OTP`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
+            // console.log(result);
+            localStorage.setItem(
+              "userToken",
+              result.res_Output[0].result_Description
+            );
             if (result.res_Output[0].result_Id === 1) {
               localStorage.setItem("userInfo", contact);
               console.log("OTP VERIFIED");
@@ -149,7 +154,10 @@ function VerifyContact() {
 
     fetch(`${SERVER_ID}/api/lead/Read_Lead`, requestOptions)
       .then((response) => response.json())
-      .then((result) => setgenerateOtp(result.res_Output[0].result_Extra_Key))
+      .then((result) => {
+        setgenerateOtp(result.res_Output[0].result_Extra_Key);
+        // console.log(result);
+      })
       .catch((error) => console.log("error", error));
   };
   const contactBlock = () => {

@@ -113,11 +113,15 @@ function PanBankEmail() {
     }
     setBackDropOption(true);
     var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
     myHeaders.append("Content-Type", "application/json");
-    var emailInput = inputs.email;
+    var EmailtoValidate = inputs.email;
     var raw = JSON.stringify({
       mobile_No: localStorage.getItem("userInfo"),
-      email: emailInput,
+      email: EmailtoValidate,
       method_Name: "",
     });
 
@@ -130,7 +134,36 @@ function PanBankEmail() {
 
     fetch(`${SERVER_ID}/api/email/Email_Status`, requestOptions)
       .then((response) => response.json())
-      .then((result) => console.log(result))
+      .then((result) => {
+        setemailResponse(result);
+        if (result.status === 200) {
+          var myHeaders = new Headers();
+          myHeaders.append(
+            "Authorization",
+            `Bearer ${localStorage.getItem("userToken")}`
+          );
+          myHeaders.append("Content-Type", "application/json");
+
+          var raw = JSON.stringify({
+            mobile_No: localStorage.getItem("userInfo"),
+            email: EmailtoValidate,
+            method_Name: "Update_Email_Status",
+          });
+
+          var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow",
+          };
+
+          fetch(`${SERVER_ID}/api/email/Update_Email`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => console.log(result))
+            .catch((error) => console.log("error", error));
+        }
+        // console.log(result.status);
+      })
       .catch((error) => console.log("error", error));
   };
   const ifscConfirm = () => {
@@ -292,6 +325,7 @@ function PanBankEmail() {
                 <TextField
                   type="text"
                   // className=" margin-pan"
+                  autoFocus
                   variant="outlined"
                   autoComplete="off"
                   name="email"
