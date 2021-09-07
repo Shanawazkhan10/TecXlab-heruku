@@ -21,10 +21,11 @@ import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 // import { IfscValidator } from "../Helper/Helper";
 function PanBankEmail() {
   const history = useHistory();
-  const [open, setOpen] = useState("");
-  const [openIfsc, setOpenIfsc] = useState("");
+  const [open, setOpen] = useState(false);
+  const [openIfsc, setOpenIfsc] = useState(false);
   const [IfscResponse, setIfscResponse] = useState("");
   const [emailResponse, setemailResponse] = useState("");
+  const [panResponse, setPanResponse] = useState("");
   const [BackDropOption, setBackDropOption] = useState(false);
   const [textifsc, setTextifsc] = useState(false);
   // const [BackDropTrue, setBackDropTrue] = useState(false);
@@ -43,6 +44,11 @@ function PanBankEmail() {
       setBackDropOption(false);
     }
   }, [emailResponse]);
+  useEffect(() => {
+    if (panResponse !== "") {
+      setBackDropOption(false);
+    }
+  }, [panResponse]);
   const handleInputChange = (event) => {
     let value = event.target.value;
     let name = event.target.name;
@@ -170,6 +176,43 @@ function PanBankEmail() {
     setTextifsc(true);
     setOpenIfsc(false);
   };
+
+  const handlePanBlur = () => {
+    var panToValidate = inputs.pan;
+    if (panToValidate === "") {
+      return;
+    }
+    setBackDropOption(true);
+    if (panToValidate !== "") {
+      var myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
+      );
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        pan_No: panToValidate,
+        mobile_No: localStorage.getItem("userInfo"),
+        method_Name: "PAN_details",
+      });
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch(
+        `${SERVER_ID}/api/nsdlpan/NSDLeKYCPanAuthentication`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => setPanResponse(result))
+        .catch((error) => console.log("error", error));
+    }
+  };
   return (
     <div>
       {/* modal */}
@@ -199,7 +242,7 @@ function PanBankEmail() {
               id="name"
               label="Enter IFSC Code"
               type="email"
-              fullWidth
+              // fullWidth
             />
 
             <Row>
@@ -216,7 +259,7 @@ function PanBankEmail() {
               id="name"
               label="Enter Bank Name"
               type="email"
-              fullWidth
+              // fullWidth
             />
 
             <TextField
@@ -226,12 +269,12 @@ function PanBankEmail() {
               // id="name"Enter Branch Location
               label="Enter Branch Location"
               type="email"
-              fullWidth
+              // fullWidth
             />
             <Row>
               <Col className="mt-3">
                 <Button
-                  fullWidth="true"
+                  // fullWidth="true"
                   type="submit"
                   onClick={consoleData}
                   className="btn-comman text-white"
@@ -278,7 +321,7 @@ function PanBankEmail() {
               <Row>
                 <Col className="mt-3">
                   <Button
-                    fullWidth="true"
+                    // fullWidth="true"
                     type="submit"
                     onClick={ifscConfirm}
                     className="btn-comman text-white"
@@ -290,7 +333,7 @@ function PanBankEmail() {
               <Row>
                 <Col className="mt-3">
                   <Button
-                    fullWidth="true"
+                    // fullWidth="true"
                     type="submit"
                     onClick={handleIfscClose}
                     className="btn-comman text-white"
@@ -334,6 +377,13 @@ function PanBankEmail() {
                   onBlur={handleEmailBlur}
                   className="form-control"
                   label="Enter Email ID"
+                  disabled={
+                    emailResponse
+                      ? emailResponse.status !== 200
+                        ? false
+                        : true
+                      : ""
+                  }
                 />
               </Col>
             </Row>
@@ -362,14 +412,46 @@ function PanBankEmail() {
                 <TextField
                   type="text"
                   // id="input_capital"
+                  inputProps={{ style: { textTransform: "uppercase" } }}
                   variant="outlined"
                   autoComplete="off"
                   name="pan"
                   value={inputs.pan}
+                  onBlur={handlePanBlur}
+                  disabled={
+                    panResponse
+                      ? panResponse.res_Output[0].result_Description === "E"
+                        ? true
+                        : false
+                      : ""
+                  }
                   onChange={handleInputChange}
                   className="form-control"
                   label="Enter PAN Number"
                 />
+              </Col>
+            </Row>
+            <Row>
+              <Col className="" sm="12" md="8">
+                {/* <div> */}
+
+                {panResponse !== "" &&
+                  (panResponse.res_Output[0].result_Description === "E" ? (
+                    <div>
+                      {" "}
+                      <br />
+                      <span className="pan-error">Pan No. exist</span>
+                    </div>
+                  ) : (
+                    <div>
+                      {" "}
+                      <br />
+                      {/* <span className="error-email"> */}
+                      <span className="error-email">Pan No. not exist</span>
+                      {/* </span> */}
+                    </div>
+                  ))}
+                {/* </div> */}
               </Col>
             </Row>
             <Row className="mt-2">
@@ -451,7 +533,7 @@ function PanBankEmail() {
             <Row>
               <Col md="8">
                 <Button
-                  fullWidth="true"
+                  // fullWidth="true"
                   type="submit"
                   onClick={consoleData}
                   className="btn-comman text-white"

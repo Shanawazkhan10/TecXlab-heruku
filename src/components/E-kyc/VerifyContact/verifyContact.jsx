@@ -331,7 +331,7 @@ function VerifyContact() {
                 <Button
                   disabled={btnDisabled}
                   type="submit"
-                  fullWidth="true"
+                  // fullWidth="true"
                   onClick={GoTo}
                   className="btn font-weight-bold color-gradiant form-control text-white border-0 btn-block btn-comman btn-otp"
                 >
