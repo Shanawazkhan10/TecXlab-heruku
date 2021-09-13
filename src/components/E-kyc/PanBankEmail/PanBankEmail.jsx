@@ -127,7 +127,7 @@ function PanBankEmail() {
     var EmailtoValidate = inputs.email;
     var raw = JSON.stringify({
       mobile_No: localStorage.getItem("userInfo"),
-      email: EmailtoValidate,
+      email: inputs.email,
       method_Name: "",
     });
 
@@ -209,7 +209,35 @@ function PanBankEmail() {
         requestOptions
       )
         .then((response) => response.json())
-        .then((result) => setPanResponse(result))
+        .then((result) => {
+          setPanResponse(result);
+          if (result.res_Output[0].result_Description === "E") {
+            var PanToKra = inputs.pan;
+            var myHeaders = new Headers();
+            myHeaders.append(
+              "Authorization",
+              `Bearer ${localStorage.getItem("userToken")}`
+            );
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify({
+              pan_No: PanToKra,
+              method_Name: "Get_PanStatus",
+            });
+
+            var requestOptions = {
+              method: "POST",
+              headers: myHeaders,
+              body: raw,
+              redirect: "follow",
+            };
+
+            fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
+              .then((response) => response.json())
+              .then((result) => console.log(result))
+              .catch((error) => console.log("error", error));
+          }
+        })
         .catch((error) => console.log("error", error));
     }
   };
@@ -377,13 +405,13 @@ function PanBankEmail() {
                   onBlur={handleEmailBlur}
                   className="form-control"
                   label="Enter Email ID"
-                  disabled={
-                    emailResponse
-                      ? emailResponse.status !== 200
-                        ? false
-                        : true
-                      : ""
-                  }
+                  // disabled={
+                  //   emailResponse
+                  //     ? emailResponse.status !== 200
+                  //       ? false
+                  //       : true
+                  //     : {}
+                  // }
                 />
               </Col>
             </Row>
@@ -418,13 +446,13 @@ function PanBankEmail() {
                   name="pan"
                   value={inputs.pan}
                   onBlur={handlePanBlur}
-                  disabled={
-                    panResponse
-                      ? panResponse.res_Output[0].result_Description === "E"
-                        ? true
-                        : false
-                      : ""
-                  }
+                  // disabled={
+                  //   panResponse
+                  //     ? panResponse.res_Output[0].result_Description === "E"
+                  //       ? true
+                  //       : false
+                  //     : {}
+                  // }
                   onChange={handleInputChange}
                   className="form-control"
                   label="Enter PAN Number"

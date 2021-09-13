@@ -41,28 +41,16 @@ function namVal() {
 }
 //geolocation function
 function getLocation() {
-  // get the current position
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);
-  // let apiKey = "1be9a6884abd4c3ea143b59ca317c6b2";
-  // $.getJSON(
-  //   'https://ipgeolocation.abstractapi.com/v1/?api_key=' + apiKey,
-  //   function (data) {
-  //     console.log(JSON.stringify(data, null, 2));
-  //   }
-  // );
+  var settings = {
+    url: "https://geolocation-db.com/json",
+    method: "GET",
+    timeout: 0,
+  };
+
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+  });
 }
 // handle success case
-function onSuccess(position) {
-  const { latitude, longitude } = position.coords;
-
-  console.log("success");
-  console.log`Your location: (${latitude},${longitude})`;
-}
-
-// handle error case
-function onError() {
-  console.log("error");
-  console.log`Failed to get your location!`;
-}
 
 export { conVal, namVal, getLocation, IfscValidator };

@@ -15,9 +15,13 @@ import mobileImg from "../../../assets/mobile.svg";
 import ReferalImg from "../../../assets/Referral Code grey.svg";
 import { useHistory } from "react-router-dom";
 import { getLocation } from "../Helper/Helper";
+import InputAdornment from "@material-ui/core/InputAdornment";
+
+import AccountCircle from "@material-ui/icons/AccountCircle";
+
 import axios from "axios";
 function VerifyContact() {
-  const [contact, setContact] = useState("");
+  const [contact, setContact] = useState("+91");
   const [otp, setOtp] = useState("");
   const [generateOtp, setgenerateOtp] = useState("");
   const [otpTime, setotpTime] = useState("60");
@@ -49,6 +53,7 @@ function VerifyContact() {
     if (contact.length === 10) {
       $(".link-resend").show();
       getLocation();
+      // getReverseGeocodingData();
       setBtnDisabled(false);
       smsVerify();
       return;
@@ -211,7 +216,14 @@ function VerifyContact() {
                   className="form-control"
                   label="Enter Contact"
                   variant="outlined"
+                  // InputProps={{}}
                   InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        {/* <AccountCircle /> */}
+                        91+
+                      </InputAdornment>
+                    ),
                     endAdornment: (
                       <SubInputAdornment
                         Dataicon={

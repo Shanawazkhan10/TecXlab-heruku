@@ -11,6 +11,7 @@ import { useForm, Controller } from "react-hook-form";
 import Button from "@material-ui/core/Button";
 import PersonalImg from "../../../images/Personal_Details_Illustration.png";
 import { useHistory } from "react-router";
+import SERVER_ID from "../Configure/configure";
 const PersonalInfo = () => {
   const history = useHistory();
   const [inputs, setInputs] = useState({
@@ -38,10 +39,42 @@ const PersonalInfo = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     // e.preventDefault();
     console.log(inputs);
-    history.push("/AccountOpen");
+    // API FOR PERSONAL
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    var raw = JSON.stringify({
+      mobile_No: localStorage.getItem("userInfo"),
+      father_Name: inputs.fatherName,
+      mother_Name: inputs.motherName,
+      income: inputs.income,
+      gender: inputs.gender,
+      marital_Status: inputs.mstatus,
+      politicalExposed: inputs.political,
+      occupation: inputs.occupation,
+      trading_Experience: inputs.experience,
+      education: inputs.education,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${SERVER_ID}/api/personal/Personal_Details`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+    // history.push("/AccountOpen");
     // window.location = "/PanOrc";
     // console.log(state);
   };
@@ -102,14 +135,14 @@ const PersonalInfo = () => {
                       key="Marital Status"
                       fullWidth
                     >
-                      <InputLabel required={true}>Marital Status</InputLabel>
+                      <InputLabel>Marital Status</InputLabel>
                       <Controller
                         render={() => (
                           <Select
                             size="large"
                             name="mstatus"
                             variant="outlined"
-                            defaultValue={inputs.mstatus}
+                            // defaultValue={inputs.mstatus}
                             onChange={handleInputChange}
                             label="Marital Status"
                           >
@@ -121,12 +154,9 @@ const PersonalInfo = () => {
                             <MenuItem value={"Divorced"}>Divorced</MenuItem>
                           </Select>
                         )}
-                        name="appliance"
+                        name="mstatus"
                         control={control}
                         // defaultValue=""
-                        rules={{
-                          required: "Please Choose Your Appliance.",
-                        }}
                       />
                     </FormControl>
                   </div>
@@ -395,7 +425,7 @@ const PersonalInfo = () => {
                 <Col md="3"></Col>
                 <Col md="6">
                   <Button
-                    fullWidth="true"
+                    fullWidth
                     type="submit"
                     onClick={handleSubmit}
                     className="btn-comman text-white"

@@ -23,6 +23,7 @@
     "react-file-base64": "^1.0.3",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.12.2",
+    "react-image-crop": "^9.0.4",
     "react-load-script": "0.0.6",
     "react-media-recorder": "^1.5.0",
     "react-router": "^5.2.0",

@@ -19,11 +19,9 @@ function loadScript(src) {
 const __DEV__ = document.domain === "localhost";
 
 function Razor() {
-  const [name, setName] = useState("Mehul");
-  const [apiURL, setApiURL] = useState("/api/Notify/RazorPayIntegrated");
-  useEffect(() => {
-    console.log(SERVER_ID);
-  }, []);
+  // const [name, setName] = useState("Mehul");
+  // const [apiURL, setApiURL] = useState("/api/Notify/RazorPayIntegrated");
+
   async function displayRazorpay() {
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
@@ -34,36 +32,58 @@ function Razor() {
       return;
     }
 
-    const data = await fetch(SERVER_ID + apiURL, {
-      method: "POST",
-    }).then((t) => t.json());
-
-    console.log(data);
-
     const options = {
       key: __DEV__ ? "rzp_test_dojmbldJSpz91g" : "PRODUCTION_KEY",
-      currency: data.currency,
-      amount: data.amount,
+      currency: "INR",
+      amount: 222,
       // order_id: data.id,
       name: "Donation",
       description: "Thank you for nothing. Please give us some money",
       //   image: "http://localhost:1337/logo.svg",
       handler: function (response) {
-        // alert(response.razorpay_payment_id);
-        // alert(response.razorpay_order_id);
-        // alert(response.razorpay_signature);
-        window.location.href = "/PersonalInfo";
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+        // window.location.href = "/PersonalInfo";
       },
       prefill: {
-        name,
+        name: "shanawaz khan",
         email: "saransh@gmail.com",
         phone_number: "9899999999",
       },
     };
+
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   }
+  const handleclick = () => {
+    // want to pass after success
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
 
+    var raw = JSON.stringify({
+      inr: 2799883,
+      currency: "INR",
+      mobile_No: "999999999",
+      merchantTransactionId: "kfhjvnhhjbm",
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("http://localhost:44300/api/RazorPay/RazorPayStatus", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
   return (
     <div className="App">
       <header className="App-header">
@@ -72,6 +92,15 @@ function Razor() {
         <a
           className="App-link"
           onClick={displayRazorpay}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Donate 500 Rs.
+        </a>
+        <p>RAZOR PAY EXAMPLE</p>
+        <a
+          className="App-link"
+          onClick={handleclick}
           target="_blank"
           rel="noopener noreferrer"
         >

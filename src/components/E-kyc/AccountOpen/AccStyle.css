@@ -1,0 +1,15 @@
+.insider {
+  font-size: 13px;
+  border: 1.5px solid #3457d5;
+  border-radius: 10px;
+  padding: 10px;
+}
+.total-sec {
+  border-top: 1px solid #8c92ac;
+  border-bottom: 1px solid #8c92ac;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
