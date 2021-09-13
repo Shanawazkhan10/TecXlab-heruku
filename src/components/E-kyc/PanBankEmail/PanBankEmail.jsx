@@ -18,6 +18,17 @@ import { useHistory } from "react-router";
 import SubInputAdornment from "../SubComponent/SubInputAdornment";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: 300,
+    },
+  },
+}));
+
 // import { IfscValidator } from "../Helper/Helper";
 function PanBankEmail() {
   const history = useHistory();
@@ -29,6 +40,7 @@ function PanBankEmail() {
   const [BackDropOption, setBackDropOption] = useState(false);
   const [textifsc, setTextifsc] = useState(false);
   // const [BackDropTrue, setBackDropTrue] = useState(false);
+  const classes = useStyles();
   const [inputs, setInputs] = useState({
     email: "",
     otp: "",
@@ -391,11 +403,11 @@ function PanBankEmail() {
                 <hr className="hr-personal color-gradiant" />
               </Col>
             </Row>
-            <Row>
-              <Col className="" sm="12" md="8">
+            <form className={classes.root} noValidate autoComplete="off">
+              <div>
                 <TextField
-                  type="text"
-                  // className=" margin-pan"
+                  errorhelperText="Incorrect entry."
+                  id="outlined-error-helper-text"
                   autoFocus
                   variant="outlined"
                   autoComplete="off"
@@ -403,27 +415,14 @@ function PanBankEmail() {
                   defaultValue={inputs.email}
                   onChange={handleInputChange}
                   onBlur={handleEmailBlur}
-                  className="form-control"
+                  // className="form-control"
                   label="Enter Email ID"
-                  // disabled={
-                  //   emailResponse
-                  //     ? emailResponse.status !== 200
-                  //       ? false
-                  //       : true
-                  //     : {}
-                  // }
                 />
-              </Col>
-            </Row>
-            <Row>
-              <Col className="" sm="12" md="8">
-                {/* <div> */}
-
                 {emailResponse !== "" &&
                   (emailResponse.status !== 200 ? (
                     <div>
                       {" "}
-                      <br />
+                      {/* <br /> */}
                       <span className="error-email">
                         please provide valid email
                       </span>
@@ -431,13 +430,9 @@ function PanBankEmail() {
                   ) : (
                     ""
                   ))}
-                {/* </div> */}
-              </Col>
-            </Row>
-            <Row className="mt-2">
-              <Col className="mt-2" sm="12" md="8" className="margin-pan">
-                {" "}
                 <TextField
+                  errorhelperText="Incorrect entry."
+                  id="outlined-error-helper-text"
                   type="text"
                   // id="input_capital"
                   inputProps={{ style: { textTransform: "uppercase" } }}
@@ -446,79 +441,50 @@ function PanBankEmail() {
                   name="pan"
                   value={inputs.pan}
                   onBlur={handlePanBlur}
-                  // disabled={
-                  //   panResponse
-                  //     ? panResponse.res_Output[0].result_Description === "E"
-                  //       ? true
-                  //       : false
-                  //     : {}
-                  // }
                   onChange={handleInputChange}
-                  className="form-control"
+                  // className="form-control"
                   label="Enter PAN Number"
                 />
-              </Col>
-            </Row>
-            <Row>
-              <Col className="" sm="12" md="8">
-                {/* <div> */}
-
                 {panResponse !== "" &&
                   (panResponse.res_Output[0].result_Description === "E" ? (
                     <div>
-                      {" "}
-                      <br />
                       <span className="pan-error">Pan No. exist</span>
                     </div>
                   ) : (
                     <div>
-                      {" "}
-                      <br />
-                      {/* <span className="error-email"> */}
                       <span className="error-email">Pan No. not exist</span>
-                      {/* </span> */}
                     </div>
                   ))}
-                {/* </div> */}
-              </Col>
-            </Row>
-            <Row className="mt-2">
-              <Col className="mt-2" sm="12" md="8" className="margin-pan">
-                {" "}
                 <TextField
+                  errorhelperText="Incorrect entry."
+                  // id="outlined-error-helper-text"
                   id="date"
                   name="dob"
                   variant="outlined"
                   label="Birthday"
                   type="date"
                   // defaultValue={moment().format("MM-DD-YYYY")}
-                  className="form-control"
+                  // className="form-control"
                   onChange={handleInputChange}
                   InputLabelProps={{
                     shrink: true,
                   }}
                 />
-              </Col>
-            </Row>
-            <Row className="mt-2">
-              <Col className="mt-2" sm="12" md="8" className="margin-pan">
-                {" "}
                 <TextField
+                  errorhelperText="Incorrect entry."
+                  id="outlined-error-helper-text"
                   type="text"
                   variant="outlined"
                   autoComplete="off"
                   name="AcNo"
                   value={inputs.AcNo}
                   onChange={handleInputChange}
-                  className="form-control"
+                  // className="form-control"
                   label="Enter Bank A/C Number"
                 />
-              </Col>
-            </Row>
-            <Row className="mt-2">
-              <Col sm="12" md="8" className="margin-pan">
-                {" "}
                 <TextField
+                  errorhelperText="Incorrect entry."
+                  id="outlined-error-helper-text"
                   type="text"
                   // id="input_capital"
                   inputProps={{ style: { textTransform: "uppercase" } }}
@@ -528,7 +494,7 @@ function PanBankEmail() {
                   value={inputs.ifsc}
                   onChange={handleInputChange}
                   onBlur={handleBlur}
-                  className="form-control"
+                  // className="form-control"
                   label="Enter IFSC Code"
                   disabled={textifsc}
                   InputProps={{
@@ -541,11 +507,7 @@ function PanBankEmail() {
                       )),
                   }}
                 />
-              </Col>
-            </Row>
-            <Row className="mt-2">
-              <Col sm="12" md="8" className="margin-pan">
-                {" "}
+
                 <small>
                   {" "}
                   <p
@@ -556,21 +518,15 @@ function PanBankEmail() {
                     <SearchIcon fontSize="small" /> Find Your IFSC Code
                   </p>
                 </small>
-              </Col>
-            </Row>
-            <Row>
-              <Col md="8">
-                <Button
-                  // fullWidth="true"
-                  type="submit"
-                  onClick={consoleData}
-                  className="btn-comman text-white"
-                >
-                  Proceed
-                </Button>
-              </Col>
-              {/* <Col md="3">{Ifscc && <p>{Ifscc.ADDRESS}</p>}</Col> */}
-            </Row>
+              </div>
+              <Button
+                type="submit"
+                onClick={consoleData}
+                className="btn-comman text-white"
+              >
+                Proceed
+              </Button>
+            </form>
           </Col>
         </Row>
       </Container>

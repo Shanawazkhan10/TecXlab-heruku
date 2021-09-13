@@ -21,7 +21,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 
 import axios from "axios";
 function VerifyContact() {
-  const [contact, setContact] = useState("+91");
+  const [contact, setContact] = useState("91+");
   const [otp, setOtp] = useState("");
   const [generateOtp, setgenerateOtp] = useState("");
   const [otpTime, setotpTime] = useState("60");
@@ -237,14 +237,12 @@ function VerifyContact() {
                     ),
                   }}
                 />
-              </Col>
-            </Row>
-            <Row className="mt-2">
-              <Col className="" sm="12" md="8">
+                <br />
+                <br />
                 <TextField
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
-                  className="form-control mt-3 "
+                  className="form-control"
                   label="Enter OTP"
                   variant="outlined"
                   InputProps={{
@@ -271,7 +269,7 @@ function VerifyContact() {
               )}
               {/* </Col> */}
             </Row>
-            <Row className="mt-3">
+            <Row className="mt-2">
               <Col className="" sm="12" md="8">
                 <small>
                   {/* <span> Do you have a </span> */}
@@ -339,18 +337,19 @@ function VerifyContact() {
             </Row> */}
             <br />
             <Row>
-              <Col md="8">
+              <Col className="" sm="12" md="8">
                 <Button
                   disabled={btnDisabled}
                   type="submit"
                   // fullWidth="true"
                   onClick={GoTo}
-                  className="btn font-weight-bold color-gradiant form-control text-white border-0 btn-block btn-comman btn-otp"
+                  className="btn font-weight-bold color-gradiant form-control text-white border-0 btn-block"
                 >
                   Proceed
                 </Button>
               </Col>
             </Row>
+            <br />
           </Col>
         </Row>
       </Container>

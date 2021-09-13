@@ -175,7 +175,10 @@ const AdhaarKyc = () => {
           <ImageCropper
             imageToCrop={imageToCrop}
             style={{ maxWidth: "100%" }}
-            onImageCropped={(croppedImage) => setCroppedImage1(croppedImage)}
+            onImageCropped={(croppedImage) => {
+              setCroppedImage1(croppedImage);
+              console.log(croppedImage);
+            }}
           />
         </DialogContent>
 

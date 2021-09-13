@@ -9,7 +9,7 @@
 }
 .modal_open {
   cursor: pointer;
-  float: right;
+  /* float: right; */
 }
 .close {
   cursor: pointer;
