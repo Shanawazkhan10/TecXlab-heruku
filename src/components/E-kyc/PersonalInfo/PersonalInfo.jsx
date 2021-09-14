@@ -41,7 +41,7 @@ const PersonalInfo = () => {
 
   const handleSubmit = () => {
     // e.preventDefault();
-    console.log(inputs);
+    // console.log(inputs);
     // API FOR PERSONAL
     var myHeaders = new Headers();
 
@@ -74,7 +74,7 @@ const PersonalInfo = () => {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    // history.push("/AccountOpen");
+    history.push("/AccountOpen");
     // window.location = "/PanOrc";
     // console.log(state);
   };
@@ -128,8 +128,8 @@ const PersonalInfo = () => {
                 </Col>
               </Row>
               <Row>
-                <Col md="6" sm="12" className="mt-3">
-                  <div className="form-group master-textField">
+                <Col md="6" sm="12" className="mt-2">
+                  <div className=" master-textField">
                     <FormControl
                       variant="outlined"
                       key="Marital Status"
@@ -161,7 +161,7 @@ const PersonalInfo = () => {
                     </FormControl>
                   </div>
                 </Col>
-                <Col md="6" sm="12" className="mt-3">
+                <Col md="6" sm="12" className="mt-2">
                   <div className="form-group  master-textField">
                     <FormControl variant="outlined" key="Appliances" fullWidth>
                       <InputLabel required={true}>Gender</InputLabel>
@@ -292,8 +292,8 @@ const PersonalInfo = () => {
                   </div>
                 </Col>
               </Row>
-              <Row className="">
-                <Col md="6" sm="12">
+              <Row className="div_personal">
+                <Col md="6" sm="12" className="mt-2">
                   <div className="form-group master-textField">
                     <FormControl
                       variant="outlined"
@@ -336,8 +336,8 @@ const PersonalInfo = () => {
                     </FormControl>
                   </div>
                 </Col>
-                <Col md="6" sm="12">
-                  <div className="form-group master-textField">
+                <Col md="6" sm="12" className="mt-2">
+                  <div className="form-group master-textField inside_div_personal">
                     <FormControl
                       variant="outlined"
                       key="Appliances"
@@ -374,8 +374,8 @@ const PersonalInfo = () => {
                   </div>
                 </Col>
               </Row>
-              <Row className="">
-                <Col md="6" sm="12">
+              <Row className="div_personal">
+                <Col md="6" sm="12" className="mt-2">
                   <div className="form-group master-textField">
                     <FormControl
                       variant="outlined"
