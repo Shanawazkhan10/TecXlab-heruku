@@ -22,3 +22,11 @@
   margin-left: 239px;
   margin-top: 6px;
 }
+.div_personal {
+  margin-top: -18px;
+}
+@media screen and (max-width: 760px) {
+  .inside_div_personal {
+    margin-top: -15px;
+  }
+}
