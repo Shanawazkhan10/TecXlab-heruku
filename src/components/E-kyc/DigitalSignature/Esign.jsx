@@ -7,10 +7,11 @@ import Button from '@material-ui/core/Button';
 // import { useDispatch } from 'react-redux';
 const FinalizeData = createContext();
 
-const Esign = (props) => {
+const Esign = ({ EsignData }) => {
   const [disable, SetDisable] = useState(false);
   const SignRef = useRef({});
   const BtnRef = useRef();
+  const [show, SetShow] = useState(false);
   // const dispatch = useDispatch();
   // let history = useHistory();
 
@@ -24,10 +25,15 @@ const Esign = (props) => {
       BtnRef.current.setAttribute('disabled', 'disabled');
     }
   };
+
+  const HandleClose = () => {
+    SetShow(false);
+  };
   const SaveHandler = () => {
     DisableButtonHandler();
     const data = SignRef.current.toDataURL();
-    console.log(data);
+    // console.log('E-Sign Data:', data);
+    EsignData(data);
     SetDisable(true);
 
     // dispatch(
@@ -45,6 +51,7 @@ const Esign = (props) => {
 
     // SignDataHandler();
     ClearHandler();
+    HandleClose();
     // window.location = "/Preview";
   };
   // const SignDataHandler = () => {

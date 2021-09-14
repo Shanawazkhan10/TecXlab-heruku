@@ -1,57 +1,63 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
-import $ from "jquery";
-import "./verifyContact.css";
-import SERVER_ID from "../Configure/configure";
-import { useLocalStorage } from "../CustomHooks/useLocalStorage";
-import { conVal } from "../Helper/Helper";
-import { Container, Row, Col } from "reactstrap";
-import Image from "react-bootstrap/Image";
-import SubInputAdornment from "../SubComponent/SubInputAdornment";
-import Button from "@material-ui/core/Button";
-import loginImg from "../../../images/LoginPage.png";
-import otpImg from "../../../assets/Mobile-OTP.svg";
-import mobileImg from "../../../assets/mobile.svg";
-import ReferalImg from "../../../assets/Referral Code grey.svg";
-import { useHistory } from "react-router-dom";
-import { getLocation } from "../Helper/Helper";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import React, { useState, useEffect } from 'react';
+import TextField from '@material-ui/core/TextField';
+import $ from 'jquery';
+import './verifyContact.css';
+import SERVER_ID from '../Configure/configure';
+import { useLocalStorage } from '../CustomHooks/useLocalStorage';
+import { conVal } from '../Helper/Helper';
+import { Container, Row, Col } from 'reactstrap';
+import Image from 'react-bootstrap/Image';
+import SubInputAdornment from '../SubComponent/SubInputAdornment';
+import Button from '@material-ui/core/Button';
+import loginImg from '../../../images/LoginPage.png';
+import otpImg from '../../../assets/Mobile-OTP.svg';
+import mobileImg from '../../../assets/mobile.svg';
+import ReferalImg from '../../../assets/Referral Code grey.svg';
+import { useHistory } from 'react-router-dom';
+import { getLocation } from '../Helper/Helper';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Modal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core';
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import { FormControlLabel, Checkbox } from '@material-ui/core';
 
-import AccountCircle from "@material-ui/icons/AccountCircle";
-
-import axios from "axios";
+import axios from 'axios';
 function VerifyContact() {
-  const [contact, setContact] = useState("91+");
-  const [otp, setOtp] = useState("");
-  const [generateOtp, setgenerateOtp] = useState("");
-  const [otpTime, setotpTime] = useState("60");
+  const [contact, setContact] = useState('+91');
+  const [otp, setOtp] = useState('');
+  const [generateOtp, setgenerateOtp] = useState('');
+  const [otpTime, setotpTime] = useState('60');
   const [countResend, setCountResend] = useState(0);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [MobileDisable, setMobileDisable] = useState(false);
-  const [userToken, setUserToken] = useLocalStorage("user-token", "");
+  const [userToken, setUserToken] = useLocalStorage('user-token', '');
+  const [modalStyle] = React.useState(getModalStyle);
+  const [visible, SetVisible] = useState(false);
+
   let history = useHistory();
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
-      errorOTP: "",
+      errorOTP: '',
     },
   });
   useEffect(() => {
-    $("#countdown").hide();
-    $(".class-referal").hide();
-    $(".link-resend").hide();
+    $('#countdown').hide();
+    $('.class-referal').hide();
+    $('.link-resend').hide();
   }, []);
 
   // for OTP TIMER
   useEffect(() => {
     if (otpTime === 0) {
-      $("#countdown").hide();
+      $('#countdown').hide();
     } else {
     }
   }, [otpTime]);
   //  mobile No checking
   useEffect(() => {
     if (contact.length === 10) {
-      $(".link-resend").show();
+      $('.link-resend').show();
       getLocation();
       // getReverseGeocodingData();
       setBtnDisabled(false);
@@ -70,19 +76,19 @@ function VerifyContact() {
     if (otp.length === 4) {
       try {
         var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append('Content-Type', 'application/json');
 
         var raw = JSON.stringify({
           mobile_No: contact,
           otp: otp,
-          method_Name: "Check_OTP",
+          method_Name: 'Check_OTP',
         });
 
         var requestOptions = {
-          method: "POST",
+          method: 'POST',
           headers: myHeaders,
           body: raw,
-          redirect: "follow",
+          redirect: 'follow',
         };
 
         fetch(`${SERVER_ID}/api/lead/Verify_OTP`, requestOptions)
@@ -90,24 +96,24 @@ function VerifyContact() {
           .then((result) => {
             // console.log(result);
             localStorage.setItem(
-              "userToken",
+              'userToken',
               result.res_Output[0].result_Description
             );
             if (result.res_Output[0].result_Id === 1) {
-              localStorage.setItem("userInfo", contact);
-              console.log("OTP VERIFIED");
-              history.push("/Email");
+              localStorage.setItem('userInfo', contact);
+              console.log('OTP VERIFIED');
+              history.push('/Email');
             } else {
               seterrorMsg((prevState) => ({
                 ...prevState,
                 errorOBJ: {
                   ...prevState.errorOBJ,
-                  errorOTP: "WRONG OTP!",
+                  errorOTP: 'WRONG OTP!',
                 },
               }));
             }
           })
-          .catch((error) => console.log("error", error));
+          .catch((error) => console.log('error', error));
       } catch (err) {
         // catches errors both in fetch and response.json
         alert(err);
@@ -131,30 +137,30 @@ function VerifyContact() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorOTP: "",
+          errorOTP: '',
         },
       }));
     }
   };
   const smsVerify = async () => {
     // e.preventDefault();
-    $(".btn-submit").show();
-    $("#countdown").show();
-    $("#resend").hide();
+    $('.btn-submit').show();
+    $('#countdown').show();
+    $('#resend').hide();
 
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
 
     var raw = JSON.stringify({
       mobile_No: contact,
-      method_Name: "Check_Mobile_No",
+      method_Name: 'Check_Mobile_No',
     });
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow',
     };
 
     fetch(`${SERVER_ID}/api/lead/Read_Lead`, requestOptions)
@@ -163,24 +169,108 @@ function VerifyContact() {
         setgenerateOtp(result.res_Output[0].result_Extra_Key);
         // console.log(result);
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log('error', error));
   };
   const contactBlock = () => {
-    setotpTime("");
+    setotpTime('');
     smsVerify();
     setCountResend(countResend + 1);
   };
   useEffect(() => {
     if (countResend >= 4) {
       setMobileDisable(true);
-      $(".link-resend").hide();
+      $('.link-resend').hide();
     }
   }, [countResend]);
   const referalFun = () => {
-    $(".class-referal").show();
+    $('.class-referal').show();
   };
+  const handleOpenModal = () => {
+    SetVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    SetVisible(false);
+  };
+
+  const useStyles = makeStyles((theme) => ({
+    paper: {
+      position: 'absolute',
+      width: 400,
+      backgroundColor: theme.palette.background.paper,
+      border: '#000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+  }));
+
+  const classes = useStyles();
+
+  function getModalStyle() {
+    const top = 50;
+    const left = 50;
+
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+  }
+
+  const Body = (
+    <div style={modalStyle} className={classes.paper}>
+      <Row
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <p>
+          <b style={{ marginLeft: '12px' }}>Terms and Condition</b>
+        </p>
+        <CloseRoundedIcon
+          onClick={handleCloseModal}
+          style={{ marginRight: '12px', cursor: 'pointer' }}
+        />
+      </Row>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat minima
+        fuga quod at modi excepturi a quos laborum iure possimus vel, similique
+        nisi, tenetur explicabo iste deleniti nostrum neque nam. Lorem, ipsum
+        dolor sit amet consectetur adipisicing elit. Sapiente, exercitationem.
+        Quisquam, sunt laboriosam iste minima ipsa, sit delectus maiores porro
+        fugit nesciunt amet sint repellendus ullam quibusdam! Amet, dolores
+        aspernatur! Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        Itaque voluptatem, possimus, incidunt veniam aliquam nobis unde placeat
+        consequuntur ex illo laboriosam cumque! Et perferendis quisquam expedita
+        accusantium ipsam enim impedit!
+      </p>
+      <div>
+        <FormControlLabel
+          control={<Checkbox color="primary" />}
+          label="I agree terms and conditions"
+        />
+      </div>
+      <Button
+        fullWidth="true"
+        type="submit"
+        onClick={handleCloseModal}
+        className="btn-comman text-white"
+      >
+        Proceed
+      </Button>
+    </div>
+  );
+
   return (
     <div>
+      <Modal
+        open={visible}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {Body}
+      </Modal>
       <Container>
         <Row>
           <Col className="mt-5" md="7">
@@ -221,7 +311,7 @@ function VerifyContact() {
                     startAdornment: (
                       <InputAdornment position="start">
                         {/* <AccountCircle /> */}
-                        91+
+                        +91
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -277,7 +367,7 @@ function VerifyContact() {
                     onClick={contactBlock}
                     className="link-comman link-resend"
                   >
-                    Resend Code?{" "}
+                    Resend Code?{' '}
                   </span>
                 </small>
               </Col>
@@ -316,13 +406,15 @@ function VerifyContact() {
                 <small>
                   <span> Do you have a </span>
                   <span onClick={referalFun} className="link-comman">
-                    Referal Code?{" "}
+                    Referal Code?{' '}
                   </span>
                 </small>
                 <br />
                 <small>
                   <span> By clicking on procees agree to all the </span>
-                  <span className="link-comman">Term & Condition </span>
+                  <span className="link-comman" onClick={handleOpenModal}>
+                    Term & Condition{' '}
+                  </span>
                 </small>
               </Col>
             </Row>
