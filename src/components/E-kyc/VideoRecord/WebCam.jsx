@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Image from 'react-bootstrap/Image';
 import WebCamImg from '../../../images/Webcam_Verification_Illustration.png';
 import './style.css';
 import VideoRecord from './VideoRecord';
+// import Swal from 'sweetalert2';
 
 const WebCam = () => {
+  const [data, SetData] = useState('');
+
+  const sendToParent = (index) => {
+    // console.log('IPV Data:', index);
+    SetData(index);
+  };
   return (
     <div>
       <Container>
@@ -31,17 +38,20 @@ const WebCam = () => {
               </text>
             </Col>
             <Col>
-              <Image className="mt-5 mb-5 login-img-res" src={WebCamImg} />
+              <Image
+                className="mt-5 mb-5 p-4 login-img-res"
+                src={WebCamImg}
+                fluid
+              />
             </Col>
           </Col>
-          <Col
-            md="6"
-            className="div-PanEmail"
-            style={{ border: '1px solid black' }}
-          >
+          <Col md="6" className="div-PanEmail">
             <div className="mt-5" style={{ textAlign: 'center' }}>
               {' '}
-              <VideoRecord style={{ width: `20vw` }} />
+              <VideoRecord
+                sendToParent={sendToParent}
+                style={{ width: `20vw` }}
+              />
             </div>
           </Col>
         </Row>

@@ -1,6 +1,6 @@
-import $ from "jquery";
+import $ from 'jquery';
 function conVal() {
-  $("#fieldSelectorNo").keypress(function (e) {
+  $('#fieldSelectorNo').keypress(function (e) {
     var length = $(this).val().length;
     if (length > 9) {
       return false;
@@ -15,8 +15,24 @@ function conVal() {
     }
   });
 }
+function OtpVal() {
+  $('#fieldOtp').keypress(function (e) {
+    var length = $(this).val().length;
+    if (length > 3) {
+      return false;
+    } else if (
+      e.which !== 8 &&
+      e.which !== 0 &&
+      (e.which < 48 || e.which > 57)
+    ) {
+      return false;
+    } else if (length === 0 && e.which === 48) {
+      return false;
+    }
+  });
+}
 function IfscValidator() {
-  $("#fieldSelectorNo").keypress(function (e) {
+  $('#fieldSelectorNo').keypress(function (e) {
     var length = $(this).val().length;
     if (length > 10) {
       return false;
@@ -32,7 +48,7 @@ function IfscValidator() {
   });
 }
 function namVal() {
-  $("#fieldSelectorname").keypress(function (e) {
+  $('#fieldSelectorname').keypress(function (e) {
     var length = $(this).val().length;
     if (length > 25) {
       return false;
@@ -42,8 +58,8 @@ function namVal() {
 //geolocation function
 function getLocation() {
   var settings = {
-    url: "https://geolocation-db.com/json",
-    method: "GET",
+    url: 'https://geolocation-db.com/json',
+    method: 'GET',
     timeout: 0,
   };
 
@@ -53,4 +69,4 @@ function getLocation() {
 }
 // handle success case
 
-export { conVal, namVal, getLocation, IfscValidator };
+export { conVal, namVal, getLocation, IfscValidator, OtpVal };
