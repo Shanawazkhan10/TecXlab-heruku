@@ -31,6 +31,9 @@
 .otp-time {
   margin-top: 25px !important;
 }
+.link-resend {
+  margin-top: 2px;
+}
 @media only screen and (max-width: 600px) {
   .form-verify {
     margin-top: 0px;
