@@ -99,31 +99,51 @@ function VerifyContact() {
         fetch(`${SERVER_ID}/api/lead/Verify_OTP`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
-            // console.log(result);
+            console.log(result);
             localStorage.setItem(
               "userToken",
               result.res_Output[0].result_Description
             );
             if (result.res_Output[0].result_Id === 1) {
+              const stage_ID = result.res_Output[0].result_Extra_Key;
               localStorage.setItem("userInfo", contact);
-              console.log("OTP VERIFIED");
-              // switch (result.res_Output[0].staged_id) {
-              //   case 1:
-              //     break;
-              //   case 2:
-              //     break;
-              //   case 3:
-              //     break;
-              //   case 4:
-              //     break;
-              //   case 5:
-              //     break;
+              localStorage.setItem("Staged_ID", stage_ID);
+              // console.log("OTP VERIFIED");
 
-              //   default:
-              //     history.push("/Email");
-              //     break;
-              // }
-              history.push("/Email");
+              switch (stage_ID) {
+                case "1":
+                  history.push("/Email");
+                  break;
+                case "2":
+                  history.push("/Email");
+                  break;
+                case "3":
+                  history.push("/AccountOpen");
+                  break;
+                case "4":
+                  history.push("/DigiLock");
+                  break;
+                case "5":
+                  history.push("/PersonalInfo");
+                  break;
+                case "6":
+                  history.push("/IPVerification");
+                  break;
+                case "7":
+                  history.push("/UploadUi");
+                  break;
+                case "8":
+                  history.push("/LastStep");
+                  break;
+                case "9":
+                  history.push("/FnoNominee");
+                  break;
+
+                default:
+                  history.push("/Email");
+                  break;
+              }
+              // history.push("/Email");
             } else {
               seterrorMsg((prevState) => ({
                 ...prevState,

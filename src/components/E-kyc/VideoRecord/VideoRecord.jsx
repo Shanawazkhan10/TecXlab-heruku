@@ -60,7 +60,10 @@ function VideoRecord({ props, sendToParent }) {
   }, [flag]);
 
   const onStartRecordVideo = () => {
-    getLocation();
+    getLocation(function (data) {
+      console.log("data from child:", data);
+      // work with your data came from server
+    });
     setFlag(true);
     SetTextVisible("");
     SetOtpVisible(true);
