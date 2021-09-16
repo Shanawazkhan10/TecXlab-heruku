@@ -102,9 +102,10 @@ function PanBankEmail() {
       };
     });
   };
-  const consoleData = () => {
-    history.push("/personalInfo");
-    console.log(inputs);
+  const consoleData = (e) => {
+    e.preventDefault();
+    history.push("/AccountOpen");
+    // console.log(inputs);
   };
 
   $("#input_capital").keyup(function (e) {
@@ -130,14 +131,15 @@ function PanBankEmail() {
 
   const handleBlur = async () => {
     console.log("blur happed");
-    const ifscCode = inputs.ifsc;
+    // const ifscCode = inputs.ifsc;
+    console.log(IFSCfromSearch);
     var requestOptions = {
       method: "GET",
       redirect: "follow",
     };
 
     const response = await fetch(
-      `https://ifsc.razorpay.com/${ifscCode}`,
+      `https://ifsc.razorpay.com/${IFSCfromSearch}`,
       requestOptions
     );
     // .then((response) => response.json())
@@ -304,6 +306,7 @@ function PanBankEmail() {
       .catch((error) => console.log("error", error));
   };
   const handleToggle = (value) => () => {
+    console.log(value.ifsc);
     setIFSCfromSearch(value.ifsc);
     setBankName("");
     setBranchName("");
@@ -401,7 +404,7 @@ function PanBankEmail() {
 
                       return (
                         <ListItem
-                          key={value.id}
+                          key={value.ifsc}
                           role={undefined}
                           dense
                           button
@@ -626,8 +629,8 @@ function PanBankEmail() {
                   variant="outlined"
                   autoComplete="off"
                   name="ifsc"
-                  defaultValue={inputs.ifsc || IFSCfromSearch}
-                  onChange={handleInputChange}
+                  value={IFSCfromSearch}
+                  onChange={(e) => setIFSCfromSearch(e.target.value)}
                   onBlur={handleBlur}
                   // className="form-control"
                   label="Enter IFSC Code"
