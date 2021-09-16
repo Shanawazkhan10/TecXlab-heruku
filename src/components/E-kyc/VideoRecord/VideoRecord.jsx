@@ -150,7 +150,7 @@ function VideoRecord({ props, sendToParent }) {
       <br />
       <video
         playsInline
-        autoPlay
+        // autoPlay
         ref={videoElement}
         style={{ width: `35vw` }}
       />

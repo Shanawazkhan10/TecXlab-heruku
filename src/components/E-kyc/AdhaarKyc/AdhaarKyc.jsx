@@ -10,7 +10,15 @@ import { useHistory } from "react-router";
 const AdhaarKyc = () => {
   const history = useHistory();
   const handleClick = () => {
-    history.push("/IPVerification");
+    window.open(
+      "https://accounts.digitallocker.gov.in/signin/oauth_partner/%252Foauth2%252F1%252Fauthorize%253Fresponse_type%253Dcode%2526client_id%253D140FF210%2526state%253D123%2526redirect_uri%253Dhttps%25253A%25252F%25252Fnuniyo.tech%25252FpersonalInfo%2526orgid%253D005685%2526txn%253D61431156b1d34c08396526e4oauth21631785302%2526hashkey%253D782a36c2c03b023143e5ebb2ab425fbfc5c46fd5e073441f6a0a0bd04b6f7d28%2526requst_pdf%253DY%2526signup%253Dsignup",
+      "_blank"
+    );
+
+    // history.push("/IPVerification");
+  };
+  const handleProceed = () => {
+    history.push("/PersonalInfo");
   };
   return (
     <div>
@@ -51,6 +59,17 @@ const AdhaarKyc = () => {
                   style={{ textTransform: "capitalize", marginLeft: "10px" }}
                 >
                   Contine to DigiLocker
+                </Button>
+                <br />
+                <br />
+                <Button
+                  // fullWidth="true"
+                  type="submit"
+                  onClick={handleProceed}
+                  className="btn-comman text-white"
+                  style={{ textTransform: "capitalize", marginLeft: "10px" }}
+                >
+                  Proceed
                 </Button>
                 <br />
                 <br />

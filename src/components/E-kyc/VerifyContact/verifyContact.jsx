@@ -121,7 +121,7 @@ function VerifyContact() {
                   history.push("/AccountOpen");
                   break;
                 case "4":
-                  history.push("/DigiLock");
+                  history.push("/AdhaarKYC");
                   break;
                 case "5":
                   history.push("/PersonalInfo");
