@@ -25,7 +25,7 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { Worker } from "@react-pdf-viewer/core";
-
+import SERVER_ID from "../Configure/configure";
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
@@ -59,6 +59,8 @@ const AdhaarKyc = () => {
   const [imageToCrop, setImageToCrop] = useState(undefined);
   const [croppedImage1, setCroppedImage1] = useState(undefined);
   const [croppedImage2, setCroppedImage2] = useState(undefined);
+  const [Data1, setData1] = useState("");
+  const [Data2, setData2] = useState("");
   // const [isSet, setisSet] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
@@ -66,10 +68,6 @@ const AdhaarKyc = () => {
   const [fileData, SetFileData] = useState(null);
   const [fileError, SetFileError] = useState("");
   const [fileViewer, SetFileViewer] = useState(null);
-
-  //DIGI hook
-  const [Digidata, SetDigiData] = useState("");
-
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   const HandleOpen = () => {
@@ -82,7 +80,71 @@ const AdhaarKyc = () => {
   };
   const handleClick = async () => {
     setOpen(false);
+    setData1(croppedImage1);
+    // setOpen1(false);
+    // var file = new File([croppedImage1], "panCard");
+    //api call
+    // var file = new File([croppedImage1], "panCard", {
+    //   lastModified: 1534584790000,
+    // });
+    var file = new File([croppedImage1], "panCard", {
+      type: "image/jpeg",
+      lastModified: Date.now(),
+    });
+    console.log(file);
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    var formdata = new FormData();
+    formdata.append("Mobile_No", localStorage.getItem("userInfo"));
+    formdata.append("front_part", file);
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${SERVER_ID}/api/documentupload/Document_Upload_PAN`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
+  const handleClickCrop = async () => {
+    setData2(croppedImage2);
     setOpen1(false);
+    // api call
+    var file1 = new File([croppedImage2], "Signature", {
+      type: "image/jpeg",
+      lastModified: Date.now(),
+    });
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+
+    var formdata = new FormData();
+    formdata.append("Mobile_No", localStorage.getItem("userInfo"));
+    formdata.append("front_part", file1);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(
+      `${SERVER_ID}/api/documentupload/Document_Upload_Signature`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   };
 
   const previewCloseHandler = () => {
@@ -106,8 +168,9 @@ const AdhaarKyc = () => {
   // }
   const onUploadFile = (event) => {
     if (event.target.files && event.target.files.length > 0) {
-      console.log(event.target.name);
+      // console.log(event.target.name);
       if (event.target.name === "file1") {
+        // console.log("i m calling");
         setOpen(true);
         const reader = new FileReader();
         reader.addEventListener("load", () => setImageToCrop(reader.result));
@@ -127,13 +190,13 @@ const AdhaarKyc = () => {
     let selectedFile = e.target.files[0];
     if (selectedFile) {
       if (selectedFile && fileType.includes(selectedFile.type)) {
-        console.log(selectedFile.type);
+        // console.log(selectedFile.type);
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onloadend = (e) => {
           SetFileData(e.target.result);
           SetFileError("");
-          console.log("Reader:", reader.result);
+          // console.log("Reader:", reader.result);
         };
       } else {
         SetFileData(null);
@@ -165,8 +228,8 @@ const AdhaarKyc = () => {
   //   }
   // };
   const EsignData = (data) => {
-    console.log("Upload UI:", data);
-    setCroppedImage2(data);
+    // console.log("Upload UI:", data);
+    setData2(data);
     // console.log(Digidata);
   };
 
@@ -209,7 +272,7 @@ const AdhaarKyc = () => {
   );
 
   const handlePush = () => {
-    history.push("/Esign");
+    history.push("/IPVerification");
   };
 
   return (
@@ -240,7 +303,7 @@ const AdhaarKyc = () => {
             style={{ maxWidth: "100%" }}
             onImageCropped={(croppedImage) => {
               setCroppedImage1(croppedImage);
-              console.log(croppedImage);
+              // console.log(croppedImage);
             }}
           />
         </DialogContent>
@@ -269,7 +332,7 @@ const AdhaarKyc = () => {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClick} color="primary">
+          <Button onClick={handleClickCrop} color="primary">
             CROP
           </Button>
           <Button onClick={handleClose} color="primary">
@@ -312,8 +375,8 @@ const AdhaarKyc = () => {
                         accept="image/*"
                         name="file1"
                         // name="files"
-                        onInput={handlePdfFileChange}
-                        onBlur={handlePdfFileSubmit}
+                        // onInput={handlePdfFileChange}
+                        // onBlur={handlePdfFileSubmit}
                         onChange={(event) => onUploadFile(event)}
                         id="PanId"
                         style={{ display: "none" }}
@@ -332,7 +395,7 @@ const AdhaarKyc = () => {
                     )} */}
                   </Row>
                 </Col>
-                {croppedImage1 && (
+                {Data1 && (
                   <Col md="5">
                     <Row>
                       <Col className="text-center">
@@ -344,7 +407,7 @@ const AdhaarKyc = () => {
                             width="200"
                             height="180"
                             alt="avatar"
-                            src={croppedImage1}
+                            src={Data1}
                           />
                         }
                       </Col>
@@ -362,7 +425,7 @@ const AdhaarKyc = () => {
                             color="secondary"
                             style={{ cursor: "pointer" }}
                             onClick={() => {
-                              setCroppedImage1("");
+                              setData1("");
                             }}
                           />
                         </div>
@@ -458,7 +521,7 @@ const AdhaarKyc = () => {
                     </Row>
                   </Col>
                 )} */}
-                {croppedImage2 && (
+                {Data2 && (
                   <Col md="5">
                     <Row>
                       <Col className="text-center">
@@ -468,7 +531,7 @@ const AdhaarKyc = () => {
                           width="200"
                           height="180"
                           alt="avatar"
-                          src={croppedImage2}
+                          src={Data2}
                         />
                       </Col>
                     </Row>
@@ -485,7 +548,7 @@ const AdhaarKyc = () => {
                             style={{ cursor: "pointer" }}
                             color="secondary"
                             onClick={() => {
-                              setCroppedImage2("");
+                              setData2("");
                             }}
                           />
                         </div>

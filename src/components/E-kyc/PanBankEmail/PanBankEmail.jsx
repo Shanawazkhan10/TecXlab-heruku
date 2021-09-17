@@ -85,8 +85,36 @@ function PanBankEmail() {
   //     error: "",
   //   },
   // });
-  const [selectedDate, handleDateChange] = useState(new Date());
+  const [selectedDate, handleDateChange] = useState("01-01-21");
   const classList = useStylesForList();
+  useEffect(() => {
+    // const unsucsribe = () => {
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      pan_No: inputs.pan,
+      mobile_No: localStorage.getItem("userInfo"),
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+    // };
+    // return unsucsribe;
+  }, [inputs.dob]);
   useEffect(() => {
     // console.log("runnin.....");
     if (emailResponse !== "") {
@@ -111,8 +139,8 @@ function PanBankEmail() {
   };
   const consoleData = (e) => {
     e.preventDefault();
-    history.push("/AccountOpen");
-    // console.log(inputs);
+    // history.push("/AccountOpen");
+    console.log(inputs);
   };
 
   $("#input_capital").keyup(function (e) {
@@ -602,6 +630,7 @@ function PanBankEmail() {
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     autoOk
+                    name="dob"
                     errorhelperText="Incorrect entry."
                     variant="inline"
                     inputVariant="outlined"
@@ -610,7 +639,7 @@ function PanBankEmail() {
                     maxDate={new Date()}
                     value={selectedDate}
                     InputAdornmentProps={{ position: "end" }}
-                    onChange={(date) => handleDateChange(date)}
+                    onChange={handleInputChange}
                   />
                 </MuiPickersUtilsProvider>
                 <TextField

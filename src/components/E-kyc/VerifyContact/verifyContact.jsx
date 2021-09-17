@@ -60,7 +60,7 @@ function VerifyContact() {
       $(".link-resend").show();
       // getLocation();
       getLocation(function (data) {
-        // console.log("data from child:", data);
+        console.log("data from child:", data);
         // work with your data came from server
       });
       // console.log(data);
