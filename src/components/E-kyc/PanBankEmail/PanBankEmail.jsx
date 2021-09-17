@@ -137,9 +137,9 @@ function PanBankEmail() {
   };
 
   const handleBlur = async () => {
-    console.log("blur happed");
+    // console.log("blur happed");
     // const ifscCode = inputs.ifsc;
-    console.log(IFSCfromSearch);
+    // console.log(IFSCfromSearch);
     var requestOptions = {
       method: "GET",
       redirect: "follow",
@@ -154,7 +154,7 @@ function PanBankEmail() {
     // .catch((error) => console.log("error", error));
     const getIfscData = await response.json();
     setIfscResponse(getIfscData);
-    console.log(IfscResponse);
+    // console.log(IfscResponse);
     setOpenIfsc(true);
   };
   const handleEmailBlur = () => {
@@ -210,7 +210,9 @@ function PanBankEmail() {
 
           fetch(`${SERVER_ID}/api/email/Update_Email`, requestOptions)
             .then((response) => response.json())
-            .then((result) => console.log(result))
+            .then((result) => {
+              // console.log(result)
+            })
             .catch((error) => console.log("error", error));
         }
         // console.log(result.status);
@@ -279,7 +281,9 @@ function PanBankEmail() {
 
             fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
               .then((response) => response.json())
-              .then((result) => console.log(result))
+              .then((result) => {
+                // console.log(result)
+              })
               .catch((error) => console.log("error", error));
           }
         })
@@ -313,7 +317,7 @@ function PanBankEmail() {
       .catch((error) => console.log("error", error));
   };
   const handleToggle = (value) => () => {
-    console.log(value.ifsc);
+    // console.log(value.ifsc);
     setIFSCfromSearch(value.ifsc);
     setBankName("");
     setBranchName("");
