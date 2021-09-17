@@ -5,8 +5,6 @@ import Card from 'react-bootstrap/Card';
 import './LastStep.css';
 import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
 import { useHistory } from 'react-router';
-import { Link } from '@material-ui/core';
-import pdf from '../../../images/sample.pdf';
 
 const LastStep = () => {
   const history = useHistory();
@@ -49,20 +47,13 @@ const LastStep = () => {
               </p>
             </Col>
             <Col md="6">
-              <Link
-                href={pdf}
-                download
-                alt="nodata"
-                style={{ textDecoration: 'none' }}
+              <Button
+                fullWidth="true"
+                type="submit"
+                className="btn-comman text-white"
               >
-                <Button
-                  fullWidth="true"
-                  type="submit"
-                  className="btn-comman text-white"
-                >
-                  E-sign
-                </Button>
-              </Link>
+                E-sign
+              </Button>
             </Col>
             <Col>
               <hr />
@@ -150,28 +141,6 @@ const LastStep = () => {
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Mollitia nemo iusto animi ducimus aliquid ut.
                   </p>
-                </Col>
-              </Row>
-              <Row>
-                <Col md="4">
-                  <Button
-                    fullWidth="true"
-                    type="submit"
-                    onClick={handleClick}
-                    className="btn-comman text-white"
-                  >
-                    Finish
-                  </Button>
-                </Col>
-                <Col md="4">
-                  <Button
-                    fullWidth="true"
-                    type="submit"
-                    // onClick={consoleData}
-                    className="btn-comman text-white"
-                  >
-                    Back
-                  </Button>
                 </Col>
               </Row>
             </Col>

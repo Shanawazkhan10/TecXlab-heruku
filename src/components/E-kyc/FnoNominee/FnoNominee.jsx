@@ -7,6 +7,8 @@ import congratImg from '../../../images/Congratulations_Illustration_Web.png';
 // import "./LastStep.css";
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import SERVER_ID from '../Configure/configure';
+import { Link } from '@material-ui/core';
+import samplePdf from '../../../images/sample.pdf';
 
 const FnoNominee = () => {
   function loadScript(src) {
@@ -191,13 +193,20 @@ const FnoNominee = () => {
                   <br />
                   <Row>
                     <Col md="12">
-                      <Button
-                        fullWidth="true"
-                        type="submit"
-                        className="btn-comman text-white"
+                      <Link
+                        href={samplePdf}
+                        download
+                        alt="nodata"
+                        style={{ textDecoration: 'none' }}
                       >
-                        View Form
-                      </Button>
+                        <Button
+                          fullWidth="true"
+                          type="submit"
+                          className="btn-comman text-white"
+                        >
+                          View Form
+                        </Button>
+                      </Link>
                     </Col>
                   </Row>
                 </Card.Body>
