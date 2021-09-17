@@ -78,6 +78,13 @@ function PanBankEmail() {
     ifsc: "",
     address: "",
   });
+  // const [errorMsg, seterrorMsg] = useState({
+  //   errorOBJ: {
+  //     errorEmail: "",
+  //     errorPan: "",
+  //     error: "",
+  //   },
+  // });
   const [selectedDate, handleDateChange] = useState(new Date());
   const classList = useStylesForList();
   useEffect(() => {
@@ -311,6 +318,7 @@ function PanBankEmail() {
     setBankName("");
     setBranchName("");
     setOpen(false);
+    setBankDetails("");
     // setChecked(newChecked);
   };
   // function renderRow(props) {

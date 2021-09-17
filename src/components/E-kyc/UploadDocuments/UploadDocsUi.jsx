@@ -58,7 +58,7 @@ const AdhaarKyc = () => {
   const [preview, SetPreview] = useState(false);
   const [imageToCrop, setImageToCrop] = useState(undefined);
   const [croppedImage1, setCroppedImage1] = useState(undefined);
-  const [croppedImage2, setCroppedImage2] = useState('');
+  const [croppedImage2, setCroppedImage2] = useState(undefined);
   // const [isSet, setisSet] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
