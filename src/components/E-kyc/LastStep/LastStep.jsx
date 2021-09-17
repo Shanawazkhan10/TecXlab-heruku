@@ -5,8 +5,6 @@ import Card from 'react-bootstrap/Card';
 import './LastStep.css';
 import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
 import { useHistory } from 'react-router';
-import { Link } from '@material-ui/core';
-import pdf from '../../../images/sample.pdf';
 
 const LastStep = () => {
   const history = useHistory();
