@@ -144,6 +144,18 @@ const LastStep = () => {
                   </p>
                 </Col>
               </Row>
+              <Row>
+                <Col md="4">
+                  <Button
+                    fullWidth
+                    type="submit"
+                    onClick={handleClick}
+                    className="btn-comman text-white"
+                  >
+                    Proceed
+                  </Button>
+                </Col>
+              </Row>
             </Col>
           </Col>
         </Row>
