@@ -1,16 +1,16 @@
-import React from "react";
-import Navbar from "react-bootstrap/Navbar";
-import { useHistory } from "react-router";
-import { Nav, Container, NavDropdown } from "react-bootstrap";
-import "./Header.css";
+import React from 'react';
+import Navbar from 'react-bootstrap/Navbar';
+import { useHistory } from 'react-router';
+import { Nav, Container } from 'react-bootstrap';
+import './Header.css';
 const Header = () => {
   const routerHistory = useHistory();
   const Logout = () => {
     localStorage.clear();
     sessionStorage.clear();
     // window.location.href = "/";
-    routerHistory.push("/");
-    console.log("hello logout");
+    routerHistory.push('/');
+    console.log('hello logout');
   };
   return (
     <div>

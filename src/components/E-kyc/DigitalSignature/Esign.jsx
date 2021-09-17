@@ -11,7 +11,7 @@ const Esign = ({ EsignData, HandleModalCloser }) => {
   const [disable, SetDisable] = useState(false);
   const SignRef = useRef({});
   const BtnRef = useRef();
-  const [show, SetShow] = useState(false);
+  // const [show, SetShow] = useState(false);
   // const dispatch = useDispatch();
   // let history = useHistory();
 

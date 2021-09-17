@@ -8,7 +8,7 @@ import congratImg from '../../../images/Congratulations_Illustration_Web.png';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import SERVER_ID from '../Configure/configure';
 import { Link } from '@material-ui/core';
-import samplePdf from '../../../images/sample.pdf';
+import samplePdf from '../../../images/Mangal_Keshav_KYC_Individual_Final.pdf';
 
 const FnoNominee = () => {
   function loadScript(src) {
@@ -158,7 +158,7 @@ const FnoNominee = () => {
                   <Row>
                     <Col md="12">
                       <Button
-                        fullWidth="true"
+                        fullWidth
                         type="submit"
                         className="btn-comman text-white"
                       >
@@ -170,7 +170,7 @@ const FnoNominee = () => {
                   <Row>
                     <Col md="12">
                       <Button
-                        fullWidth="true"
+                        fullWidth
                         type="submit"
                         className="btn-comman text-white"
                       >
@@ -182,7 +182,7 @@ const FnoNominee = () => {
                   <Row>
                     <Col md="12">
                       <Button
-                        fullWidth="true"
+                        fullWidth
                         type="submit"
                         className="btn-comman text-white"
                       >
@@ -200,7 +200,7 @@ const FnoNominee = () => {
                         style={{ textDecoration: 'none' }}
                       >
                         <Button
-                          fullWidth="true"
+                          fullWidth
                           type="submit"
                           className="btn-comman text-white"
                         >
