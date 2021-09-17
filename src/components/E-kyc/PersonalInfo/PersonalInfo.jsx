@@ -73,7 +73,7 @@ const PersonalInfo = () => {
     fetch(`${SERVER_ID}/api/personal/Personal_Details`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         history.push("/UploadUi");
       })
       .catch((error) => console.log("error", error));

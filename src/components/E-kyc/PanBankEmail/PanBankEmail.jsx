@@ -85,8 +85,36 @@ function PanBankEmail() {
   //     error: "",
   //   },
   // });
-  const [selectedDate, handleDateChange] = useState(new Date());
+  const [selectedDate, handleDateChange] = useState("01-01-21");
   const classList = useStylesForList();
+  useEffect(() => {
+    // const unsucsribe = () => {
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      pan_No: inputs.pan,
+      mobile_No: localStorage.getItem("userInfo"),
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+    // };
+    // return unsucsribe;
+  }, [inputs.dob]);
   useEffect(() => {
     // console.log("runnin.....");
     if (emailResponse !== "") {
@@ -111,8 +139,8 @@ function PanBankEmail() {
   };
   const consoleData = (e) => {
     e.preventDefault();
-    history.push("/AccountOpen");
-    // console.log(inputs);
+    // history.push("/AccountOpen");
+    console.log(inputs);
   };
 
   $("#input_capital").keyup(function (e) {
@@ -137,9 +165,9 @@ function PanBankEmail() {
   };
 
   const handleBlur = async () => {
-    console.log("blur happed");
+    // console.log("blur happed");
     // const ifscCode = inputs.ifsc;
-    console.log(IFSCfromSearch);
+    // console.log(IFSCfromSearch);
     var requestOptions = {
       method: "GET",
       redirect: "follow",
@@ -154,7 +182,7 @@ function PanBankEmail() {
     // .catch((error) => console.log("error", error));
     const getIfscData = await response.json();
     setIfscResponse(getIfscData);
-    console.log(IfscResponse);
+    // console.log(IfscResponse);
     setOpenIfsc(true);
   };
   const handleEmailBlur = () => {
@@ -210,7 +238,9 @@ function PanBankEmail() {
 
           fetch(`${SERVER_ID}/api/email/Update_Email`, requestOptions)
             .then((response) => response.json())
-            .then((result) => console.log(result))
+            .then((result) => {
+              // console.log(result)
+            })
             .catch((error) => console.log("error", error));
         }
         // console.log(result.status);
@@ -279,7 +309,9 @@ function PanBankEmail() {
 
             fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
               .then((response) => response.json())
-              .then((result) => console.log(result))
+              .then((result) => {
+                // console.log(result)
+              })
               .catch((error) => console.log("error", error));
           }
         })
@@ -313,7 +345,7 @@ function PanBankEmail() {
       .catch((error) => console.log("error", error));
   };
   const handleToggle = (value) => () => {
-    console.log(value.ifsc);
+    // console.log(value.ifsc);
     setIFSCfromSearch(value.ifsc);
     setBankName("");
     setBranchName("");
@@ -598,6 +630,7 @@ function PanBankEmail() {
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     autoOk
+                    name="dob"
                     errorhelperText="Incorrect entry."
                     variant="inline"
                     inputVariant="outlined"
@@ -606,7 +639,7 @@ function PanBankEmail() {
                     maxDate={new Date()}
                     value={selectedDate}
                     InputAdornmentProps={{ position: "end" }}
-                    onChange={(date) => handleDateChange(date)}
+                    onChange={handleInputChange}
                   />
                 </MuiPickersUtilsProvider>
                 <TextField

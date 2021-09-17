@@ -99,7 +99,7 @@ function VerifyContact() {
         fetch(`${SERVER_ID}/api/lead/Verify_OTP`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
-            console.log(result);
+            // console.log(result);
             localStorage.setItem(
               "userToken",
               result.res_Output[0].result_Description

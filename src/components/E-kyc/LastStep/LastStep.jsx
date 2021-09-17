@@ -1,15 +1,15 @@
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import Button from '@material-ui/core/Button';
-import Card from 'react-bootstrap/Card';
-import './LastStep.css';
-import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
-import { useHistory } from 'react-router';
+import React from "react";
+import { Container, Row, Col } from "reactstrap";
+import Button from "@material-ui/core/Button";
+import Card from "react-bootstrap/Card";
+import "./LastStep.css";
+import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
+import { useHistory } from "react-router";
 
 const LastStep = () => {
   const history = useHistory();
   const handleClick = () => {
-    history.push('/FnoNominee');
+    history.push("/FnoNominee");
   };
   return (
     <div>
@@ -51,6 +51,7 @@ const LastStep = () => {
                 fullWidth="true"
                 type="submit"
                 className="btn-comman text-white"
+                onClick={handleClick}
               >
                 E-sign
               </Button>
@@ -61,7 +62,7 @@ const LastStep = () => {
           </Col>
           <Col md="5" className="div-PanEmail">
             <Col>
-              <Card style={{ width: '22rem' }}>
+              <Card style={{ width: "22rem" }}>
                 <Card.Body>
                   {/* <Card.Title>Card Title</Card.Title> */}
                   <Row>
@@ -71,7 +72,7 @@ const LastStep = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {''}
+                        {""}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -84,7 +85,7 @@ const LastStep = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {''}
+                        {""}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -94,7 +95,7 @@ const LastStep = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {''}
+                        {""}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -106,7 +107,7 @@ const LastStep = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {''}
+                        {""}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -116,7 +117,7 @@ const LastStep = () => {
                       className="class-icons"
                       fontSize="small"
                     />
-                    {''}
+                    {""}
                     Some quick example text to build on the card title and make
                     up the bulk of the card's content.
                   </Card.Subtitle>
