@@ -103,9 +103,9 @@ const AccOpenInfo = () => {
             </span>
             <br />
             <h3 className="float-left">
-              Account Opening is{" "}
-              <b style={{ textDecoration: "line-through" }}>200</b>{" "}
-              <b style={{ color: "#3457D5" }}>FREE !</b>
+              Account Opening Fee
+              {/* <b style={{ textDecoration: "line-through" }}>200</b>{" "} */}
+              {/* <b style={{ color: "#3457D5" }}>FREE !</b> */}
             </h3>
             <br />
             <hr className="hr-personal color-gradiant" />

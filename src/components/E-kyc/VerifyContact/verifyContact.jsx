@@ -115,27 +115,24 @@ function VerifyContact() {
                   history.push("/Email");
                   break;
                 case "2":
-                  history.push("/Email");
-                  break;
-                case "3":
                   history.push("/AccountOpen");
                   break;
-                case "4":
+                case "3":
                   history.push("/AdhaarKYC");
                   break;
-                case "5":
+                case "4":
                   history.push("/PersonalInfo");
                   break;
-                case "6":
+                case "5":
                   history.push("/IPVerification");
                   break;
-                case "7":
+                case "6":
                   history.push("/UploadUi");
                   break;
-                case "8":
+                case "7":
                   history.push("/LastStep");
                   break;
-                case "9":
+                case "8":
                   history.push("/FnoNominee");
                   break;
 

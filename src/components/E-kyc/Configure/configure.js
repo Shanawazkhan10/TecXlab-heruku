@@ -5,7 +5,7 @@ var pathName = url[2];
 switch (pathName) {
   case "localhost:3000":
     SERVER_ID = "http://localhost:44300";
-    // SERVER_ID = "https://api.nuniyo.tech";
+    //  SERVER_ID = "https://api.nuniyo.tech";
     break;
   case "localhost:44300":
     SERVER_ID = "http://localhost:44300";
