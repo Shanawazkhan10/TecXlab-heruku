@@ -7,15 +7,17 @@ import aadharImg from '../../../images/Aadhar_KYC_Illustration.png';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router';
 
-const AdhaarKyc = () => {
+const AdhaarKyc = (url) => {
   const history = useHistory();
-  const handleClick = () => {
-    window.open(
-      'https://accounts.digitallocker.gov.in/signin/oauth_partner/%252Foauth2%252F1%252Fauthorize%253Fresponse_type%253Dcode%2526client_id%253D140FF210%2526state%253D123%2526redirect_uri%253Dhttps%25253A%25252F%25252Fnuniyo.tech%25252FpersonalInfo%2526orgid%253D005685%2526txn%253D61431156b1d34c08396526e4oauth21631785302%2526hashkey%253D782a36c2c03b023143e5ebb2ab425fbfc5c46fd5e073441f6a0a0bd04b6f7d28%2526requst_pdf%253DY%2526signup%253Dsignup',
-      '_blank'
-    );
 
-    // history.push("/IPVerification");
+  const handleClick = () => {
+    url =
+      'https://api.digitallocker.gov.in/public/oauth2/1/authorize?response_type=code&client_id=140FF210&state=123&redirect_uri=https://nuniyo.tech/PersonalInfo';
+    const newPopup = window.open(url, 'name', 'height=500,width=500');
+    if (window.focus) {
+      newPopup.focus();
+    }
+    return false;
   };
   const handleProceed = () => {
     history.push('/PersonalInfo');

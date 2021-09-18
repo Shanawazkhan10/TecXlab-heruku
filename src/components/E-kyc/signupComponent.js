@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const signupComponent = () => {
   return (
@@ -48,7 +48,7 @@ const signupComponent = () => {
               Sign Up
             </button>
             <p className="forgot-password text-right">
-              Already registered <a href="#">sign in?</a>
+              Already registered <a href="htt">sign in?</a>
             </p>
           </form>
         </div>

@@ -1,37 +1,38 @@
-import React, { useState } from "react";
-import "./PersonalInfo.css";
-import TextField from "@material-ui/core/TextField";
-import { Container, Row, Col } from "reactstrap";
-import Image from "react-bootstrap/Image";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import { makeStyles, MenuItem } from "@material-ui/core";
-import InputLabel from "@material-ui/core/InputLabel";
-import { useForm, Controller } from "react-hook-form";
-import Button from "@material-ui/core/Button";
-import PersonalImg from "../../../images/Personal_Details_Illustration.png";
-import { useHistory } from "react-router";
-import SERVER_ID from "../Configure/configure";
+import React, { useState } from 'react';
+import './PersonalInfo.css';
+import TextField from '@material-ui/core/TextField';
+import { Container, Row, Col } from 'reactstrap';
+import Image from 'react-bootstrap/Image';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import { MenuItem } from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
+import { useForm, Controller } from 'react-hook-form';
+import Button from '@material-ui/core/Button';
+import PersonalImg from '../../../images/Personal_Details_Illustration.png';
+import { useHistory } from 'react-router';
+import SERVER_ID from '../Configure/configure';
 const PersonalInfo = () => {
   const history = useHistory();
+  // const [isBtnVisible, SetIsBtnVisible] = useState(false);
   const [inputs, setInputs] = useState({
-    mstatus: "",
-    income: "",
-    gender: "",
-    political: "",
-    occupation: "",
-    experience: "",
-    motherName: "",
-    fatherName: "",
-    education: "",
+    mstatus: '',
+    income: '',
+    gender: '',
+    political: '',
+    occupation: '',
+    experience: '',
+    motherName: '',
+    fatherName: '',
+    education: '',
   });
   const { control } = useForm();
-  const useStyles = makeStyles((theme) => ({
-    formControl: {
-      minWidth: 300,
-    },
-  }));
-  const classes = useStyles();
+  // const useStyles = makeStyles((theme) => ({
+  //   formControl: {
+  //     minWidth: 300,
+  //   },
+  // }));
+  // const classes = useStyles();
   const handleInputChange = (e) => {
     setInputs({
       ...inputs,
@@ -41,17 +42,23 @@ const PersonalInfo = () => {
 
   const handleSubmit = () => {
     // e.preventDefault();
-    // console.log(inputs);
+    console.log(inputs);
+    // const PersonalInfoData = inputs;
+    // if (PersonalInfoData !== '') {
+    //   SetIsBtnVisible(true);
+    //   console.log(PersonalInfoData);
+    // }
+
     // API FOR PERSONAL
     var myHeaders = new Headers();
 
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
     myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("userToken")}`
+      'Authorization',
+      `Bearer ${localStorage.getItem('userToken')}`
     );
     var raw = JSON.stringify({
-      mobile_No: localStorage.getItem("userInfo"),
+      mobile_No: localStorage.getItem('userInfo'),
       father_Name: inputs.fatherName,
       mother_Name: inputs.motherName,
       income: inputs.income,
@@ -64,19 +71,19 @@ const PersonalInfo = () => {
     });
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow',
     };
 
     fetch(`${SERVER_ID}/api/personal/Personal_Details`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
-        // console.log(result);
-        history.push("/UploadUi");
+        console.log(result);
+        history.push('/UploadUi');
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log('error', error));
 
     // window.location = "/PanOrc";
     // console.log(state);
@@ -149,15 +156,13 @@ const PersonalInfo = () => {
                             onChange={handleInputChange}
                             label="Marital Status"
                           >
-                            <MenuItem value="" disabled>
-                              Marital Status
-                            </MenuItem>
-                            <MenuItem value={"Single"}>Single</MenuItem>
-                            <MenuItem value={"Married"}>Married</MenuItem>
-                            <MenuItem value={"Divorced"}>Divorced</MenuItem>
+                            <MenuItem disabled>Marital Status</MenuItem>
+                            <MenuItem value={'Single'}>Single</MenuItem>
+                            <MenuItem value={'Married'}>Married</MenuItem>
+                            <MenuItem value={'Others'}>Others</MenuItem>
                           </Select>
                         )}
-                        name="mstatus"
+                        // name="mstatus"
                         control={control}
                         // defaultValue=""
                       />
@@ -177,19 +182,17 @@ const PersonalInfo = () => {
                             onChange={handleInputChange}
                             label="Gender"
                           >
-                            <MenuItem value="" disabled>
-                              Gender
-                            </MenuItem>
-                            <MenuItem value={"Male"}>Male</MenuItem>
-                            <MenuItem value={"Female"}>Female</MenuItem>
-                            <MenuItem value={"Other"}>Other</MenuItem>
+                            <MenuItem disabled>Gender</MenuItem>
+                            <MenuItem value={'Male'}>Male</MenuItem>
+                            <MenuItem value={'Female'}>Female</MenuItem>
+                            <MenuItem value={'Others'}>Others</MenuItem>
                           </Select>
                         )}
                         name="appliance"
                         control={control}
                         // defaultValue=""
                         rules={{
-                          required: "Please Choose Your Appliance.",
+                          required: 'Please Choose Your Appliance.',
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -225,17 +228,17 @@ const PersonalInfo = () => {
                             label="Annual Income"
                           >
                             <MenuItem disabled>Annual Income</MenuItem>
-                            <MenuItem value={"less then 500000"}>
-                              less then 500000
+                            <MenuItem value={'less then 500000'}>
+                              less then 50,0000
                             </MenuItem>
-                            <MenuItem value={"More then 500000"}>
-                              More then 500000
+                            <MenuItem value={'More then 500000'}>
+                              More then 50,0000
                             </MenuItem>
-                            <MenuItem value={"less then 1000000"}>
-                              less then 1000000
+                            <MenuItem value={'less then 1000000'}>
+                              less then 1,00,0000
                             </MenuItem>
-                            <MenuItem value={"More then 1000000"}>
-                              More then 1000000
+                            <MenuItem value={'More then 1000000'}>
+                              More then 1,00,0000
                             </MenuItem>
                             {/* <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                           </Select>
@@ -244,7 +247,7 @@ const PersonalInfo = () => {
                         control={control}
                         defaultValue=""
                         rules={{
-                          required: "Please Choose Your Appliance.",
+                          required: 'Please Choose Your Appliance.',
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -272,13 +275,26 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Occupation
                             </MenuItem>
-                            <MenuItem value={"Private Sector"}>
-                              Private Sector
+                            <MenuItem value={'Private Sector Service '}>
+                              Private Sector Service
                             </MenuItem>
-                            <MenuItem value={"Govt. Sector"}>
+                            <MenuItem value={'Govt. Sector'}>
                               Govt. Sector
                             </MenuItem>
-                            <MenuItem value={"Self"}>Self</MenuItem>
+                            <MenuItem value={'Retired'}>Retired</MenuItem>
+                            <MenuItem value={'Agriculturist'}>
+                              Agriculturist
+                            </MenuItem>
+                            <MenuItem value={'Student'}>Student</MenuItem>
+                            <MenuItem value={'Forex Dealer'}>
+                              Forex Dealer
+                            </MenuItem>
+                            <MenuItem value={'Business'}>Business</MenuItem>
+                            <MenuItem value={'Government Service'}>
+                              Government Service
+                            </MenuItem>
+                            <MenuItem value={'Housewife'}>Housewife</MenuItem>
+                            <MenuItem value={'Others'}>Others</MenuItem>
                             {/* <MenuItem value={"Range"}>Range</MenuItem>
                   <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                           </Select>
@@ -287,7 +303,7 @@ const PersonalInfo = () => {
                         control={control}
                         defaultValue=""
                         rules={{
-                          required: "Please Choose Your Appliance.",
+                          required: 'Please Choose Your Appliance.',
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -319,11 +335,11 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Trading Experience
                             </MenuItem>
-                            <MenuItem value={"Begginer"}>Begginer</MenuItem>
-                            <MenuItem value={"Intermediate"}>
+                            <MenuItem value={'Beginner'}>Beginner</MenuItem>
+                            <MenuItem value={'Intermediate'}>
                               Intermediate
                             </MenuItem>
-                            <MenuItem value={"Advanced"}>Advanced</MenuItem>
+                            <MenuItem value={'Advanced'}>Advanced</MenuItem>
                             {/* <MenuItem value={"Range"}>Range</MenuItem>
                   <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                           </Select>
@@ -332,7 +348,7 @@ const PersonalInfo = () => {
                         control={control}
                         defaultValue=""
                         rules={{
-                          required: "Please Choose Your Appliance.",
+                          required: 'Please Choose Your Appliance.',
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -362,15 +378,15 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Politically Exposed
                             </MenuItem>
-                            <MenuItem value={"yes"}>Yes</MenuItem>
-                            <MenuItem value={"no"}>No</MenuItem>
+                            <MenuItem value={'yes'}>Yes</MenuItem>
+                            <MenuItem value={'no'}>No</MenuItem>
                           </Select>
                         )}
                         name="appliance"
                         control={control}
                         defaultValue=""
                         rules={{
-                          required: "Please Choose Your Appliance.",
+                          required: 'Please Choose Your Appliance.',
                         }}
                       />
                     </FormControl>
@@ -399,13 +415,13 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Education
                             </MenuItem>
-                            <MenuItem value={"Formal Education."}>
+                            <MenuItem value={'Formal Education.'}>
                               Formal Education.
                             </MenuItem>
-                            <MenuItem value={"Informal Education."}>
+                            <MenuItem value={'Informal Education.'}>
                               Informal Education.
                             </MenuItem>
-                            <MenuItem value={"Non-formal Education."}>
+                            <MenuItem value={'Non-formal Education.'}>
                               Non-formal Education.
                             </MenuItem>
                             {/* <MenuItem value={"Range"}>Range</MenuItem>
@@ -416,7 +432,7 @@ const PersonalInfo = () => {
                         control={control}
                         defaultValue=""
                         rules={{
-                          required: "Please Choose Your Appliance.",
+                          required: 'Please Choose Your Appliance.',
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -432,6 +448,7 @@ const PersonalInfo = () => {
                     type="submit"
                     onClick={handleSubmit}
                     className="btn-comman text-white"
+                    // disabled={isBtnVisible}
                   >
                     Proceed
                   </Button>

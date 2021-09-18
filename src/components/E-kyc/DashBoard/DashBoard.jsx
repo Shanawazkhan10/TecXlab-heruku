@@ -1,10 +1,14 @@
-import React from "react";
+import React from 'react';
 // import Header from "../Header/Header";
 const DashBoard = () => {
   return (
     <div>
       {/* <Header /> */}
-      <img className="img-fluid" src={require("../../../assets/landing.png")} />
+      <img
+        alt="Test"
+        className="img-fluid"
+        src={require('../../../assets/landing.png')}
+      />
       <br />
       <button className="color-gradiant text-white border-0 btn-comman">
         Sign up now
@@ -12,11 +16,12 @@ const DashBoard = () => {
       <div className="container mt-5">
         <div className="row">
           <div className="col">
-            {" "}
+            {' '}
             <img
+              alt="test"
               classNameName="img-fluid"
               style={{ width: 500 }}
-              src={require("../../../assets/landing.png")}
+              src={require('../../../assets/landing.png')}
             />
           </div>
           <div className="col">
@@ -41,8 +46,9 @@ const DashBoard = () => {
         </p>
         <br />
         <img
+          alt="test"
           className="img-fluid"
-          src={require("../../../assets/ecosystem.png")}
+          src={require('../../../assets/ecosystem.png')}
         />
       </div>
       <br />
@@ -54,14 +60,14 @@ const DashBoard = () => {
               <h2 className="text-purple"> Unbeatable pricing </h2>
               <br />
               <p>
-                {" "}
+                {' '}
                 We pioneered the concept of discount broking and price
                 transparency in India. Flat fees and no hidden charges.
               </p>
             </div>
           </div>
           <div class="col d-flex d-inline-block">
-            {" "}
+            {' '}
             <div class="card" style={{ width: 280 }}>
               <div class="card-body">
                 <h5 class="card-title">Card title</h5>
@@ -70,12 +76,12 @@ const DashBoard = () => {
                   Some quick example text to build on the card title and make up
                   the bulk of the card's content.
                 </p>
-                <a href="#" class="card-link">
+                {/* <a href="#" class="card-link">
                   Card link
-                </a>
-                <a href="#" class="card-link">
+                </a> */}
+                {/* <a href="#" class="card-link">
                   Another link
-                </a>
+                </a> */}
               </div>
             </div>
             <div class="card" style={{ width: 280 }}>
@@ -86,12 +92,12 @@ const DashBoard = () => {
                   Some quick example text to build on the card title and make up
                   the bulk of the card's content.
                 </p>
-                <a href="#" class="card-link">
+                {/* <a href="#" class="card-link">
                   Card link
                 </a>
                 <a href="#" class="card-link">
                   Another link
-                </a>
+                </a> */}
               </div>
             </div>
           </div>
@@ -101,7 +107,7 @@ const DashBoard = () => {
       <br />
       <h1 className="text-purple"> Open a Zerodha account </h1>
       <p>
-        {" "}
+        {' '}
         Modern platforms and apps, ₹0 investments, and flat ₹20 intraday and F&O
         trades.
       </p>

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import axios from "axios";
-import SERVER_ID from "./Configure/configure";
+import React, { useState } from 'react';
+import axios from 'axios';
+import SERVER_ID from './Configure/configure';
 function PanOrc() {
-  const [panImg, setpanImg] = useState("");
-  const [backendData, setbackendData] = useState("");
-  const [apiURL, setApiURL] = useState("/api/user/login/OCR");
+  const [panImg, setpanImg] = useState('');
+  const [backendData, setbackendData] = useState('');
+  const [apiURL, setApiURL] = useState('/api/user/login/OCR');
   const getFiles = (e) => {
     setpanImg(e.target.files[0]);
     // console.log(e.target.files[0]);
@@ -18,7 +18,7 @@ function PanOrc() {
     const formData = new FormData();
 
     // Update the formData object
-    formData.append("front_part", panImg);
+    formData.append('front_part', panImg);
 
     // Details of the uploaded file
     console.log(formData);
@@ -30,7 +30,7 @@ function PanOrc() {
         console.log(data);
       })
       .catch((err) => {
-        console.log("ERROR", err);
+        console.log('ERROR', err);
       });
   };
 
@@ -57,7 +57,7 @@ function PanOrc() {
               {/* <input type="text" value={contact} onChange={(e)=>setContact(e.target.value)} className="form-control" placeholder="Enter Contact" /> */}
             </div>
             <div className="btn-class-submit">
-              {/* <button type="submit" onClick={getContact} className="btn btn-primary btn-block btn-otp">GET OTP</button> */}{" "}
+              {/* <button type="submit" onClick={getContact} className="btn btn-primary btn-block btn-otp">GET OTP</button> */}{' '}
               <button
                 type="submit"
                 onClick={getSubmit}
@@ -70,12 +70,14 @@ function PanOrc() {
             {backendData ? (
               <div>
                 <img
+                  alt="test"
                   // width="200" height="200"
                   src={`data:image/png;base64,${backendData.encoded_image}`}
                 />
                 <br />
                 <br />
                 <img
+                  alt="test"
                   width="200"
                   //  height="200"
                   src={`data:image/png;base64,${backendData.encoded_signature}`}
@@ -91,7 +93,7 @@ function PanOrc() {
                 </button>
               </div>
             ) : (
-              ""
+              ''
             )}
 
             {/* {backendData.encoded_image} */}

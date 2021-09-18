@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Image from 'react-bootstrap/Image';
 import WebCamImg from '../../../images/Webcam_Verification_Illustration.png';
