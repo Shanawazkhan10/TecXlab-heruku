@@ -9,9 +9,11 @@ function ImageCropper(props) {
   const [cropConfig, setCropConfig] = useState(
     // default crop config
     {
-      unit: "%",
-      width: 30,
-      aspect: 16 / 12,
+      unit: "px", // default, can be 'px' or '%'
+      x: 130,
+      y: 50,
+      width: 200,
+      height: 200,
     }
   );
 

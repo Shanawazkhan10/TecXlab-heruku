@@ -141,6 +141,7 @@ function PanBankEmail() {
     e.preventDefault();
     // history.push("/AccountOpen");
     console.log(inputs);
+    // console.log(IFSCfromSearch);
   };
 
   $("#input_capital").keyup(function (e) {
@@ -168,22 +169,24 @@ function PanBankEmail() {
     // console.log("blur happed");
     // const ifscCode = inputs.ifsc;
     // console.log(IFSCfromSearch);
-    var requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
+    if (IFSCfromSearch !== "") {
+      var requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
 
-    const response = await fetch(
-      `https://ifsc.razorpay.com/${IFSCfromSearch}`,
-      requestOptions
-    );
-    // .then((response) => response.json())
-    // .then((result) => setIfscc(result))
-    // .catch((error) => console.log("error", error));
-    const getIfscData = await response.json();
-    setIfscResponse(getIfscData);
-    // console.log(IfscResponse);
-    setOpenIfsc(true);
+      const response = await fetch(
+        `https://ifsc.razorpay.com/${IFSCfromSearch}`,
+        requestOptions
+      );
+      // .then((response) => response.json())
+      // .then((result) => setIfscc(result))
+      // .catch((error) => console.log("error", error));
+      const getIfscData = await response.json();
+      setIfscResponse(getIfscData);
+      // console.log(IfscResponse);
+      setOpenIfsc(true);
+    }
   };
   const handleEmailBlur = () => {
     const EmailToValidate = inputs.email;
@@ -344,22 +347,29 @@ function PanBankEmail() {
       .then((result) => setBankDetails(result.res_Output))
       .catch((error) => console.log("error", error));
   };
-  const handleToggle = (value) => () => {
+  const handleToggle = (value) => async () => {
     // console.log(value.ifsc);
     setIFSCfromSearch(value.ifsc);
     setBankName("");
     setBranchName("");
     setOpen(false);
     setBankDetails("");
-    // setChecked(newChecked);
+    if (value.ifsc !== "") {
+      var requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        `https://ifsc.razorpay.com/${value.ifsc}`,
+        requestOptions
+      );
+      const getIfscData = await response.json();
+      setIfscResponse(getIfscData);
+      setOpenIfsc(true);
+    }
   };
-  // function renderRow(props) {
-  //   const { index, style } = props;
 
-  //   return (
-
-  //   );
-  // }
   return (
     <div>
       {/* modal */}
