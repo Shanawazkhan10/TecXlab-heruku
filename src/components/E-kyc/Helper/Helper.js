@@ -67,6 +67,11 @@ function getLocation(callback) {
     },
   });
 }
+function successFunction(position) {
+  var lat = position.coords.latitude;
+  var long = position.coords.longitude;
+  console.log("Your latitude is :" + lat + " and longitude is " + long);
+}
 // handle success case
 
 export { conVal, namVal, getLocation, IfscValidator, OtpVal };

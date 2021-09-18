@@ -20,6 +20,7 @@
     "gh-pages": "^3.2.3",
     "image-to-base64": "^2.2.0",
     "jquery": "^3.6.0",
+    "moment": "^2.29.1",
     "pdfjs-dist": "^2.6.347",
     "razorpay": "^2.0.6",
     "react": "^16.9.0",

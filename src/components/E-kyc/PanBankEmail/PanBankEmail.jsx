@@ -8,7 +8,7 @@ import Image from "react-bootstrap/Image";
 import "./PanBankEmail.css";
 import startImg from "../../../images/Get_Started_Illustration.png";
 import SearchIcon from "@material-ui/icons/Search";
-// import moment from 'moment';
+import moment from "moment";
 // import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import BackDrop from "../SubComponent/BackDrop";
@@ -85,36 +85,39 @@ function PanBankEmail() {
   //     error: "",
   //   },
   // });
-  const [selectedDate, handleDateChange] = useState("01-01-21");
+  const [selectedDate, setSelectedDate] = useState(null);
   const classList = useStylesForList();
   useEffect(() => {
     // const unsucsribe = () => {
-    var myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("userToken")}`
-    );
-    myHeaders.append("Content-Type", "application/json");
+    if (selectedDate !== "") {
+      // console.log("i m calleds");
+      var myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
+      );
+      myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
-      pan_No: inputs.pan,
-      mobile_No: localStorage.getItem("userInfo"),
-    });
+      var raw = JSON.stringify({
+        pan_No: inputs.pan,
+        mobile_No: localStorage.getItem("userInfo"),
+      });
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
 
-    fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+      fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
+    }
     // };
     // return unsucsribe;
-  }, [inputs.dob]);
+  }, [selectedDate]);
   useEffect(() => {
     // console.log("runnin.....");
     if (emailResponse !== "") {
@@ -140,7 +143,14 @@ function PanBankEmail() {
   const consoleData = (e) => {
     e.preventDefault();
     // history.push("/AccountOpen");
-    console.log(inputs);
+    const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
+    const FormData = {
+      ...inputs,
+      dob: `${FormattedDate}`,
+      ifsc: IFSCfromSearch,
+    };
+    // const FormData = { ...inputs, ifsc: IFSCfromSearch };
+    console.log(FormData);
     // console.log(IFSCfromSearch);
   };
 
@@ -612,7 +622,8 @@ function PanBankEmail() {
                   // className="form-control"
                   label="Enter PAN Number"
                 />
-                {panResponse !== "" &&
+                {/* commented for handle error */}
+                {/* {panResponse !== "" &&
                   (panResponse.res_Output[0].result_Description === "E" ? (
                     <div>
                       <span className="pan-error">Pan No. exist</span>
@@ -621,7 +632,8 @@ function PanBankEmail() {
                     <div>
                       <span className="error-email">Pan No. not exist</span>
                     </div>
-                  ))}
+                  ))} */}
+                {/* commented for handle error */}
                 {/* <TextField
                   errorhelperText="Incorrect entry."
                   // id="outlined-error-helper-text"
@@ -649,7 +661,7 @@ function PanBankEmail() {
                     maxDate={new Date()}
                     value={selectedDate}
                     InputAdornmentProps={{ position: "end" }}
-                    onChange={handleInputChange}
+                    onChange={setSelectedDate}
                   />
                 </MuiPickersUtilsProvider>
                 <TextField
