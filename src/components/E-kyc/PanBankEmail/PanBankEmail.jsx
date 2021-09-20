@@ -71,13 +71,14 @@ function PanBankEmail() {
   const classes = useStyles();
   const [inputs, setInputs] = useState({
     email: "",
-    otp: "",
+    // otp: "",
     pan: "",
     dob: "",
     AcNo: "",
     ifsc: "",
-    address: "",
+    // address: "",
   });
+
   // const [errorMsg, seterrorMsg] = useState({
   //   errorOBJ: {
   //     errorEmail: "",
@@ -88,19 +89,45 @@ function PanBankEmail() {
   const [selectedDate, setSelectedDate] = useState(null);
   const classList = useStylesForList();
   useEffect(() => {
-    // const unsucsribe = () => {
-    if (selectedDate !== "") {
-      // console.log("i m calleds");
+    const unsuscribe = () => {
+      console.log("i m called");
+      if (selectedDate !== "") {
+        var myHeaders = new Headers();
+        myHeaders.append(
+          "Authorization",
+          `Bearer ${localStorage.getItem("userToken")}`
+        );
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+          pan_No: inputs.pan,
+          mobile_No: localStorage.getItem("userInfo"),
+        });
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+
+        fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
+          .then((response) => response.text())
+          .then((result) => {
+            console.log("HELLO:", result);
+          })
+          .catch((error) => console.log("error", error));
+      }
+      // solidCity pan API
+      const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
       var myHeaders = new Headers();
       myHeaders.append(
         "Authorization",
         `Bearer ${localStorage.getItem("userToken")}`
       );
       myHeaders.append("Content-Type", "application/json");
-
       var raw = JSON.stringify({
-        pan_No: inputs.pan,
-        mobile_No: localStorage.getItem("userInfo"),
+        apP_PAN_NO: inputs.pan,
+        apP_DOB_INCORP: FormattedDate,
       });
 
       var requestOptions = {
@@ -110,14 +137,17 @@ function PanBankEmail() {
         redirect: "follow",
       };
 
-      fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
+      fetch(
+        `${SERVER_ID}/api/cvlkra/SolicitPANDetailsFetchALLKRA`,
+        requestOptions
+      )
         .then((response) => response.text())
-        .then((result) => console.log(result))
+        .then((result) => console.log("SEOCUND CALL", result))
         .catch((error) => console.log("error", error));
-    }
-    // };
-    // return unsucsribe;
+    };
+    return unsuscribe;
   }, [selectedDate]);
+
   useEffect(() => {
     // console.log("runnin.....");
     if (emailResponse !== "") {
@@ -142,7 +172,7 @@ function PanBankEmail() {
   };
   const consoleData = (e) => {
     e.preventDefault();
-    // history.push("/AccountOpen");
+
     const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
     const FormData = {
       ...inputs,
@@ -150,7 +180,16 @@ function PanBankEmail() {
       ifsc: IFSCfromSearch,
     };
     // const FormData = { ...inputs, ifsc: IFSCfromSearch };
-    console.log(FormData);
+    // console.log(FormData);
+    if (
+      FormData.pan &&
+      FormData.dob &&
+      FormData.email &&
+      FormData.ifsc &&
+      FormData.AcNo !== ""
+    ) {
+      history.push("/AccountOpen");
+    }
     // console.log(IFSCfromSearch);
   };
 
