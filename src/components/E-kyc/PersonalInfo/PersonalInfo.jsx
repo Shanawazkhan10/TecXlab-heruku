@@ -152,7 +152,8 @@ const PersonalInfo = () => {
                             size="large"
                             name="mstatus"
                             variant="outlined"
-                            // defaultValue={inputs.mstatus}
+                            value={inputs.mstatus}
+                            // value={inputs.mstatus}
                             onChange={handleInputChange}
                             label="Marital Status"
                           >
@@ -164,7 +165,7 @@ const PersonalInfo = () => {
                         )}
                         // name="mstatus"
                         control={control}
-                        // defaultValue=""
+                        // value=""
                       />
                     </FormControl>
                   </div>
@@ -178,7 +179,7 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="gender"
-                            defaultValue={inputs.gender}
+                            value={inputs.gender}
                             onChange={handleInputChange}
                             label="Gender"
                           >
@@ -190,7 +191,7 @@ const PersonalInfo = () => {
                         )}
                         name="appliance"
                         control={control}
-                        // defaultValue=""
+                        // value=""
                         rules={{
                           required: 'Please Choose Your Appliance.',
                         }}
@@ -223,7 +224,7 @@ const PersonalInfo = () => {
                             size="large"
                             name="income"
                             variant="outlined"
-                            defaultValue={inputs.income}
+                            value={inputs.income}
                             onChange={handleInputChange}
                             label="Annual Income"
                           >
@@ -245,7 +246,7 @@ const PersonalInfo = () => {
                         )}
                         name="appliance"
                         control={control}
-                        defaultValue=""
+                        value=""
                         rules={{
                           required: 'Please Choose Your Appliance.',
                         }}
@@ -268,7 +269,7 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="occupation"
-                            defaultValue={inputs.occupation}
+                            value={inputs.occupation}
                             onChange={handleInputChange}
                             label="occupation"
                           >
@@ -301,7 +302,7 @@ const PersonalInfo = () => {
                         )}
                         name="appliance"
                         control={control}
-                        defaultValue=""
+                        value=""
                         rules={{
                           required: 'Please Choose Your Appliance.',
                         }}
@@ -328,7 +329,7 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="experience"
-                            defaultValue={inputs.experience}
+                            value={inputs.experience}
                             onChange={handleInputChange}
                             label="Trading Experience"
                           >
@@ -346,7 +347,7 @@ const PersonalInfo = () => {
                         )}
                         name="appliance"
                         control={control}
-                        defaultValue=""
+                        value=""
                         rules={{
                           required: 'Please Choose Your Appliance.',
                         }}
@@ -371,7 +372,7 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="political"
-                            defaultValue={inputs.political}
+                            value={inputs.political}
                             onChange={handleInputChange}
                             label="Politically Exposed"
                           >
@@ -384,7 +385,7 @@ const PersonalInfo = () => {
                         )}
                         name="appliance"
                         control={control}
-                        defaultValue=""
+                        value=""
                         rules={{
                           required: 'Please Choose Your Appliance.',
                         }}
@@ -408,7 +409,7 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="education"
-                            defaultValue={inputs.education}
+                            value={inputs.education}
                             onChange={handleInputChange}
                             label="education"
                           >
@@ -430,7 +431,7 @@ const PersonalInfo = () => {
                         )}
                         name="appliance"
                         control={control}
-                        defaultValue=""
+                        value=""
                         rules={{
                           required: 'Please Choose Your Appliance.',
                         }}

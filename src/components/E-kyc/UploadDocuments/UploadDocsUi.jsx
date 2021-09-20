@@ -1,39 +1,39 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from 'react';
 // import './PersonalInfo.css';
-import { Container, Row, Col } from "reactstrap";
-import { makeStyles } from "@material-ui/core";
-import Image from "react-bootstrap/Image";
-import Button from "@material-ui/core/Button";
-import Modal from "@material-ui/core/Modal";
-import Esign from "../DigitalSignature/Esign";
-import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
-import { useHistory } from "react-router";
-import uploadImg from "../../../images/Upload_Documents_Illustration.png";
-import $ from "jquery";
-import DeleteIcon from "@material-ui/icons/Delete";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { Container, Row, Col } from 'reactstrap';
+import { makeStyles } from '@material-ui/core';
+import Image from 'react-bootstrap/Image';
+import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+import Esign from '../DigitalSignature/Esign';
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import { useHistory } from 'react-router';
+import uploadImg from '../../../images/Upload_Documents_Illustration.png';
+import $ from 'jquery';
+import DeleteIcon from '@material-ui/icons/Delete';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 // import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import ImageCropper from "../SubComponent/ImageCropper";
-import "./UploadDocs.css";
-import { Viewer } from "@react-pdf-viewer/core";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import { Worker } from "@react-pdf-viewer/core";
-import SERVER_ID from "../Configure/configure";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+// import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import ImageCropper from '../SubComponent/ImageCropper';
+import './UploadDocs.css';
+// import { Viewer } from '@react-pdf-viewer/core';
+// import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+// import { Worker } from '@react-pdf-viewer/core';
+import SERVER_ID from '../Configure/configure';
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: "absolute",
+    position: 'absolute',
     width: 400,
     backgroundColor: theme.palette.background.paper,
-    border: "#000",
+    border: '#000',
     boxShadow: theme.shadows[5],
-    borderRadius: "10px",
+    borderRadius: '10px',
     padding: theme.spacing(2, 4, 3),
   },
 }));
@@ -59,16 +59,16 @@ const AdhaarKyc = () => {
   const [imageToCrop, setImageToCrop] = useState(undefined);
   const [croppedImage1, setCroppedImage1] = useState(undefined);
   const [croppedImage2, setCroppedImage2] = useState(undefined);
-  const [Data1, setData1] = useState("");
-  const [Data2, setData2] = useState("");
+  const [Data1, setData1] = useState('');
+  const [Data2, setData2] = useState('');
   // const [isSet, setisSet] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   // Pdf Hooks
-  const [fileData, SetFileData] = useState(null);
-  const [fileError, SetFileError] = useState("");
-  const [fileViewer, SetFileViewer] = useState(null);
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  // const [fileData, SetFileData] = useState(null);
+  // const [fileError, SetFileError] = useState('');
+  // const [fileViewer, SetFileViewer] = useState(null);
+  // const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   const HandleOpen = () => {
     SetShow(true);
@@ -87,55 +87,55 @@ const AdhaarKyc = () => {
     // var file = new File([croppedImage1], "panCard", {
     //   lastModified: 1534584790000,
     // });
-    var file = new File([croppedImage1], "panCard", {
-      type: "image/jpeg",
+    var file = new File([croppedImage1], 'panCard', {
+      type: 'image/jpeg',
       lastModified: Date.now(),
     });
     console.log(file);
     var myHeaders = new Headers();
     myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("userToken")}`
+      'Authorization',
+      `Bearer ${localStorage.getItem('userToken')}`
     );
     var formdata = new FormData();
-    formdata.append("Mobile_No", localStorage.getItem("userInfo"));
-    formdata.append("front_part", file);
+    formdata.append('Mobile_No', localStorage.getItem('userInfo'));
+    formdata.append('front_part', file);
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       body: formdata,
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow',
     };
 
     fetch(`${SERVER_ID}/api/documentupload/Document_Upload_PAN`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log('error', error));
   };
   const handleClickCrop = async () => {
     setData2(croppedImage2);
     setOpen1(false);
     // api call
-    var file1 = new File([croppedImage2], "Signature", {
-      type: "image/jpeg",
+    var file1 = new File([croppedImage2], 'Signature', {
+      type: 'image/jpeg',
       lastModified: Date.now(),
     });
     var myHeaders = new Headers();
     myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("userToken")}`
+      'Authorization',
+      `Bearer ${localStorage.getItem('userToken')}`
     );
 
     var formdata = new FormData();
-    formdata.append("Mobile_No", localStorage.getItem("userInfo"));
-    formdata.append("front_part", file1);
+    formdata.append('Mobile_No', localStorage.getItem('userInfo'));
+    formdata.append('front_part', file1);
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: formdata,
-      redirect: "follow",
+      redirect: 'follow',
     };
 
     fetch(
@@ -144,17 +144,17 @@ const AdhaarKyc = () => {
     )
       .then((response) => response.text())
       .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log('error', error));
   };
 
   const previewCloseHandler = () => {
     SetPreview(false);
   };
   const handleTrigger = () => {
-    $("#PanId").trigger("click");
+    $('#PanId').trigger('click');
   };
   const handleTriggerSign = () => {
-    $("#SignId").trigger("click");
+    $('#SignId').trigger('click');
   };
 
   // function uploadSign(event) {
@@ -169,52 +169,54 @@ const AdhaarKyc = () => {
   const onUploadFile = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       // console.log(event.target.name);
-      if (event.target.name === "file1") {
+      if (event.target.name === 'file1') {
         // console.log("i m calling");
         setOpen(true);
         const reader = new FileReader();
-        reader.addEventListener("load", () => setImageToCrop(reader.result));
+        reader.addEventListener('load', () => setImageToCrop(reader.result));
         reader.readAsDataURL(event.target.files[0]);
       } else {
         setOpen1(true);
         const reader = new FileReader();
-        reader.addEventListener("load", () => setImageToCrop(reader.result));
+        reader.addEventListener('load', () => setImageToCrop(reader.result));
         reader.readAsDataURL(event.target.files[0]);
       }
     }
   };
 
-  const fileType = ["application/pdf"];
+  //Pdf Functions
 
-  const handlePdfFileChange = (e) => {
-    let selectedFile = e.target.files[0];
-    if (selectedFile) {
-      if (selectedFile && fileType.includes(selectedFile.type)) {
-        // console.log(selectedFile.type);
-        let reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onloadend = (e) => {
-          SetFileData(e.target.result);
-          SetFileError("");
-          // console.log("Reader:", reader.result);
-        };
-      } else {
-        SetFileData(null);
-        SetFileError("Please select only JPEG, PNG, PDF files only");
-      }
-    } else {
-      console.log("select your file");
-    }
-  };
+  // const fileType = ['application/pdf'];
 
-  const handlePdfFileSubmit = (e) => {
-    e.preventDefault();
-    if (fileData !== null) {
-      SetFileViewer(fileData);
-    } else {
-      SetFileViewer(null);
-    }
-  };
+  // const handlePdfFileChange = (e) => {
+  //   let selectedFile = e.target.files[0];
+  //   if (selectedFile) {
+  //     if (selectedFile && fileType.includes(selectedFile.type)) {
+  //       // console.log(selectedFile.type);
+  //       let reader = new FileReader();
+  //       reader.readAsDataURL(selectedFile);
+  //       reader.onloadend = (e) => {
+  //         SetFileData(e.target.result);
+  //         SetFileError('');
+  //         // console.log("Reader:", reader.result);
+  //       };
+  //     } else {
+  //       SetFileData(null);
+  //       SetFileError('Please select only JPEG, PNG, PDF files only');
+  //     }
+  //   } else {
+  //     console.log('select your file');
+  //   }
+  // };
+
+  // const handlePdfFileSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (fileData !== null) {
+  //     SetFileViewer(fileData);
+  //   } else {
+  //     SetFileViewer(null);
+  //   }
+  // };
 
   // const EsignHandler = (event) => {
   //   if (event.target.files) {
@@ -241,14 +243,14 @@ const AdhaarKyc = () => {
     <div style={modalStyle} className={classes.paper}>
       <Row
         style={{
-          display: "flex",
-          justifyContent: "space-between",
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
-        <p style={{ marginLeft: "12px" }}>Upload Signature</p>
+        <p style={{ marginLeft: '12px' }}>Upload Signature</p>
         <CloseRoundedIcon
           onClick={handleClose}
-          style={{ marginRight: "12px", cursor: "pointer" }}
+          style={{ marginRight: '12px', cursor: 'pointer' }}
         />
       </Row>
       <Esign EsignData={EsignData} HandleModalCloser={HandleModalCloser} />
@@ -258,21 +260,21 @@ const AdhaarKyc = () => {
     <div style={modalStyle} className={classes.paper}>
       <Row
         style={{
-          display: "flex",
-          justifyContent: "space-between",
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
         <p>Preview your image</p>
         <CloseRoundedIcon
           onClick={previewCloseHandler}
-          style={{ marginRight: "12px", cursor: "pointer" }}
+          style={{ marginRight: '12px', cursor: 'pointer' }}
         />
       </Row>
     </div>
   );
 
   const handlePush = () => {
-    history.push("/IPVerification");
+    history.push('/IPVerification');
   };
 
   return (
@@ -300,7 +302,7 @@ const AdhaarKyc = () => {
         <DialogContent>
           <ImageCropper
             imageToCrop={imageToCrop}
-            style={{ maxWidth: "100%" }}
+            style={{ maxWidth: '100%' }}
             onImageCropped={(croppedImage) => {
               setCroppedImage1(croppedImage);
               // console.log(croppedImage);
@@ -326,7 +328,7 @@ const AdhaarKyc = () => {
         <DialogContent>
           <ImageCropper
             imageToCrop={imageToCrop}
-            style={{ maxWidth: "100%" }}
+            style={{ maxWidth: '100%' }}
             onImageCropped={(croppedImage) => setCroppedImage2(croppedImage)}
           />
         </DialogContent>
@@ -349,7 +351,7 @@ const AdhaarKyc = () => {
                 <Col md="7">
                   <Row>
                     <Col>
-                      {" "}
+                      {' '}
                       <h3 className="float-left">Upload Documents</h3>
                       <br />
                       <hr className="hr-personal color-gradiant" />
@@ -357,15 +359,14 @@ const AdhaarKyc = () => {
                   </Row>
                   <Row>
                     <Col>
-                      {" "}
+                      {' '}
                       <h4>Copy of PAN</h4>
                       {/* <br /> */}
                       {/* <br /> */}
                       <div className="mt-3">
                         <text>Upload a signed copy of your PAN Card</text>
                       </div>
-                      {/* <br /> */}
-                      <text style={{ fontSize: "11px" }}>
+                      <text style={{ fontSize: '11px' }}>
                         Format: PNG,JPG,JPEG
                       </text>
                       <br />
@@ -379,7 +380,7 @@ const AdhaarKyc = () => {
                         // onBlur={handlePdfFileSubmit}
                         onChange={(event) => onUploadFile(event)}
                         id="PanId"
-                        style={{ display: "none" }}
+                        style={{ display: 'none' }}
                       />
                       <Button
                         type="file"
@@ -399,14 +400,13 @@ const AdhaarKyc = () => {
                   <Col md="5">
                     <Row>
                       <Col className="text-center">
-                        {" "}
+                        {' '}
                         {
                           <img
                             alt="Cropped Img"
                             className="image-select"
                             width="200"
                             height="180"
-                            alt="avatar"
                             src={Data1}
                           />
                         }
@@ -416,16 +416,16 @@ const AdhaarKyc = () => {
                       <Col className="text-center mt-2">
                         <div>
                           <CheckCircleIcon
-                            style={{ color: "green", cursor: "pointer" }}
+                            style={{ color: 'green', cursor: 'pointer' }}
                           />
                           &nbsp; &nbsp;
-                          <VisibilityIcon style={{ color: "#7f00ff" }} />
+                          <VisibilityIcon style={{ color: '#7f00ff' }} />
                           &nbsp; &nbsp;
                           <DeleteIcon
                             color="secondary"
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             onClick={() => {
-                              setData1("");
+                              setData1('');
                             }}
                           />
                         </div>
@@ -459,7 +459,7 @@ const AdhaarKyc = () => {
                         onClick={HandleOpen}
                         className="btn-comman-small  text-white"
                         style={{
-                          textTransform: "capitalize",
+                          textTransform: 'capitalize',
                         }}
                       >
                         Digital Pad
@@ -473,14 +473,14 @@ const AdhaarKyc = () => {
                         // name="files"
                         onChange={(event) => onUploadFile(event)}
                         id="SignId"
-                        style={{ display: "none" }}
+                        style={{ display: 'none' }}
                       />
                       <Button
                         type="submit"
                         onClick={handleTriggerSign}
                         className="btn-comman-small  text-white"
                         style={{
-                          textTransform: "capitalize",
+                          textTransform: 'capitalize',
                         }}
                       >
                         Upload Image
@@ -495,8 +495,8 @@ const AdhaarKyc = () => {
                     onClick={handlePush}
                     className="btn-comman-small  text-white"
                     style={{
-                      textTransform: "capitalize",
-                      width: "245px",
+                      textTransform: 'capitalize',
+                      width: '245px',
                     }}
                   >
                     Proceed
@@ -530,7 +530,6 @@ const AdhaarKyc = () => {
                           className="image-select"
                           width="200"
                           height="180"
-                          alt="avatar"
                           src={Data2}
                         />
                       </Col>
@@ -539,16 +538,16 @@ const AdhaarKyc = () => {
                       <Col className="text-center mt-2">
                         <div>
                           <CheckCircleIcon
-                            style={{ color: "green", cursor: "pointer" }}
+                            style={{ color: 'green', cursor: 'pointer' }}
                           />
                           &nbsp; &nbsp;
-                          <VisibilityIcon style={{ color: "#7f00ff" }} />
+                          <VisibilityIcon style={{ color: '#7f00ff' }} />
                           &nbsp; &nbsp;
                           <DeleteIcon
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             color="secondary"
                             onClick={() => {
-                              setData2("");
+                              setData2('');
                             }}
                           />
                         </div>

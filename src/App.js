@@ -7,7 +7,6 @@ import PanBankEmail from './components/E-kyc/PanBankEmail/PanBankEmail';
 // import VerifyPin from './components/E-kyc/verifyPin';
 // import SignUp from './components/E-kyc/signupComponent';
 // import AllowAccess from './components/E-kyc/allowAccess';
-import EmailTemplate from './components/E-kyc/EmailTemplate';
 import PanOrc from './components/E-kyc/panOrc';
 import ProtectedPages from './components/E-kyc/ProtectedPage/ProtectedPages';
 import ConfirmPage from './components/E-kyc/confirmPage/ConfirmPage';
@@ -41,7 +40,6 @@ function App() {
           {/* <Route exact path="/AllowAccess" component={AllowAccess} /> */}
           <Route path="/ConfirmPage" component={ConfirmPage} />
           <Route exact path="/Email" component={PanBankEmail} />
-          <Route exact path="/EmailTemplate" component={EmailTemplate} />
           <Route exact path="/RazorPay" component={Razor} />
           <Route exact path="/DigiLock" component={DigiLock} />
           <Route exact path="/PersonalInfo" component={PersonalInfo} />

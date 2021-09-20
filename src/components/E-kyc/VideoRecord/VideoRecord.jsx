@@ -214,10 +214,12 @@ function VideoRecord({ props, sendToParent }) {
           </Button>
         )}
         <br />
-        <Button className="mt-2" onClick={HandleRepeater}>
-          <LoopSharpIcon />
-          Retry
-        </Button>
+        {ipvData && (
+          <Button className="mt-2" onClick={HandleRepeater}>
+            <LoopSharpIcon />
+            Retry
+          </Button>
+        )}
         <div className="mt-2" style={{ fontSize: '11px', color: '#8C92AC' }}>
           <b className="link-comman">Share</b> the verification link to your
           mobile number <br /> if you don't have webcam available
