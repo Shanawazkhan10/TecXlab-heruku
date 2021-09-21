@@ -21,10 +21,12 @@ import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+// import { DatePicker } from "@material-ui/pickers";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import DateFnsUtils from '@date-io/date-fns';
+import './style.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -418,6 +420,7 @@ function PanBankEmail() {
       setOpenIfsc(true);
     }
   };
+  const minDate = '04.18.1996';
 
   return (
     <div>
@@ -630,6 +633,19 @@ function PanBankEmail() {
                   onBlur={handleEmailBlur}
                   // className="form-control"
                   label="Enter Email ID"
+                  InputProps={{
+                    endAdornment:
+                      IfscResponse &&
+                      (IfscResponse !== 'Not Found' ? (
+                        <SubInputAdornment
+                          Dataicon={<CheckCircleIcon className="succ-msg" />}
+                        />
+                      ) : (
+                        <SubInputAdornment
+                          Dataicon={<ErrorOutlineIcon className="err-msg" />}
+                        />
+                      )),
+                  }}
                 />
                 {emailResponse !== '' &&
                   (emailResponse.status !== 200 ? (
@@ -660,6 +676,19 @@ function PanBankEmail() {
                   onChange={handleInputChange}
                   // className="form-control"
                   label="Enter PAN Number"
+                  InputProps={{
+                    endAdornment:
+                      IfscResponse &&
+                      (IfscResponse !== 'Not Found' ? (
+                        <SubInputAdornment
+                          Dataicon={<CheckCircleIcon className="succ-msg" />}
+                        />
+                      ) : (
+                        <SubInputAdornment
+                          Dataicon={<ErrorOutlineIcon className="err-msg" />}
+                        />
+                      )),
+                  }}
                 />
                 {/* commented for handle error */}
                 {/* {panResponse !== "" &&
@@ -697,6 +726,9 @@ function PanBankEmail() {
                     inputVariant="outlined"
                     label="Enter DOB"
                     format="dd/MM/yyyy"
+                    orientation="landscape"
+                    clearable
+                    minDate={minDate || undefined}
                     maxDate={new Date()}
                     value={selectedDate}
                     InputAdornmentProps={{ position: 'end' }}
@@ -741,9 +773,13 @@ function PanBankEmail() {
                     endAdornment:
                       IfscResponse &&
                       (IfscResponse !== 'Not Found' ? (
-                        <SubInputAdornment Dataicon={<CheckCircleIcon />} />
+                        <SubInputAdornment
+                          Dataicon={<CheckCircleIcon className="succ-msg" />}
+                        />
                       ) : (
-                        <SubInputAdornment Dataicon={<ErrorOutlineIcon />} />
+                        <SubInputAdornment
+                          Dataicon={<ErrorOutlineIcon className="err-msg" />}
+                        />
                       )),
                   }}
                 />
