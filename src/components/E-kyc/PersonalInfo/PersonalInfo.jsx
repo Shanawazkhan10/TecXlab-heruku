@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PersonalInfo.css";
 import TextField from "@material-ui/core/TextField";
 import { Container, Row, Col } from "reactstrap";
@@ -14,7 +14,7 @@ import { useHistory } from "react-router";
 import SERVER_ID from "../Configure/configure";
 const PersonalInfo = () => {
   const history = useHistory();
-  // const [isBtnVisible, SetIsBtnVisible] = useState(false);
+  const [isBtnVisible, SetIsBtnVisible] = useState(true);
   const [inputs, setInputs] = useState({
     mstatus: "",
     income: "",
@@ -39,7 +39,26 @@ const PersonalInfo = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  useEffect(() => {
+    const unsuscribe = () => {
+      if (
+        inputs.fatherName &&
+        inputs.motherName &&
+        inputs.income &&
+        inputs.gender &&
+        inputs.mstatus &&
+        inputs.political &&
+        inputs.occupation &&
+        inputs.experience &&
+        inputs.education !== ""
+      ) {
+        SetIsBtnVisible(false);
+      } else {
+        SetIsBtnVisible(true);
+      }
+    };
+    return unsuscribe();
+  }, [inputs]);
   const handleSubmit = () => {
     // e.preventDefault();
     console.log(inputs);
@@ -469,6 +488,7 @@ const PersonalInfo = () => {
                   <Button
                     fullWidth
                     type="submit"
+                    disabled={isBtnVisible}
                     onClick={handleSubmit}
                     className="btn-comman text-white"
                     // disabled={isBtnVisible}

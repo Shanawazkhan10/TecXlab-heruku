@@ -461,7 +461,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                   id="fieldSelectorname"
                   // onChange={handleNameChange}
                   className="form-control mt-3 class-referal"
-                  label="Referal Code (Optional)"
+                  label="Referral Code (Optional)"
                   autoComplete="off"
                   variant="outlined"
                   InputProps={{
@@ -487,7 +487,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                 <small>
                   <span> Do you have a </span>
                   <span onClick={referalFun} className="link-comman">
-                    Referal Code?{" "}
+                    Referral Code?{" "}
                   </span>
                 </small>
                 <br />

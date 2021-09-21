@@ -9,31 +9,7 @@ import SERVER_ID from "../Configure/configure";
 
 const AccOpenInfo = () => {
   const history = useHistory();
-  const handleClick = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("userToken")}`
-    );
-    var raw = JSON.stringify({
-      method_Name: "Update_Stage_Id",
-      mobile_No: localStorage.getItem("userInfo"),
-    });
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-    history.push("/AdhaarKYC");
-  };
+  // const handleClick = () => {};
   function loadScript(src) {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -72,26 +48,53 @@ const AccOpenInfo = () => {
         email: "gaurav.kumar@example.com",
         contact: "9999999999",
       },
-      handler: function (response) {
+      handler: async function (response) {
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
         alert(response.razorpay_signature);
         // window.location.href = "/PersonalInfo";
         // post to database
+        // var myHeaders = new Headers();
+        // myHeaders.append(
+        //   "Authorization",
+        //   `Bearer ${localStorage.getItem("userToken")}`
+        // );
+        // myHeaders.append("Content-Type", "application/json");
+
+        // var raw = JSON.stringify({
+        //   inr: 200,
+        //   currency: "INR",
+        //   mobile_No: localStorage.getItem("userInfo"),
+        //   merchantTransactionId: "response.razorpay_order_id",
+        //   razorpay_payment_id: "response.razorpay_payment_id",
+        //   razorpay_signature: "response.razorpay_signature",
+        // });
+
+        // var requestOptions = {
+        //   method: "POST",
+        //   headers: myHeaders,
+        //   body: raw,
+        //   redirect: "follow",
+        // };
+
+        // fetch(`${SERVER_ID}/api/RazorPay/RazorPayStatus`, requestOptions)
+        //   .then((response) => response.text())
+        //   .then((result) => console.log(result))
+        //   .catch((error) => console.log("error", error));
+        // end function
         var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
         myHeaders.append(
           "Authorization",
           `Bearer ${localStorage.getItem("userToken")}`
         );
-        myHeaders.append("Content-Type", "application/json");
-
         var raw = JSON.stringify({
-          inr: 200,
-          currency: "INR",
+          amount: 111,
+          currencyType: "INR",
           mobile_No: localStorage.getItem("userInfo"),
-          merchantTransactionId: response.razorpay_order_id,
-          razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_signature: response.razorpay_signature,
+          merchantTransactionId: "232323244242",
+          payment_Id: "3232323233",
+          signature: "2323232332",
         });
 
         var requestOptions = {
@@ -101,11 +104,38 @@ const AccOpenInfo = () => {
           redirect: "follow",
         };
 
-        fetch(`${SERVER_ID}/api/RazorPay/RazorPayStatus`, requestOptions)
+        fetch(`${SERVER_ID}/api/razorpay/RazorPaymentStatus`, requestOptions)
           .then((response) => response.text())
           .then((result) => console.log(result))
           .catch((error) => console.log("error", error));
-        // end function
+        // staged ID API
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append(
+          "Authorization",
+          `Bearer ${localStorage.getItem("userToken")}`
+        );
+        var raw = JSON.stringify({
+          method_Name: "Update_Stage_Id",
+          mobile_No: localStorage.getItem("userInfo"),
+        });
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+
+        const stagedID_data = await fetch(
+          `${SERVER_ID}/api/lead/Update_StageId`,
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+        // console.log(stagedID_data);
+        history.push("/AdhaarKYC");
       },
     };
 
@@ -159,13 +189,13 @@ const AccOpenInfo = () => {
               md="8"
               // style={{ border: '1px solid black' }}
             >
-              <Button
+              {/* <Button
                 onClick={handleClick}
                 type="submit"
                 className="btn-comman text-white"
               >
                 Proceed
-              </Button>
+              </Button> */}
             </Col>
             <div
               className="mb-4 mt-4"

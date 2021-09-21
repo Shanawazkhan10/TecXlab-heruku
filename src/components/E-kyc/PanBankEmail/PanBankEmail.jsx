@@ -72,6 +72,11 @@ function PanBankEmail() {
   const [bankDetails, setBankDetails] = useState("");
   const [emails, setEmails] = useState("");
   const [PanDetails, setPanDetails] = useState("");
+  const [PanDisable, setPanDisable] = useState(true);
+  const [AccountNoDisable, setAccountNoDisable] = useState(true);
+  const [ifscDisable, setifscDisable] = useState(true);
+  const [disbaleEmail, setdisbaleEmail] = useState(false);
+  // const [PanDisable, setPanDisable] = useState(true);
   const classes = useStyles();
   const [inputs, setInputs] = useState({
     email: "",
@@ -91,7 +96,21 @@ function PanBankEmail() {
   //   },
   // });
   const [selectedDate, setSelectedDate] = useState(null);
+  const [btnDisable, setbtnDisable] = useState(true);
   const classList = useStylesForList();
+  useEffect(() => {
+    if (emailResponse.status !== 200) {
+      setPanDisable(true);
+    } else {
+      setPanDisable(false);
+      setdisbaleEmail(true);
+    }
+  }, [emailResponse]);
+  useEffect(() => {
+    if (inputs.AcNo !== "") {
+      setifscDisable(false);
+    }
+  }, [inputs.AcNo]);
   // useEffect(() => {
   //   // const unsuscribe = () => {
   //   var myHeaders = new Headers();
@@ -125,9 +144,16 @@ function PanBankEmail() {
   //   // };
   //   // return unsuscribe;
   // }, []);
+  useEffect(() => {
+    if (selectedDate !== "" && PanDetails !== "") {
+      handleKRASolidFetch();
+      setAccountNoDisable(false);
+    }
+  }, [selectedDate]);
+  useEffect(() => {}, []);
   const handleKRASolidFetch = () => {
     console.log(PanDetails);
-    console.log("i m called");
+    // console.log("i m called");
     if (selectedDate !== "") {
       var myHeaders = new Headers();
       myHeaders.append(
@@ -194,7 +220,7 @@ function PanBankEmail() {
       };
     });
   };
-  const consoleData = (e) => {
+  const handleProceed = (e) => {
     e.preventDefault();
 
     const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
@@ -236,7 +262,7 @@ function PanBankEmail() {
         .catch((error) => console.log("error", error));
       history.push("/AccountOpen");
     }
-    // console.log(IFSCfromSearch);
+    console.log(FormData);
   };
 
   $("#input_capital").keyup(function (e) {
@@ -349,6 +375,31 @@ function PanBankEmail() {
   const ifscConfirm = () => {
     setTextifsc(true);
     setOpenIfsc(false);
+    // api call
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      beneficiary_account_no: inputs.AcNo,
+      beneficiary_ifsc: IFSCfromSearch,
+      mobile_No: localStorage.getItem("userInfo"),
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${SERVER_ID}/api/bank/VerifyBankAccount`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   };
 
   const handlePanBlur = () => {
@@ -468,7 +519,9 @@ function PanBankEmail() {
     }
   };
   const minDate = "04.18.1996";
-
+  const TextFieldComponent = (props) => {
+    return <TextField {...props} disabled={true} />;
+  };
   return (
     <div>
       {/* modal */}
@@ -482,7 +535,7 @@ function PanBankEmail() {
         aria-labelledby="form-dialog-title"
       >
         <DialogContent>
-          <Container style={{ width: 330 }}>
+          <Container style={{ width: 300 }}>
             <Row>
               <Col md="10">
                 <span>Find your IFSC Code</span>
@@ -539,50 +592,62 @@ function PanBankEmail() {
                   // fullWidth="true"
                   type="submit"
                   onClick={IFSCsearch}
-                  className="btn-comman text-white"
+                  className="btn-searchIFSC text-white"
                 >
                   Search
                 </Button>
               </Col>
               {/* <Container style={{ height: 100 }}> */}
-              <Col className="mt-2">
-                {bankDetails && (
-                  <List className={classList.root}>
-                    {bankDetails.map((value) => {
-                      const labelId = `checkbox-list-label-${value}`;
+              <Col className="mt-2 ">
+                <div className="search-list">
+                  {bankDetails && (
+                    <List className={classList.root}>
+                      {bankDetails.map((value) => {
+                        const labelId = `checkbox-list-label-${value}`;
 
-                      return (
-                        <ListItem
-                          key={value.ifsc}
-                          role={undefined}
-                          dense
-                          button
-                          onClick={handleToggle(value)}
-                        >
-                          <Container>
-                            <Row>
-                              <Col>
-                                <span>{value.branch}</span>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col>
-                                <span>Address :</span>{" "}
-                                <small>{value.address}</small>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col>
-                                <span>IFSC CODE :</span>{" "}
-                                <small>{value.ifsc}</small>{" "}
-                              </Col>
-                            </Row>
-                          </Container>
-                        </ListItem>
-                      );
-                    })}
-                  </List>
-                )}
+                        return (
+                          <ListItem
+                            key={value.ifsc}
+                            role={undefined}
+                            dense
+                            button
+                            onClick={handleToggle(value)}
+                          >
+                            <Container>
+                              <Row>
+                                <Col>
+                                  <span style={{ fontSize: 13 }}>
+                                    {value.branch}
+                                  </span>
+                                </Col>
+                              </Row>
+                              <Row>
+                                <Col>
+                                  <span style={{ fontSize: 13 }}>
+                                    Address :
+                                  </span>{" "}
+                                  <span style={{ fontSize: 11 }}>
+                                    {value.address}
+                                  </span>
+                                </Col>
+                              </Row>
+                              <Row>
+                                <Col>
+                                  <span style={{ fontSize: 13 }}>
+                                    IFSC CODE :
+                                  </span>{" "}
+                                  <span style={{ fontSize: 11 }}>
+                                    {value.ifsc}
+                                  </span>{" "}
+                                </Col>
+                              </Row>
+                            </Container>
+                          </ListItem>
+                        );
+                      })}
+                    </List>
+                  )}
+                </div>
               </Col>
               {/* </Container> */}
             </Row>
@@ -672,6 +737,7 @@ function PanBankEmail() {
                   // errorhelperText="Incorrect entry."
                   id="outlined-error-helper-text"
                   // autoFocus
+                  disabled={disbaleEmail}
                   variant="outlined"
                   autoComplete="off"
                   name="email"
@@ -719,6 +785,7 @@ function PanBankEmail() {
                   id="outlined-error-helper-text"
                   type="text"
                   // id="input_capital"
+                  disabled={PanDisable}
                   inputProps={{
                     maxLength: 10,
                     style: { textTransform: "uppercase" },
@@ -792,21 +859,30 @@ function PanBankEmail() {
                     format="dd/MM/yyyy"
                     orientation="landscape"
                     clearable
+                    TextFieldComponent={TextFieldComponent}
                     minDate={minDate || undefined}
                     maxDate={new Date()}
                     value={selectedDate}
                     InputAdornmentProps={{ position: "end" }}
                     onChange={setSelectedDate}
-                    onBlur={handleKRASolidFetch}
+                    // onChangeCapture={handleKRASolidFetch}
+                    // onBlur={handleKRASolidFetch}
                   />
                 </MuiPickersUtilsProvider>
                 <TextField
                   // errorhelperText="Incorrect entry."
                   id="outlined-error-helper-text"
-                  type="text"
+                  // type="number"
                   variant="outlined"
                   autoComplete="off"
+                  id="outlined-error-helper-text"
+                  type="text"
+                  inputProps={{
+                    maxLength: 8,
+                    style: { textTransform: "uppercase" },
+                  }}
                   name="AcNo"
+                  disabled={AccountNoDisable}
                   value={inputs.AcNo}
                   onChange={handleInputChange}
                   // className="form-control"
@@ -833,7 +909,7 @@ function PanBankEmail() {
                   onBlur={handleBlur}
                   // className="form-control"
                   label="Enter IFSC Code"
-                  disabled={textifsc}
+                  disabled={ifscDisable}
                   InputProps={{
                     endAdornment:
                       IfscResponse &&
@@ -861,9 +937,10 @@ function PanBankEmail() {
                 </small>
               </div>
               <Button
+                // disabled={btnDisable}
                 type="submit"
-                onClick={consoleData}
-                className="btn-comman text-white"
+                onClick={handleProceed}
+                className="btn-comman text-white ml-2"
               >
                 Proceed
               </Button>

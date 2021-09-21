@@ -196,6 +196,7 @@ function VideoRecord({ props, sendToParent }) {
         disabled={otpField}
         onChange={changeHandler}
         className="form-control"
+        // onBlur={handleOTO}
         label="Enter the OTP"
         style={{ width: `17rem` }}
       />
