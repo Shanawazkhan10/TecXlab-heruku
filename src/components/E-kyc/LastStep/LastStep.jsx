@@ -5,10 +5,32 @@ import Card from "react-bootstrap/Card";
 import "./LastStep.css";
 import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
 import { useHistory } from "react-router";
-
+import SERVER_ID from "../Configure/configure";
 const LastStep = () => {
   const history = useHistory();
   const handleClick = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    var raw = JSON.stringify({
+      method_Name: "Update_Stage_Id",
+      mobile_No: localStorage.getItem("userInfo"),
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
     history.push("/FnoNominee");
   };
   return (

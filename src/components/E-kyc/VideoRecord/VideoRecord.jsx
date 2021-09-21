@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import RecordRTC from 'recordrtc';
-import { getLocation } from '../Helper/Helper';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import LoopSharpIcon from '@material-ui/icons/LoopSharp';
-import { OtpVal } from '../Helper/Helper';
-import './VideoRecordStyle.css';
-import { useHistory } from 'react-router-dom';
-import Image from 'react-bootstrap/Image';
-import img from '../../../images/black.png';
-
+import React, { useState, useRef, useEffect } from "react";
+import RecordRTC from "recordrtc";
+import { getLocation } from "../Helper/Helper";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import LoopSharpIcon from "@material-ui/icons/LoopSharp";
+import { OtpVal } from "../Helper/Helper";
+import "./VideoRecordStyle.css";
+import { useHistory } from "react-router-dom";
+import Image from "react-bootstrap/Image";
+import img from "../../../images/black.png";
+import SERVER_ID from "../Configure/configure";
 const captureCamera = (callback) => {
   navigator.mediaDevices
     .getUserMedia({
@@ -40,14 +40,14 @@ function VideoRecord({ props, sendToParent }) {
   const videoElement = useRef(null);
   const [flag, setFlag] = useState(false);
   const [disable, SetDisable] = useState(false);
-  const [pass, SetPass] = useState('');
-  const [numData, SetNumData] = useState('');
+  const [pass, SetPass] = useState("");
+  const [numData, SetNumData] = useState("");
   const [textVisible, SetTextVisible] = useState(
-    'Click on recording button to get the OTP on screen'
+    "Click on recording button to get the OTP on screen"
   );
   const [otpVisible, SetOtpVisible] = useState(false);
   const [otpField, SetOtpField] = useState(true);
-  const [ipvData, SetIpvData] = useState('');
+  const [ipvData, SetIpvData] = useState("");
   const [Bimg, SetBImg] = useState(img);
 
   let history = useHistory();
@@ -61,12 +61,12 @@ function VideoRecord({ props, sendToParent }) {
 
   const onStartRecordVideo = () => {
     getLocation(function (data) {
-      console.log('data from child:', data);
+      console.log("data from child:", data);
       // work with your data came from server
     });
     SetBImg(null);
     setFlag(true);
-    SetTextVisible('');
+    SetTextVisible("");
     SetOtpVisible(true);
     SetOtpField(false);
     captureCamera((camera) => {
@@ -80,7 +80,7 @@ function VideoRecord({ props, sendToParent }) {
       setRecorder(recordRTC);
     });
     setTimeout(() => {
-      document.getElementById('myButton').click();
+      document.getElementById("myButton").click();
     }, 14000);
     SetDisable(true);
     const RandNums = (Math.floor(Math.random() * 10000) + 10000)
@@ -96,7 +96,7 @@ function VideoRecord({ props, sendToParent }) {
         const data = (videoElement.current.src = URL.createObjectURL(
           recorder.getBlob()
         ));
-        console.log('VideoRecord Data: ', data);
+        console.log("VideoRecord Data: ", data);
         SetIpvData(data);
         recorder.camera.stop();
         recorder.destroy();
@@ -111,18 +111,18 @@ function VideoRecord({ props, sendToParent }) {
     let video = navigator.mediaDevices;
     if (!video || !video.enumerateDevices) return event(false);
     video.enumerateDevices().then((devices) => {
-      event(devices.some((device) => 'videoinput' === device.kind));
+      event(devices.some((device) => "videoinput" === device.kind));
     });
   };
 
   detectWebcam(function (hasWebcam) {
     console.log(
-      hasWebcam ? 'Camera works Properly' : 'Something wrong with your camera!'
+      hasWebcam ? "Camera works Properly" : "Something wrong with your camera!"
     );
   });
 
   const HandleRepeater = () => {
-    SetIpvData('');
+    SetIpvData("");
     onStartRecordVideo();
     onStopRecordVideo();
   };
@@ -133,16 +133,38 @@ function VideoRecord({ props, sendToParent }) {
   };
 
   const handleClick = () => {
-    history.push('/Esign');
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    var raw = JSON.stringify({
+      method_Name: "Update_Stage_Id",
+      mobile_No: localStorage.getItem("userInfo"),
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+    history.push("/Esign");
   };
 
   // const Image=
   return (
     <div>
       <div className="otp-st">
-        <div style={{ fontSize: '12px' }}>
+        <div style={{ fontSize: "12px" }}>
           {numData ? (
-            <h4 style={{ color: 'black' }}>{numData}</h4>
+            <h4 style={{ color: "black" }}>{numData}</h4>
           ) : (
             <span>{textVisible}</span>
           )}
@@ -186,7 +208,7 @@ function VideoRecord({ props, sendToParent }) {
             type="button"
             className="btn-comman text-white"
             inputProps={{
-              style: { textTransform: 'lowecase' },
+              style: { textTransform: "lowecase" },
             }}
             onClick={onStartRecordVideo}
           >
@@ -198,7 +220,7 @@ function VideoRecord({ props, sendToParent }) {
             id="myButton"
             type="button"
             className="btn-comman text-white"
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
             onClick={() => onStopRecordVideo(props)}
           >
             Stop recording & play video
@@ -220,7 +242,7 @@ function VideoRecord({ props, sendToParent }) {
             Retry
           </Button>
         )}
-        <div className="mt-2" style={{ fontSize: '11px', color: '#8C92AC' }}>
+        <div className="mt-2" style={{ fontSize: "11px", color: "#8C92AC" }}>
           <b className="link-comman">Share</b> the verification link to your
           mobile number <br /> if you don't have webcam available
         </div>

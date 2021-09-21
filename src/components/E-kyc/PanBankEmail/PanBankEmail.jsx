@@ -70,6 +70,8 @@ function PanBankEmail() {
   const [bankName, setBankName] = useState("");
   const [branchName, setBranchName] = useState("");
   const [bankDetails, setBankDetails] = useState("");
+  const [emails, setEmails] = useState("");
+  const [PanDetails, setPanDetails] = useState("");
   const classes = useStyles();
   const [inputs, setInputs] = useState({
     email: "",
@@ -90,8 +92,41 @@ function PanBankEmail() {
   // });
   const [selectedDate, setSelectedDate] = useState(null);
   const classList = useStylesForList();
+  // useEffect(() => {
+  //   // const unsuscribe = () => {
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
+  //   myHeaders.append(
+  //     "Authorization",
+  //     `Bearer ${localStorage.getItem("userToken")}`
+  //   );
+  //   var raw = JSON.stringify({
+  //     stageId: 1,
+  //     mobile_No: localStorage.getItem("userInfo"),
+  //   });
 
+  //   var requestOptions = {
+  //     method: "POST",
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: "follow",
+  //   };
+
+  //   fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((result) =>
+  //       // console.log(
+  //       {
+  //         setEmails(result.res_Output[0].result_Description);
+  //         setPanDetails(result.res_Output[0].result_Extra_Key);
+  //       }
+  //     )
+  //     .catch((error) => console.log("error", error));
+  //   // };
+  //   // return unsuscribe;
+  // }, []);
   const handleKRASolidFetch = () => {
+    console.log(PanDetails);
     console.log("i m called");
     if (selectedDate !== "") {
       var myHeaders = new Headers();
@@ -101,7 +136,7 @@ function PanBankEmail() {
       );
       myHeaders.append("Content-Type", "application/json");
       var raw = JSON.stringify({
-        pan_No: inputs.pan,
+        pan_No: PanDetails,
         mobile_No: localStorage.getItem("userInfo"),
       });
 
@@ -128,7 +163,7 @@ function PanBankEmail() {
     );
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
-      apP_PAN_NO: inputs.pan,
+      apP_PAN_NO: PanDetails,
       apP_DOB_INCORP: FormattedDate,
     });
 
@@ -167,9 +202,9 @@ function PanBankEmail() {
       ...inputs,
       dob: `${FormattedDate}`,
       ifsc: IFSCfromSearch,
+      email: emails,
+      pan: PanDetails,
     };
-    // const FormData = { ...inputs, ifsc: IFSCfromSearch };
-    // console.log(FormData);
     if (
       FormData.pan &&
       FormData.dob &&
@@ -177,6 +212,28 @@ function PanBankEmail() {
       FormData.ifsc &&
       FormData.AcNo !== ""
     ) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
+      );
+      var raw = JSON.stringify({
+        method_Name: "Update_Stage_Id",
+        mobile_No: localStorage.getItem("userInfo"),
+      });
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
       history.push("/AccountOpen");
     }
     // console.log(IFSCfromSearch);
@@ -227,8 +284,7 @@ function PanBankEmail() {
     }
   };
   const handleEmailBlur = () => {
-    const EmailToValidate = inputs.email;
-    if (EmailToValidate === "") {
+    if (emails === "") {
       return;
     }
     setemailCircular(true);
@@ -238,10 +294,9 @@ function PanBankEmail() {
       `Bearer ${localStorage.getItem("userToken")}`
     );
     myHeaders.append("Content-Type", "application/json");
-    var EmailtoValidate = inputs.email;
     var raw = JSON.stringify({
       mobile_No: localStorage.getItem("userInfo"),
-      email: inputs.email,
+      email: emails,
       method_Name: "",
     });
 
@@ -269,7 +324,7 @@ function PanBankEmail() {
 
           var raw = JSON.stringify({
             mobile_No: localStorage.getItem("userInfo"),
-            email: EmailtoValidate,
+            email: emails,
             method_Name: "Update_Email_Status",
           });
 
@@ -297,12 +352,11 @@ function PanBankEmail() {
   };
 
   const handlePanBlur = () => {
-    var panToValidate = inputs.pan;
-    if (panToValidate === "") {
+    if (PanDetails === "") {
       return;
     }
     setpanCircular(true);
-    if (panToValidate !== "") {
+    if (PanDetails !== "") {
       var myHeaders = new Headers();
       myHeaders.append(
         "Authorization",
@@ -311,7 +365,7 @@ function PanBankEmail() {
       myHeaders.append("Content-Type", "application/json");
 
       var raw = JSON.stringify({
-        pan_No: panToValidate,
+        pan_No: PanDetails,
         mobile_No: localStorage.getItem("userInfo"),
         method_Name: "PAN_details",
       });
@@ -334,7 +388,7 @@ function PanBankEmail() {
             setpanCircular(false);
           }
           if (result.res_Output[0].result_Description === "E") {
-            var PanToKra = inputs.pan;
+            var PanToKra = PanDetails;
             var myHeaders = new Headers();
             myHeaders.append(
               "Authorization",
@@ -440,7 +494,7 @@ function PanBankEmail() {
             <Col md="12">
               <TextField
                 variant="outlined"
-                autoFocus
+                // autoFocus
                 margin="dense"
                 id="name"
                 label="Enter IFSC Code"
@@ -617,12 +671,14 @@ function PanBankEmail() {
                 <TextField
                   // errorhelperText="Incorrect entry."
                   id="outlined-error-helper-text"
-                  autoFocus
+                  // autoFocus
                   variant="outlined"
                   autoComplete="off"
                   name="email"
-                  defaultValue={inputs.email}
-                  onChange={handleInputChange}
+                  value={emails}
+                  onChange={(e) => {
+                    setEmails(e.target.value);
+                  }}
                   onBlur={handleEmailBlur}
                   // className="form-control"
                   label="Enter Email ID"
@@ -670,9 +726,11 @@ function PanBankEmail() {
                   variant="outlined"
                   autoComplete="off"
                   name="pan"
-                  value={inputs.pan}
+                  value={PanDetails}
                   onBlur={handlePanBlur}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    setPanDetails(e.target.value);
+                  }}
                   // className="form-control"
                   label="Enter PAN Number"
                   InputProps={{
