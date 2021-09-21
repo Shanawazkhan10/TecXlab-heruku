@@ -14,13 +14,8 @@ function PanOrc() {
 
   const getSubmit = (e) => {
     e.preventDefault();
-    // Create an object of formData
     const formData = new FormData();
-
-    // Update the formData object
     formData.append('front_part', panImg);
-
-    // Details of the uploaded file
     console.log(formData);
 
     axios
