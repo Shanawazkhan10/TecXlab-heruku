@@ -12,7 +12,7 @@ import otpImg from '../../../assets/Mobile-OTP.svg';
 import mobileImg from '../../../assets/mobile.svg';
 import ReferalImg from '../../../assets/Referral Code grey.svg';
 import { useHistory } from 'react-router-dom';
-import { getLocation, conVal } from '../Helper/Helper';
+import { getLocation, conVal, mobileOtp } from '../Helper/Helper';
 import InputAdornment from '@material-ui/core/InputAdornment';
 // import AccountCircle from '@material-ui/icons/AccountCircle';
 import Dialog from '@material-ui/core/Dialog';
@@ -273,7 +273,21 @@ function VerifyContact() {
   const referalFun = () => {
     $('.class-referal').show();
   };
+  const OtpValidator = (e) => {
+    e.preventDefault();
+    mobileOtp();
+    setOtp(e.target.value);
+  };
 
+  const handleCheckBox = (e) => {
+    const Checked = e.target.checked;
+    if (Checked) {
+      setBtnDisabled(false);
+      console.log('Checkbox is checked');
+    } else {
+      console.log('Not Checked');
+    }
+  };
   return (
     <div>
       <div>
@@ -394,7 +408,9 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                 <br />
                 <TextField
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
+                  type="number"
+                  id="mobileOtp"
+                  onChange={OtpValidator}
                   className="form-control"
                   label="Enter OTP"
                   variant="outlined"
@@ -487,6 +503,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                     className="mr-2"
                     type="checkbox"
                     style={{ cursor: 'pointer' }}
+                    onClick={(e) => handleCheckBox(e)}
                   />
                   <small>
                     <span>
