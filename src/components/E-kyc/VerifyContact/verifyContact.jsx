@@ -12,7 +12,7 @@ import otpImg from "../../../assets/Mobile-OTP.svg";
 import mobileImg from "../../../assets/mobile.svg";
 import ReferalImg from "../../../assets/Referral Code grey.svg";
 import { useHistory } from "react-router-dom";
-import { getLocation, conVal, mobileOtp } from "../Helper/Helper";
+import { getLocation, conVal, mobileOtp, ORG_ID } from "../Helper/Helper";
 import InputAdornment from "@material-ui/core/InputAdornment";
 // import AccountCircle from '@material-ui/icons/AccountCircle';
 import Dialog from "@material-ui/core/Dialog";
@@ -20,7 +20,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
+// import ORG_ID from "."
 function VerifyContact() {
   const [contact, setContact] = useState("+91");
   const [otp, setOtp] = useState("");
@@ -41,9 +41,11 @@ function VerifyContact() {
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
       errorOTP: "",
+      errorNumber: "",
     },
   });
   useEffect(() => {
+    console.log(ORG_ID);
     $("#countdown").hide();
     $(".class-referal").hide();
     $(".link-resend").hide();
@@ -56,6 +58,29 @@ function VerifyContact() {
     } else {
     }
   }, [otpTime]);
+  useEffect(() => {
+    if (otp.length < 6) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorOTP: "",
+        },
+      }));
+    }
+  }, [otp]);
+  // error msg for contact
+  const handleContactBlur = () => {
+    if (contact.length !== 10) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorNumber: "Wrong Contact",
+        },
+      }));
+    }
+  };
   //  mobile No checking
   useEffect(() => {
     if (contact.length === 10) {
@@ -67,8 +92,16 @@ function VerifyContact() {
       });
 
       smsVerify();
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorNumber: "",
+        },
+      }));
       return;
     }
+
     if (contact.length !== 10) {
       setDisabled(true);
     }
@@ -376,11 +409,13 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               <Col className="" sm="12" md="8">
                 <TextField
                   type="number"
+                  error={errorMsg.errorOBJ.errorNumber ? true : false}
                   id="fieldSelectorNo"
                   pattern="[1-9]{1}[0-9]{9}"
                   value={contact}
                   disabled={MobileDisable}
                   onChange={handleChange}
+                  onBlur={handleContactBlur}
                   className="form-control"
                   label="Enter Contact"
                   variant="outlined"
@@ -407,7 +442,15 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                 />
                 <br />
                 <br />
+                {errorMsg.errorOBJ.errorNumber && (
+                  <div className="div-error-contact">
+                    <span className="error-contact">
+                      {errorMsg.errorOBJ.errorNumber}
+                    </span>
+                  </div>
+                )}
                 <TextField
+                  error={errorMsg.errorOBJ.errorOTP ? true : false}
                   value={otp}
                   type="number"
                   id="mobileOtp"
@@ -430,17 +473,19 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
             </Row>
             <Row>
               {/* <Col className="" sm="12" md="8"> */}
-              {errorMsg.errorOBJ.errorOTP && (
-                <div className="error-div-contact">
-                  {/* <br /> */}
-                  <span className="error-contact">
-                    {errorMsg.errorOBJ.errorOTP}
-                  </span>
-                </div>
-              )}
+              <div>
+                {
+                  <div className="error-div-contact">
+                    {/* <br /> */}
+                    <span className="error-contact">
+                      {errorMsg.errorOBJ.errorOTP}
+                    </span>
+                  </div>
+                }
+              </div>
               {/* </Col> */}
             </Row>
-            <Row className="mt-3">
+            <Row>
               <Col className="" sm="12" md="8">
                 <small>
                   {/* <span> Do you have a </span> */}

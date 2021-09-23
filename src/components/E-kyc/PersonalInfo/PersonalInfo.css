@@ -30,10 +30,14 @@
 }
 .error-msg {
   font-size: 10px;
-  margin-top: 1px;
+  /* margin-top: 1px; */
   color: red;
   font-weight: 400;
-  margin-left: 2px;
+  /* margin-left: 2px; */
+}
+.div-error-contact {
+  margin-top: -9px;
+  margin-left: 3px;
 }
 @media screen and (max-width: 760px) {
   .inside_div_personal {
