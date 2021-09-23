@@ -137,7 +137,7 @@ function VerifyContact() {
     conVal();
     setContact(e.target.value);
   };
-  const GoTo = async (e) => {
+  const handleProceed = async (e) => {
     e.preventDefault();
     if (otp.length === 6) {
       try {
@@ -148,6 +148,9 @@ function VerifyContact() {
           mobile_No: contact,
           otp: otp,
           method_Name: "Check_OTP",
+          org_Id: ORG_ID,
+          flow_Id: "m001001",
+          current_Stage_Id: "c002001",
         });
 
         var requestOptions = {
@@ -160,6 +163,7 @@ function VerifyContact() {
         fetch(`${SERVER_ID}/api/lead/Verify_OTP`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
+            console.log(result);
             // console.log(result);
             localStorage.setItem(
               "userToken",
@@ -203,36 +207,40 @@ function VerifyContact() {
                 .then((result) => console.log(result))
                 .catch((error) => console.log("error", error));
               // staged ID
-              switch (stage_ID) {
-                case "1":
-                  history.push("/Email");
-                  break;
-                case "2":
-                  history.push("/AccountOpen");
-                  break;
-                case "3":
-                  history.push("/AdhaarKYC");
-                  break;
-                case "4":
-                  history.push("/PersonalInfo");
-                  break;
-                case "5":
-                  history.push("/IPVerification");
-                  break;
-                case "6":
-                  history.push("/UploadUi");
-                  break;
-                case "7":
-                  history.push("/LastStep");
-                  break;
-                case "8":
-                  history.push("/FnoNominee");
-                  break;
-
-                default:
-                  history.push("/Email");
-                  break;
+              if (result.res_Output[0].result_Extra_Key !== "") {
+                history.push(result.res_Output[0].result_Extra_Key);
               }
+              // history.push()
+              // switch (stage_ID) {
+              //   case "1":
+              //     history.push("/Email");
+              //     break;
+              //   case "2":
+              //     history.push("/AccountOpen");
+              //     break;
+              //   case "3":
+              //     history.push("/AdhaarKYC");
+              //     break;
+              //   case "4":
+              //     history.push("/PersonalInfo");
+              //     break;
+              //   case "5":
+              //     history.push("/IPVerification");
+              //     break;
+              //   case "6":
+              //     history.push("/UploadUi");
+              //     break;
+              //   case "7":
+              //     history.push("/LastStep");
+              //     break;
+              //   case "8":
+              //     history.push("/FnoNominee");
+              //     break;
+
+              //   default:
+              //     history.push("/Email");
+              //     break;
+              // }
               // history.push("/Email");
             } else {
               seterrorMsg((prevState) => ({
@@ -285,6 +293,9 @@ function VerifyContact() {
     var raw = JSON.stringify({
       mobile_No: contact,
       method_Name: "Check_Mobile_No",
+      org_Id: ORG_ID,
+      flow_Id: "m001001",
+      current_Stage_Id: "c002001",
     });
 
     var requestOptions = {
@@ -297,6 +308,7 @@ function VerifyContact() {
     fetch(`${SERVER_ID}/api/lead/Read_Lead`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        console.log(result);
         setgenerateOtp(result.res_Output[0].result_Extra_Key);
         // console.log(result);
       })
@@ -582,7 +594,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                   disabled={btnDisabled}
                   type="submit"
                   // fullWidth="true"
-                  onClick={GoTo}
+                  onClick={handleProceed}
                   className="btn font-weight-bold color-gradiant form-control text-white border-0 btn-block"
                 >
                   Proceed

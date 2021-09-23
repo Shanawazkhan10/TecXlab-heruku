@@ -11,7 +11,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import moment from "moment";
 // import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-
+import { Typography } from "@mui/material";
 import DialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router";
@@ -19,11 +19,9 @@ import SubInputAdornment from "../SubComponent/SubInputAdornment";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import { makeStyles } from "@material-ui/core/styles";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-// import { DatePicker } from "@material-ui/pickers";
-import ListItem from "@material-ui/core/ListItem";
 
+import ListItem from "@material-ui/core/ListItem";
+import Checkbox from "@mui/material/Checkbox";
 import List from "@material-ui/core/List";
 import DateFnsUtils from "@date-io/date-fns";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -560,7 +558,7 @@ function PanBankEmail() {
         aria-labelledby="form-dialog-title"
       >
         <DialogContent>
-          <Container style={{ width: 300 }}>
+          <Container style={{ width: 320 }}>
             <Row>
               <Col md="10">
                 <span>Find your IFSC Code</span>
@@ -569,52 +567,62 @@ function PanBankEmail() {
                 <CloseIcon className="close" onClick={handleClose} />
               </Col>
             </Row>
-            <Col md="12">
-              <TextField
-                variant="outlined"
-                // autoFocus
-                margin="dense"
-                id="name"
-                label="Enter IFSC Code"
-                type="text"
-                // fullWidth
-              />
-              {/* </Col> */}
-              <Row>
-                <Col className="text-center">
-                  {" "}
-                  <span align="center">Or</span>
-                </Col>
-              </Row>
-
-              <TextField
-                variant="outlined"
-                // autoFocus
-                value={bankName}
-                onChange={(e) => setBankName(e.target.value)}
-                margin="dense"
-                id="name"
-                label="Enter Bank Name"
-                type="text"
-                // fullWidth
-              />
-
-              <TextField
-                variant="outlined"
-                // autoFocus
-                value={branchName}
-                margin="dense"
-                // id="name"Enter Branch Location
-                onChange={(e) => setBranchName(e.target.value)}
-                label="Enter Branch Location"
-                type="text"
-                // fullWidth
-              />
-            </Col>
+            {/* <Col md="12"> */}
+            <Row>
+              <Col md="12">
+                <TextField
+                  variant="outlined"
+                  // autoFocus
+                  margin="dense"
+                  id="name"
+                  label="Enter IFSC Code"
+                  type="text"
+                  fullWidth
+                />
+              </Col>
+            </Row>
+            {/* </Col> */}
+            <Row>
+              <Col className="text-center">
+                {" "}
+                <span align="center">Or</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col md="12">
+                <TextField
+                  variant="outlined"
+                  // autoFocus
+                  value={bankName}
+                  onChange={(e) => setBankName(e.target.value)}
+                  margin="dense"
+                  id="name"
+                  label="Enter Bank Name"
+                  type="text"
+                  fullWidth
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col md="12">
+                <TextField
+                  variant="outlined"
+                  // autoFocus
+                  value={branchName}
+                  margin="dense"
+                  // id="name"Enter Branch Location
+                  onChange={(e) => setBranchName(e.target.value)}
+                  label="Enter Branch Location"
+                  type="text"
+                  fullWidth
+                />
+              </Col>
+            </Row>
+            {/* </Col> */}
             <Row>
               <Col className="mt-3">
                 <Button
-                  // fullWidth="true"
+                  fullWidth="true"
                   type="submit"
                   onClick={IFSCsearch}
                   className="btn-searchIFSC text-white"
@@ -622,6 +630,8 @@ function PanBankEmail() {
                   Search
                 </Button>
               </Col>
+            </Row>
+            <Row>
               {/* <Container style={{ height: 100 }}> */}
               <Col className="mt-2 ">
                 <div className="search-list">
@@ -631,43 +641,75 @@ function PanBankEmail() {
                         const labelId = `checkbox-list-label-${value}`;
 
                         return (
-                          <ListItem
-                            key={value.ifsc}
-                            role={undefined}
-                            dense
-                            button
-                            onClick={handleToggle(value)}
-                          >
-                            <Container>
-                              <Row>
-                                <Col>
-                                  <span style={{ fontSize: 13 }}>
-                                    {value.branch}
-                                  </span>
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col>
-                                  <span style={{ fontSize: 13 }}>
-                                    Address :
-                                  </span>{" "}
-                                  <span style={{ fontSize: 11 }}>
-                                    {value.address}
-                                  </span>
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col>
-                                  <span style={{ fontSize: 13 }}>
-                                    IFSC CODE :
-                                  </span>{" "}
-                                  <span style={{ fontSize: 11 }}>
-                                    {value.ifsc}
-                                  </span>{" "}
-                                </Col>
-                              </Row>
-                            </Container>
-                          </ListItem>
+                          <div>
+                            <Row>
+                              <Col md="2">
+                                <Checkbox
+                                  key={value.ifsc}
+                                  role={undefined}
+                                  dense
+                                  button
+                                  onClick={handleToggle(value)}
+                                />
+                              </Col>
+                              <Col md="10">
+                                <ListItem>
+                                  <Container>
+                                    <Row>
+                                      <Col>
+                                        <div>
+                                          <Typography
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: "bold",
+                                            }}
+                                          >
+                                            {value.branch}
+                                          </Typography>
+                                          {/* <br /> */}
+                                          <Typography
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: "bold",
+                                            }}
+                                          >
+                                            Address :{" "}
+                                            <span
+                                              style={{
+                                                fontSize: 11,
+                                                fontWeight: "bold",
+                                              }}
+                                            >
+                                              {value.address}
+                                            </span>
+                                          </Typography>{" "}
+                                          {/* <br /> */}
+                                          <Typography
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: "bold",
+                                            }}
+                                          >
+                                            IFSC CODE :
+                                            <span
+                                              style={{
+                                                fontSize: 11,
+                                                fontWeight: "bold",
+                                              }}
+                                            >
+                                              {" "}
+                                              {value.ifsc}
+                                            </span>
+                                          </Typography>{" "}
+                                        </div>
+                                      </Col>
+                                    </Row>
+                                  </Container>
+                                </ListItem>
+                                <hr />
+                              </Col>
+                            </Row>
+                          </div>
                         );
                       })}
                     </List>
