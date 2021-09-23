@@ -1,6 +1,7 @@
-import $ from 'jquery';
+import $ from "jquery";
+const ORG_ID = "S001";
 function conVal() {
-  $('#fieldSelectorNo').keypress(function (e) {
+  $("#fieldSelectorNo").keypress(function (e) {
     var length = $(this).val().length;
     if (length > 9) {
       return false;
@@ -16,7 +17,7 @@ function conVal() {
   });
 }
 function OtpVal() {
-  $('#fieldOtp').keypress(function (e) {
+  $("#fieldOtp").keypress(function (e) {
     var length = $(this).val().length;
     if (length > 3) {
       return false;
@@ -32,7 +33,7 @@ function OtpVal() {
   });
 }
 function mobileOtp() {
-  $('#mobileOtp').keypress(function (e) {
+  $("#mobileOtp").keypress(function (e) {
     var length = $(this).val().length;
     if (length > 5) {
       return false;
@@ -48,7 +49,7 @@ function mobileOtp() {
   });
 }
 function IfscValidator() {
-  $('#fieldSelectorNo').keypress(function (e) {
+  $("#fieldSelectorNo").keypress(function (e) {
     var length = $(this).val().length;
     if (length > 10) {
       return false;
@@ -64,7 +65,7 @@ function IfscValidator() {
   });
 }
 function namVal() {
-  $('#fieldSelectorname').keypress(function (e) {
+  $("#fieldSelectorname").keypress(function (e) {
     var length = $(this).val().length;
     if (length > 25) {
       return false;
@@ -74,9 +75,9 @@ function namVal() {
 //geolocation function
 function getLocation(callback) {
   $.ajax({
-    url: 'https://geolocation-db.com/jsonp',
-    jsonpCallback: 'callback',
-    dataType: 'jsonp',
+    url: "https://geolocation-db.com/jsonp",
+    jsonpCallback: "callback",
+    dataType: "jsonp",
     success: function (location) {
       callback(location);
       // return data;
@@ -90,4 +91,12 @@ function getLocation(callback) {
 // }
 // handle success case
 
-export { conVal, namVal, getLocation, IfscValidator, OtpVal, mobileOtp };
+export {
+  conVal,
+  namVal,
+  getLocation,
+  IfscValidator,
+  OtpVal,
+  mobileOtp,
+  ORG_ID,
+};

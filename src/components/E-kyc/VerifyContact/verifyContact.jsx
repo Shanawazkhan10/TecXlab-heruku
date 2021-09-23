@@ -12,7 +12,7 @@ import otpImg from "../../../assets/Mobile-OTP.svg";
 import mobileImg from "../../../assets/mobile.svg";
 import ReferalImg from "../../../assets/Referral Code grey.svg";
 import { useHistory } from "react-router-dom";
-import { getLocation, conVal, mobileOtp } from "../Helper/Helper";
+import { getLocation, conVal, mobileOtp, ORG_ID } from "../Helper/Helper";
 import InputAdornment from "@material-ui/core/InputAdornment";
 // import AccountCircle from '@material-ui/icons/AccountCircle';
 import Dialog from "@material-ui/core/Dialog";
@@ -20,7 +20,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
+// import ORG_ID from "."
 function VerifyContact() {
   const [contact, setContact] = useState("+91");
   const [otp, setOtp] = useState("");
@@ -41,9 +41,11 @@ function VerifyContact() {
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
       errorOTP: "",
+      errorNumber: "",
     },
   });
   useEffect(() => {
+    console.log(ORG_ID);
     $("#countdown").hide();
     $(".class-referal").hide();
     $(".link-resend").hide();
@@ -408,6 +410,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                 <br />
                 <br />
                 <TextField
+                  // error
                   value={otp}
                   type="number"
                   id="mobileOtp"
