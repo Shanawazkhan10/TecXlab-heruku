@@ -10,6 +10,8 @@ import { useHistory } from 'react-router-dom';
 import Image from 'react-bootstrap/Image';
 import img from '../../../images/black.png';
 import SERVER_ID from '../Configure/configure';
+import './VideoRec.css';
+import { Col } from 'reactstrap';
 const captureCamera = (callback) => {
   navigator.mediaDevices
     .getUserMedia({
@@ -51,6 +53,11 @@ function VideoRecord({ props, sendToParent }) {
   const [ipvData, SetIpvData] = useState('');
   const [Bimg, SetBImg] = useState(img);
 
+  const [errorMsg, seterrorMsg] = useState({
+    errorOBJ: {
+      OtpError: '',
+    },
+  });
   let history = useHistory();
   useEffect(() => {
     if (flag === true) {
@@ -163,7 +170,7 @@ function VideoRecord({ props, sendToParent }) {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
-    history.push('/Esign');
+    // history.push('/Esign');
   };
 
   return (
@@ -195,20 +202,24 @@ function VideoRecord({ props, sendToParent }) {
       <br />
       <TextField
         type="number"
+        error={pass === numData ? false : true}
         variant="outlined"
         id="mobileOtp"
         autoComplete="off"
         value={pass}
         disabled={otpField}
-        onBlur={(eve) => handleData(eve)}
+        // onBlur={(eve) => handleData(eve)}
         onChange={(e) => changeHandler(e)}
-        className="form-control"
+        className="form-control mb-3"
         // onBlur={handleOTO}
         label="Enter the OTP"
         style={{ width: `17rem` }}
       />
-      <br />
-      <br />
+      <Col>
+        <div className="div-msg">
+          <span className="div-err">Error</span>
+        </div>
+      </Col>
       <br />
       <div>
         {!recorder && (
@@ -234,7 +245,7 @@ function VideoRecord({ props, sendToParent }) {
             Stop recording & play video
           </Button>
         )}
-        {pass && (
+        {ipvData && (
           <Button
             type="button"
             className="btn-comman text-white"
