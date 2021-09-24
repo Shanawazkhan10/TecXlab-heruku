@@ -8,6 +8,7 @@
   text-align: center;
 }
 .modal_open {
+  margin-left: 162px;
   cursor: pointer;
   /* float: right; */
 }
@@ -27,7 +28,7 @@
 .btn-searchIFSC {
   height: 40px;
   border-radius: 5px;
-  background-image: linear-gradient(to right, #7f00ff, #e100ff);
+  background-image: linear-gradient(to right, #6a4eee, #6a4eee);
   color: white;
   border: none;
   /* margin-left: 16px !important; */
@@ -36,6 +37,9 @@
 .search-list {
   /* width: 224px; */
   /* margin-left: 16px; */
+}
+.abc > .MuiMonthPicker-root {
+  background-color: white;
 }
 @media only screen and (max-width: 600px) {
   .margin-pan {

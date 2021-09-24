@@ -149,8 +149,8 @@ function VerifyContact() {
           otp: otp,
           method_Name: "Check_OTP",
           org_Id: ORG_ID,
-          flow_Id: "m001001",
-          current_Stage_Id: "c002001",
+          flow_Id: "M001001",
+          current_Stage_Id: "C002001",
         });
 
         var requestOptions = {
@@ -170,9 +170,10 @@ function VerifyContact() {
               result.res_Output[0].result_Description
             );
             if (result.res_Output[0].result_Id === 1) {
-              const stage_ID = result.res_Output[0].result_Extra_Key;
+              // const stage_ID = result.res_Output[0].result_Extra_Key;
+              const lead_Id = result.res_Output[0].lead_Id;
               localStorage.setItem("userInfo", contact);
-              localStorage.setItem("Staged_ID", stage_ID);
+              localStorage.setItem("lead_Id", lead_Id);
 
               // console.log("OTP VERIFIED");
               // work with your data came from server
@@ -207,8 +208,11 @@ function VerifyContact() {
                 .then((result) => console.log(result))
                 .catch((error) => console.log("error", error));
               // staged ID
-              if (result.res_Output[0].result_Extra_Key !== "") {
-                history.push(result.res_Output[0].result_Extra_Key);
+              // console.log(result.res_Output[0].stage_ID);
+              if (result.res_Output[0].stage_Id !== "") {
+                history.push(result.res_Output[0].stage_Id);
+              } else {
+                console.log("ERROR ON VERIFY MIDDLEWARE OR BACKEND");
               }
               // history.push()
               // switch (stage_ID) {

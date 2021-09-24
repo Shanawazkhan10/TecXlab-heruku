@@ -42,7 +42,7 @@ input[type="number"] {
   color: red;
 }
 .color-gradiant {
-  background-image: linear-gradient(to right, #7f00ff, #e100ff);
+  background-image: linear-gradient(to right, #6a4eee, #6a4eee);
 }
 .text-white {
   color: white !important;
@@ -57,7 +57,7 @@ input[type="number"] {
   width: 300px;
   height: 40px;
   border-radius: 5px;
-  background-image: linear-gradient(to right, #7f00ff, #e100ff);
+  background-image: linear-gradient(to right, #6a4eee, #6a4eee);
   color: white;
   border: none;
 }
@@ -65,7 +65,7 @@ input[type="number"] {
   width: 117px;
   height: 40px;
   border-radius: 5px;
-  background-image: linear-gradient(to right, #7f00ff, #e100ff);
+  background-image: linear-gradient(to right, #6a4eee, #6a4eee);
   color: white;
   border: none;
 }

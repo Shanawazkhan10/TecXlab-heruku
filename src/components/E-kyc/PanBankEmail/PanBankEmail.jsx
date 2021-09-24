@@ -30,7 +30,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import Stack from "@mui/material/Stack";
-import Radio from "@mui/material/Radio";
+import { ORG_ID } from "../Helper/Helper";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -334,9 +334,10 @@ function PanBankEmail() {
     );
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
+      org_Id: ORG_ID,
       mobile_No: localStorage.getItem("userInfo"),
       email: emails,
-      method_Name: "",
+      method_Name: "Update_Email",
     });
 
     var requestOptions = {
@@ -644,8 +645,7 @@ function PanBankEmail() {
                           <div>
                             <Row>
                               <Col md="2">
-                                {/* <Radio /> */}
-                                <Radio
+                                <Checkbox
                                   key={value.ifsc}
                                   role={undefined}
                                   dense
@@ -810,7 +810,6 @@ function PanBankEmail() {
                   autoComplete="off"
                   name="email"
                   value={emails}
-                  error
                   onChange={(e) => {
                     setEmails(e.target.value);
                   }}
