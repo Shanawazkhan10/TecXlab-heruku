@@ -76,7 +76,7 @@ function VerifyContact() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorNumber: "Wrong Contact",
+          errorNumber: "Enter Valid Contact",
         },
       }));
     }
@@ -294,8 +294,8 @@ function VerifyContact() {
       mobile_No: contact,
       method_Name: "Check_Mobile_No",
       org_Id: ORG_ID,
-      flow_Id: "m001001",
-      current_Stage_Id: "c002001",
+      flow_Id: "M001001",
+      current_Stage_Id: "C002001",
     });
 
     var requestOptions = {

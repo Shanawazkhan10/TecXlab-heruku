@@ -30,7 +30,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import Stack from "@mui/material/Stack";
-
+import Radio from "@mui/material/Radio";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -644,7 +644,8 @@ function PanBankEmail() {
                           <div>
                             <Row>
                               <Col md="2">
-                                <Checkbox
+                                {/* <Radio /> */}
+                                <Radio
                                   key={value.ifsc}
                                   role={undefined}
                                   dense
@@ -809,6 +810,7 @@ function PanBankEmail() {
                   autoComplete="off"
                   name="email"
                   value={emails}
+                  error
                   onChange={(e) => {
                     setEmails(e.target.value);
                   }}
