@@ -335,6 +335,7 @@ function PanBankEmail() {
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
       org_Id: ORG_ID,
+      lead_Id: localStorage.getItem("lead_Id"),
       mobile_No: localStorage.getItem("userInfo"),
       email: emails,
       method_Name: "Update_Email",
@@ -347,11 +348,11 @@ function PanBankEmail() {
       redirect: "follow",
     };
 
-    fetch(`${SERVER_ID}/api/email/Email_Status`, requestOptions)
+    fetch(`${SERVER_ID}/api/email/Update_Email`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setemailResponse(result);
-
+        console.log(result);
         if (result !== "") {
           setemailCircular(false);
         }
