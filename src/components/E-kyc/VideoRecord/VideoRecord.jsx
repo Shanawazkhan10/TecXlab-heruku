@@ -180,7 +180,7 @@ function VideoRecord({ props, sendToParent }) {
         },
       }));
     }
-  }, [pass]);
+  }, [pass, numData]);
   const handleOtp = () => {
     if (pass.length !== 4) {
       seterrorMsg((preState) => ({
