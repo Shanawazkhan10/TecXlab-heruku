@@ -1,37 +1,37 @@
-import React from "react";
-import { Container, Row, Col } from "reactstrap";
-import Button from "@material-ui/core/Button";
-import Card from "react-bootstrap/Card";
-import "./LastStep.css";
-import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
-import { useHistory } from "react-router";
-import SERVER_ID from "../Configure/configure";
+import React from 'react';
+import { Container, Row, Col } from 'reactstrap';
+import Button from '@material-ui/core/Button';
+import Card from 'react-bootstrap/Card';
+import './LastStep.css';
+import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
+import { useHistory } from 'react-router';
+import SERVER_ID from '../Configure/configure';
 const LastStep = () => {
   const history = useHistory();
   const handleClick = () => {
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
     myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("userToken")}`
+      'Authorization',
+      `Bearer ${localStorage.getItem('userToken')}`
     );
     var raw = JSON.stringify({
-      method_Name: "Update_Stage_Id",
-      mobile_No: localStorage.getItem("userInfo"),
+      method_Name: 'Update_Stage_Id',
+      mobile_No: localStorage.getItem('userInfo'),
     });
 
     var requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: "follow",
+      redirect: 'follow',
     };
 
     fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-    history.push("/FnoNominee");
+      .catch((error) => console.log('error', error));
+    history.push('/FnoNominee');
   };
   return (
     <div>
@@ -39,7 +39,7 @@ const LastStep = () => {
         <Row>
           <Col md="7" className="div-PanEmail">
             <Col>
-              <h3 className="float-left">Last step !</h3>
+              <h3 className="float-left">Esign</h3>
               <br />
               <hr className="hr-personal color-gradiant" />
             </Col>
@@ -84,7 +84,7 @@ const LastStep = () => {
           </Col>
           <Col md="5" className="div-PanEmail">
             <Col>
-              <Card style={{ width: "22rem" }}>
+              <Card style={{ width: '22rem' }}>
                 <Card.Body>
                   {/* <Card.Title>Card Title</Card.Title> */}
                   <Row>
@@ -94,7 +94,7 @@ const LastStep = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {""}
+                        {''}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -107,7 +107,7 @@ const LastStep = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {""}
+                        {''}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -117,7 +117,7 @@ const LastStep = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {""}
+                        {''}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -129,7 +129,7 @@ const LastStep = () => {
                           className="class-icons"
                           fontSize="small"
                         />
-                        {""}
+                        {''}
                         Card Subtitle
                       </Card.Subtitle>
                     </Col>
@@ -139,7 +139,7 @@ const LastStep = () => {
                       className="class-icons"
                       fontSize="small"
                     />
-                    {""}
+                    {''}
                     Some quick example text to build on the card title and make
                     up the bulk of the card's content.
                   </Card.Subtitle>

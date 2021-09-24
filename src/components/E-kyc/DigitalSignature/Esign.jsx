@@ -9,6 +9,7 @@ const FinalizeData = createContext();
 
 const Esign = ({ EsignData, HandleModalCloser }) => {
   const [disable, SetDisable] = useState(false);
+  const [retryDisable, SetRetryDisable] = useState(true);
   const SignRef = useRef({});
   const BtnRef = useRef();
   // const [show, SetShow] = useState(false);
@@ -64,7 +65,7 @@ const Esign = ({ EsignData, HandleModalCloser }) => {
         {/* <h5>Add your Digital Signature (E-sign)</h5> */}
         <div
           style={{
-            border: '1px solid black',
+            border: '1px solid gray',
             borderRadius: '10px',
             display: 'flex',
             justifyContent: 'center',
@@ -75,8 +76,8 @@ const Esign = ({ EsignData, HandleModalCloser }) => {
           <SignatureCanvas
             ref={SignRef}
             canvasProps={{
-              width: '250px',
-              height: '150px',
+              width: '334px',
+              height: '250px',
             }}
           />
         </div>
@@ -88,24 +89,25 @@ const Esign = ({ EsignData, HandleModalCloser }) => {
           }}
         >
           <Button
-            className="btn-comman text-white"
-            variant="contained"
-            color="primary"
-            onClick={ClearHandler}
-            style={{ marginRight: '80px' }}
-          >
-            Clear
-          </Button>
-          <Button
             ref={BtnRef}
             className="btn-comman text-white"
             variant="contained"
             color="primary"
             disabled={disable}
             onClick={SaveHandler}
-            style={{ marginLeft: '80px' }}
+            style={{ marginRight: '20px' }}
           >
-            Save
+            Upload
+          </Button>
+          <Button
+            className="btn-comman text-white"
+            variant="contained"
+            color="primary"
+            onClick={ClearHandler}
+            style={{ marginLeft: '20px' }}
+            // disabled={retryDisable}
+          >
+            Retry
           </Button>
         </div>
       </>
