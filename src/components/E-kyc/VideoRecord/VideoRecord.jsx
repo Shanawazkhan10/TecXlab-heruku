@@ -4,7 +4,7 @@ import { getLocation } from '../Helper/Helper';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import LoopSharpIcon from '@material-ui/icons/LoopSharp';
-import { mobileOtp } from '../Helper/Helper';
+import { mobileOtp, OtpVal } from '../Helper/Helper';
 import './VideoRecordStyle.css';
 import { useHistory } from 'react-router-dom';
 import Image from 'react-bootstrap/Image';
@@ -91,7 +91,7 @@ function VideoRecord({ props, sendToParent }) {
       document.getElementById('myButton').click();
     }, 5000);
     SetDisable(true);
-    const RandNums = (Math.floor(Math.random() * 10000) + 1000000)
+    const RandNums = (Math.floor(Math.random() * 10000) + 10000)
       .toString()
       .substring(1);
     SetNumData(RandNums);
@@ -137,17 +137,15 @@ function VideoRecord({ props, sendToParent }) {
   };
   const changeHandler = (e) => {
     e.preventDefault();
-    mobileOtp();
+    OtpVal();
     SetPass(e.target.value);
   };
 
-  const handleData = (eve) => {
-    SetOtpValue(eve.target.value);
-  };
   const handleClick = () => {
-    console.log(pass);
-    console.log(numData);
+    // console.log(pass);
+    // console.log(numData);
     // console.log('OPT VALS ON BLUE', OtpValue);
+
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append(
@@ -170,7 +168,29 @@ function VideoRecord({ props, sendToParent }) {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
-    // history.push('/Esign');
+    history.push('/Esign');
+  };
+  useEffect(() => {
+    if (pass !== '' && pass === numData) {
+      seterrorMsg((preState) => ({
+        ...preState,
+        errorOBJ: {
+          ...preState.errorOBJ,
+          OtpError: '',
+        },
+      }));
+    }
+  }, [pass]);
+  const handleOtp = () => {
+    if (pass.length !== 4) {
+      seterrorMsg((preState) => ({
+        ...preState,
+        errorOBJ: {
+          ...preState.errorOBJ,
+          OtpError: 'Please enter correct OTP',
+        },
+      }));
+    }
   };
 
   return (
@@ -202,13 +222,13 @@ function VideoRecord({ props, sendToParent }) {
       <br />
       <TextField
         type="number"
-        error={pass === numData ? false : true}
+        error={errorMsg.errorOBJ.OtpError ? true : false}
         variant="outlined"
-        id="mobileOtp"
+        id="fieldOtp"
         autoComplete="off"
         value={pass}
         disabled={otpField}
-        // onBlur={(eve) => handleData(eve)}
+        onBlur={handleOtp}
         onChange={(e) => changeHandler(e)}
         className="form-control mb-3"
         // onBlur={handleOTO}
@@ -216,9 +236,11 @@ function VideoRecord({ props, sendToParent }) {
         style={{ width: `17rem` }}
       />
       <Col>
-        <div className="div-msg">
-          <span className="div-err">Error</span>
-        </div>
+        {errorMsg.errorOBJ.OtpError && (
+          <div className="div-msg">
+            <span className="div-err">{errorMsg.errorOBJ.OtpError}</span>
+          </div>
+        )}
       </Col>
       <br />
       <div>
