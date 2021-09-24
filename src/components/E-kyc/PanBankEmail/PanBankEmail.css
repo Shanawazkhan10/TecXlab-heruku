@@ -30,12 +30,12 @@
   background-image: linear-gradient(to right, #7f00ff, #e100ff);
   color: white;
   border: none;
-  margin-left: 16px !important;
-  width: 224px;
+  /* margin-left: 16px !important; */
+  /* width: 224px; */
 }
 .search-list {
-  width: 224px;
-  margin-left: 16px;
+  /* width: 224px; */
+  /* margin-left: 16px; */
 }
 @media only screen and (max-width: 600px) {
   .margin-pan {

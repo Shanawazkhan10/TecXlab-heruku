@@ -12,7 +12,8 @@
   /* margin-top: 22px;
   margin-left: 0px; */
   color: red;
-  font-size: 12px !important;
+  font-size: 10px !important;
+  font-weight: 400;
 }
 .error-div-contact {
   margin-top: 14px;
