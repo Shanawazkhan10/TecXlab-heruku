@@ -1,3 +1,8 @@
 .image-select {
   object-fit: contain;
 }
+.error-file {
+  color: red;
+  font-weight: 400;
+  font-size: 10px !important;
+}
