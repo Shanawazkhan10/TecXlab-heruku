@@ -263,7 +263,9 @@ function PanBankEmail() {
       );
       var raw = JSON.stringify({
         method_Name: "Update_Stage_Id",
-        mobile_No: localStorage.getItem("userInfo"),
+        // mobile_No: localStorage.getItem("userInfo"),
+        org_Id: ORG_ID,
+        lead_Id: localStorage.getItem("lead_Id"),
       });
 
       var requestOptions = {
@@ -397,6 +399,26 @@ function PanBankEmail() {
       })
       .catch((error) => console.log("error", error));
   };
+  const handleIFSCDialog = async () => {
+    setBankName("");
+    setBranchName("");
+    setOpen(false);
+    setBankDetails("");
+    if (IFSCfromSearch !== "") {
+      var requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        `https://ifsc.razorpay.com/${IFSCfromSearch}`,
+        requestOptions
+      );
+      const getIfscData = await response.json();
+      setIfscResponse(getIfscData);
+      setOpenIfsc(true);
+    }
+  };
   const ifscConfirm = () => {
     setTextifsc(true);
     setOpenIfsc(false);
@@ -468,6 +490,7 @@ function PanBankEmail() {
             if (panResponse === "") {
               setpanCircular(false);
               SetDobDisable(false);
+              alert("NOT GET RESPONSE FORM NSDL PAN");
               return;
             }
           }, 10000);
@@ -538,24 +561,10 @@ function PanBankEmail() {
   const handleToggle = (value) => async () => {
     // console.log(value.ifsc);
     setIFSCfromSearch(value.ifsc);
-    setBankName("");
-    setBranchName("");
-    setOpen(false);
-    setBankDetails("");
-    if (value.ifsc !== "") {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-
-      const response = await fetch(
-        `https://ifsc.razorpay.com/${value.ifsc}`,
-        requestOptions
-      );
-      const getIfscData = await response.json();
-      setIfscResponse(getIfscData);
-      setOpenIfsc(true);
-    }
+    // setBankName("");
+    // setBranchName("");
+    // setOpen(false);
+    // setBankDetails("");
   };
   const minDate = "04.18.1996";
   const TextFieldComponent = (props) => {
@@ -652,83 +661,111 @@ function PanBankEmail() {
               <Col className="mt-2 ">
                 <div className="search-list">
                   {bankDetails && (
-                    <List className={classList.root}>
-                      {bankDetails.map((value) => {
-                        const labelId = `checkbox-list-label-${value}`;
+                    <div>
+                      <List className={classList.root}>
+                        {bankDetails.map((value) => {
+                          const labelId = `checkbox-list-label-${value}`;
 
-                        return (
-                          <div>
-                            <Row>
-                              <Col md="2">
-                                <Radio
-                                  key={value.ifsc}
-                                  role={undefined}
-                                  dense
-                                  button
-                                  onClick={handleToggle(value)}
-                                />
-                              </Col>
-                              <Col md="10">
-                                <ListItem>
-                                  <Container>
-                                    <Row>
-                                      <Col>
-                                        <div>
-                                          <Typography
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: "bold",
-                                            }}
-                                          >
-                                            {value.branch}
-                                          </Typography>
-                                          {/* <br /> */}
-                                          <Typography
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: "bold",
-                                            }}
-                                          >
-                                            Address :{" "}
-                                            <span
+                          return (
+                            <div>
+                              <Row>
+                                <Col md="2">
+                                  <Radio
+                                    key={value.ifsc}
+                                    role={undefined}
+                                    dense
+                                    button
+                                    onClick={handleToggle(value)}
+                                  />
+                                </Col>
+                                <Col md="10">
+                                  <ListItem>
+                                    <Container>
+                                      <Row>
+                                        <Col>
+                                          <div>
+                                            <Typography
                                               style={{
-                                                fontSize: 11,
+                                                fontSize: 14,
                                                 fontWeight: "bold",
                                               }}
                                             >
-                                              {value.address}
-                                            </span>
-                                          </Typography>{" "}
-                                          {/* <br /> */}
-                                          <Typography
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: "bold",
-                                            }}
-                                          >
-                                            IFSC CODE :
-                                            <span
+                                              {value.branch}
+                                            </Typography>
+                                            {/* <br /> */}
+                                            <Typography
                                               style={{
-                                                fontSize: 11,
+                                                fontSize: 14,
                                                 fontWeight: "bold",
                                               }}
                                             >
-                                              {" "}
-                                              {value.ifsc}
-                                            </span>
-                                          </Typography>{" "}
-                                        </div>
-                                      </Col>
-                                    </Row>
-                                  </Container>
-                                </ListItem>
-                                <hr />
-                              </Col>
-                            </Row>
-                          </div>
-                        );
-                      })}
-                    </List>
+                                              Address :{" "}
+                                              <span
+                                                style={{
+                                                  fontSize: 11,
+                                                  fontWeight: "bold",
+                                                }}
+                                              >
+                                                {value.address}
+                                              </span>
+                                            </Typography>{" "}
+                                            {/* <br /> */}
+                                            <Typography
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: "bold",
+                                              }}
+                                            >
+                                              IFSC CODE :
+                                              <span
+                                                style={{
+                                                  fontSize: 11,
+                                                  fontWeight: "bold",
+                                                }}
+                                              >
+                                                {" "}
+                                                {value.ifsc}
+                                              </span>
+                                            </Typography>{" "}
+                                          </div>
+                                        </Col>
+                                      </Row>
+                                    </Container>
+                                  </ListItem>
+                                  <hr />
+                                </Col>
+                              </Row>
+                            </div>
+                          );
+                        })}
+                      </List>
+                      <Row>
+                        <Col className="mt-3">
+                          <Button
+                            fullWidth="true"
+                            type="submit"
+                            onClick={handleIFSCDialog}
+                            className="btn-searchIFSC text-white"
+                          >
+                            CONFIRM
+                          </Button>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col className="mt-3">
+                          <Button
+                            fullWidth="true"
+                            type="submit"
+                            onClick={() => {
+                              setIFSCfromSearch("");
+                            }}
+                            className="btn-searchIFSC text-white"
+                          >
+                            CANCEL
+                          </Button>
+                        </Col>
+                      </Row>
+                    </div>
                   )}
                 </div>
               </Col>

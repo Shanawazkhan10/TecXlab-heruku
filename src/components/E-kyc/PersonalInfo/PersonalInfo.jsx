@@ -12,7 +12,8 @@ import Button from "@material-ui/core/Button";
 import PersonalImg from "../../../images/Personal_Details_Illustration.png";
 import { useHistory } from "react-router";
 import SERVER_ID from "../Configure/configure";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
+import { ORG_ID } from "../Helper/Helper";
 const PersonalInfo = () => {
   const history = useHistory();
   // const [isBtnVisible, SetIsBtnVisible] = useState(true);
@@ -273,7 +274,8 @@ const PersonalInfo = () => {
         `Bearer ${localStorage.getItem("userToken")}`
       );
       var raw = JSON.stringify({
-        mobile_No: localStorage.getItem("userInfo"),
+        org_Id: ORG_ID,
+        lead_Id: localStorage.getItem("lead_Id"),
         father_Name: inputs.fatherName,
         mother_Name: inputs.motherName,
         income: inputs.income,
@@ -304,7 +306,8 @@ const PersonalInfo = () => {
           );
           var raw = JSON.stringify({
             method_Name: "Update_Stage_Id",
-            mobile_No: localStorage.getItem("userInfo"),
+            org_Id: ORG_ID,
+            lead_Id: localStorage.getItem("lead_Id"),
           });
 
           var requestOptions = {

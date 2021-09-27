@@ -7,6 +7,7 @@ import aadharImg from "../../../images/Aadhar_KYC_Illustration.png";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router";
 import SERVER_ID from "../Configure/configure";
+import { ORG_ID } from "../Helper/Helper";
 const AdhaarKyc = (url) => {
   const history = useHistory();
 
@@ -28,7 +29,8 @@ const AdhaarKyc = (url) => {
     );
     var raw = JSON.stringify({
       method_Name: "Update_Stage_Id",
-      mobile_No: localStorage.getItem("userInfo"),
+      org_Id: ORG_ID,
+      lead_Id: localStorage.getItem("lead_Id"),
     });
 
     var requestOptions = {

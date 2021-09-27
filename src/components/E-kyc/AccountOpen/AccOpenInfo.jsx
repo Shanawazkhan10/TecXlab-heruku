@@ -119,7 +119,8 @@ const AccOpenInfo = () => {
         );
         var raw = JSON.stringify({
           method_Name: "Update_Stage_Id",
-          mobile_No: localStorage.getItem("userInfo"),
+          org_Id: ORG_ID,
+          lead_Id: localStorage.getItem("lead_Id"),
         });
 
         var requestOptions = {
@@ -137,7 +138,7 @@ const AccOpenInfo = () => {
           .then((result) => console.log(result))
           .catch((error) => console.log("error", error));
         // console.log(stagedID_data);
-        // history.push("/AdhaarKYC");
+        history.push("/AdhaarKYC");
       },
     };
 
