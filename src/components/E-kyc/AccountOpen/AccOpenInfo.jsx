@@ -6,7 +6,7 @@ import { Button } from "@material-ui/core";
 import { useHistory } from "react-router";
 import "./AccStyle.css";
 import SERVER_ID from "../Configure/configure";
-
+import { ORG_ID } from "../Helper/Helper";
 const AccOpenInfo = () => {
   const history = useHistory();
   // const handleClick = () => {};
@@ -89,6 +89,8 @@ const AccOpenInfo = () => {
           `Bearer ${localStorage.getItem("userToken")}`
         );
         var raw = JSON.stringify({
+          org_Id: ORG_ID,
+          lead_Id: localStorage.getItem("lead_Id"),
           amount: 111,
           currencyType: "INR",
           mobile_No: localStorage.getItem("userInfo"),
@@ -135,7 +137,7 @@ const AccOpenInfo = () => {
           .then((result) => console.log(result))
           .catch((error) => console.log("error", error));
         // console.log(stagedID_data);
-        history.push("/AdhaarKYC");
+        // history.push("/AdhaarKYC");
       },
     };
 
