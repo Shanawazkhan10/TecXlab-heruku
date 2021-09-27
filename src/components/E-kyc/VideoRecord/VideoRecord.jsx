@@ -52,6 +52,7 @@ function VideoRecord({ props, sendToParent }) {
   const [otpField, SetOtpField] = useState(true);
   const [ipvData, SetIpvData] = useState('');
   const [Bimg, SetBImg] = useState(img);
+  // const [isProceedVisible, setIsProceedVisible] = useState(true);
 
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
@@ -63,7 +64,7 @@ function VideoRecord({ props, sendToParent }) {
     if (flag === true) {
       setTimeout(() => {
         onStopRecordVideo();
-      }, 5000);
+      }, 14000);
     }
   }, [flag]);
 
@@ -87,10 +88,12 @@ function VideoRecord({ props, sendToParent }) {
       videoElement.current.play();
       setRecorder(recordRTC);
     });
+
     setTimeout(() => {
       document.getElementById('myButton').click();
-    }, 5000);
+    }, 14000);
     SetDisable(true);
+
     const RandNums = (Math.floor(Math.random() * 10000) + 10000)
       .toString()
       .substring(1);
@@ -146,29 +149,49 @@ function VideoRecord({ props, sendToParent }) {
     // console.log(numData);
     // console.log('OPT VALS ON BLUE', OtpValue);
 
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append(
-      'Authorization',
-      `Bearer ${localStorage.getItem('userToken')}`
-    );
-    var raw = JSON.stringify({
-      method_Name: 'Update_Stage_Id',
-      mobile_No: localStorage.getItem('userInfo'),
-    });
+    if (pass === '') {
+      seterrorMsg((preState) => ({
+        ...preState,
+        errorOBJ: {
+          ...preState.errorOBJ,
+          OtpError: 'Please enter OTP',
+        },
+      }));
+    } else {
+      if (ipvData && pass !== numData && pass.length <= 4) {
+        seterrorMsg((preState) => ({
+          ...preState,
+          errorOBJ: {
+            ...preState.errorOBJ,
+            OtpError: 'Please enter correct OTP',
+          },
+        }));
+      } else {
+        var myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('userToken')}`
+        );
+        var raw = JSON.stringify({
+          method_Name: 'Update_Stage_Id',
+          mobile_No: localStorage.getItem('userInfo'),
+        });
 
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow',
+        };
 
-    fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
-    history.push('/Esign');
+        fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log('error', error));
+        history.push('/Esign');
+      }
+    }
   };
   useEffect(() => {
     if (pass !== '' && pass === numData) {
@@ -181,17 +204,18 @@ function VideoRecord({ props, sendToParent }) {
       }));
     }
   }, [pass, numData]);
-  const handleOtp = () => {
-    if (pass !== numData && pass.length <= 4) {
-      seterrorMsg((preState) => ({
-        ...preState,
-        errorOBJ: {
-          ...preState.errorOBJ,
-          OtpError: 'Please enter correct OTP',
-        },
-      }));
-    }
-  };
+
+  // const handleOtp = () => {
+  //   if (pass !== numData && pass.length <= 4) {
+  //     seterrorMsg((preState) => ({
+  //       ...preState,
+  //       errorOBJ: {
+  //         ...preState.errorOBJ,
+  //         OtpError: 'Please enter correct OTP',
+  //       },
+  //     }));
+  //   }
+  // };
 
   return (
     <div>
@@ -209,14 +233,9 @@ function VideoRecord({ props, sendToParent }) {
       <br />
 
       {Bimg ? (
-        <Image src={Bimg} fluid style={{ height: `44vh`, width: `35vw` }} />
+        <Image src={Bimg} style={{ height: `44vh`, width: `35vw` }} />
       ) : (
-        <video
-          playsInline
-          // autoPlay
-          ref={videoElement}
-          style={{ width: `35vw` }}
-        />
+        <video playsInline ref={videoElement} style={{ width: `35vw` }} />
       )}
       <br />
       <br />
@@ -228,7 +247,7 @@ function VideoRecord({ props, sendToParent }) {
         autoComplete="off"
         value={pass}
         disabled={otpField}
-        onBlur={handleOtp}
+        // onBlur={handleOtp}
         onChange={(e) => changeHandler(e)}
         className="form-control mb-3"
         // onBlur={handleOTO}
@@ -272,10 +291,21 @@ function VideoRecord({ props, sendToParent }) {
             type="button"
             className="btn-comman text-white"
             onClick={handleClick}
+            // disabled={isProceedVisible}
           >
             Proceed
           </Button>
         )}
+        {/* {ipvData && pass === numData && pass.length <= 4 && (
+          <Button
+            type="button"
+            className="btn-comman text-white"
+            onClick={handleClick}
+            // disabled={setIsProceedVisible}
+          >
+            Proceed
+          </Button>
+        )} */}
         <br />
         {/* {ipvData && SetOtpField(false)} */}
         {ipvData && (
