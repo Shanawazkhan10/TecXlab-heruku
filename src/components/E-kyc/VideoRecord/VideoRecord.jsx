@@ -64,7 +64,7 @@ function VideoRecord({ props, sendToParent }) {
     if (flag === true) {
       setTimeout(() => {
         onStopRecordVideo();
-      }, 14000);
+      }, 13000);
     }
   }, [flag]);
 
@@ -91,7 +91,7 @@ function VideoRecord({ props, sendToParent }) {
 
     setTimeout(() => {
       document.getElementById('myButton').click();
-    }, 14000);
+    }, 13000);
     SetDisable(true);
 
     const RandNums = (Math.floor(Math.random() * 10000) + 10000)

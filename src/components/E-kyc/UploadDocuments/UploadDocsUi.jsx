@@ -499,7 +499,7 @@ const AdhaarKyc = () => {
                     </div>
                   </Col>
                   {Data1 && (
-                    <Col md="5" style={{ border: '1px solid black' }}>
+                    <Col md="5">
                       <Row>
                         <Col className="text-center">
                           {' '}
