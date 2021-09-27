@@ -21,7 +21,8 @@ import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import { makeStyles } from "@material-ui/core/styles";
 
 import ListItem from "@material-ui/core/ListItem";
-import Checkbox from "@mui/material/Checkbox";
+// import Checkbox from "@mui/material/Checkbox";
+import Radio from "@mui/material/Radio";
 import List from "@material-ui/core/List";
 import DateFnsUtils from "@date-io/date-fns";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -163,7 +164,7 @@ function PanBankEmail() {
       setAccountNoDisable(false);
     }
   }, [selectedDate]);
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
   const handleKRASolidFetch = () => {
     console.log(PanDetails);
     // console.log("i m called");
@@ -176,7 +177,8 @@ function PanBankEmail() {
       myHeaders.append("Content-Type", "application/json");
       var raw = JSON.stringify({
         pan_No: PanDetails,
-        mobile_No: localStorage.getItem("userInfo"),
+        org_Id: ORG_ID,
+        lead_Id: localStorage.getItem("lead_Id"),
       });
 
       var requestOptions = {
@@ -202,8 +204,10 @@ function PanBankEmail() {
     );
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
-      apP_PAN_NO: PanDetails,
-      apP_DOB_INCORP: FormattedDate,
+      org_Id: ORG_ID,
+      lead_Id: localStorage.getItem("lead_Id"),
+      paN_NO: PanDetails,
+      date_Of_birth: FormattedDate,
     });
 
     var requestOptions = {
@@ -335,9 +339,10 @@ function PanBankEmail() {
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
       org_Id: ORG_ID,
-      mobile_No: localStorage.getItem("userInfo"),
+      lead_Id: localStorage.getItem("lead_Id"),
+      // mobile_No: localStorage.getItem("userInfo"),
       email: emails,
-      method_Name: "Update_Email",
+      method_Name: "Email_Status",
     });
 
     var requestOptions = {
@@ -351,7 +356,7 @@ function PanBankEmail() {
       .then((response) => response.json())
       .then((result) => {
         setemailResponse(result);
-
+        // console.log(result);
         if (result !== "") {
           setemailCircular(false);
         }
@@ -364,9 +369,11 @@ function PanBankEmail() {
           myHeaders.append("Content-Type", "application/json");
 
           var raw = JSON.stringify({
+            org_Id: ORG_ID,
+            lead_Id: localStorage.getItem("lead_Id"),
             mobile_No: localStorage.getItem("userInfo"),
             email: emails,
-            method_Name: "Update_Email_Status",
+            method_Name: "Update_Email",
           });
 
           var requestOptions = {
@@ -379,7 +386,7 @@ function PanBankEmail() {
           fetch(`${SERVER_ID}/api/email/Update_Email`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-              // console.log(result)
+              console.log(result);
             })
             .catch((error) => console.log("error", error));
         } else {
@@ -393,6 +400,7 @@ function PanBankEmail() {
   const ifscConfirm = () => {
     setTextifsc(true);
     setOpenIfsc(false);
+    setifscDisable(true);
     // api call
     var myHeaders = new Headers();
     myHeaders.append(
@@ -404,7 +412,8 @@ function PanBankEmail() {
     var raw = JSON.stringify({
       beneficiary_account_no: inputs.AcNo,
       beneficiary_ifsc: IFSCfromSearch,
-      mobile_No: localStorage.getItem("userInfo"),
+      org_Id: ORG_ID,
+      lead_Id: localStorage.getItem("lead_Id"),
     });
 
     var requestOptions = {
@@ -435,7 +444,9 @@ function PanBankEmail() {
 
       var raw = JSON.stringify({
         pan_No: PanDetails,
-        mobile_No: localStorage.getItem("userInfo"),
+        lead_Id: localStorage.getItem("lead_Id"),
+        org_Id: ORG_ID,
+        // mobile_No: localStorage.getItem("userInfo"),
         method_Name: "PAN_details",
       });
 
@@ -452,16 +463,14 @@ function PanBankEmail() {
       )
         .then((response) => response.json())
         .then((result) => {
-          // error handling for NSDL PAN
-          if (result.status !== 200) {
-            setpanCircular(false);
-            console.log(result);
-            return;
-          }
           setPanResponse(result);
-          if (result !== "") {
-            setpanCircular(false);
-          }
+          setTimeout(() => {
+            if (panResponse === "") {
+              setpanCircular(false);
+              SetDobDisable(false);
+              return;
+            }
+          }, 10000);
           if (result.res_Output[0].result_Description === "E") {
             var PanToKra = PanDetails;
             var myHeaders = new Headers();
@@ -491,7 +500,13 @@ function PanBankEmail() {
               .catch((error) => console.log("error", error));
           }
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => {
+          console.log("error", error);
+          alert("ERROR OCCURS FROM NSDL API");
+          setpanCircular(false);
+          setPanResponse("");
+          return;
+        });
     }
   };
   const IFSCsearch = () => {
@@ -645,7 +660,7 @@ function PanBankEmail() {
                           <div>
                             <Row>
                               <Col md="2">
-                                <Checkbox
+                                <Radio
                                   key={value.ifsc}
                                   role={undefined}
                                   dense
@@ -805,6 +820,9 @@ function PanBankEmail() {
                   // errorhelperText="Incorrect entry."
                   id="outlined-error-helper-text"
                   // autoFocus
+                  error={
+                    emailResponse && emailResponse.status !== 200 ? true : false
+                  }
                   disabled={disbaleEmail}
                   variant="outlined"
                   autoComplete="off"
@@ -876,6 +894,7 @@ function PanBankEmail() {
                         </div>
                       ) : (
                         panResponse &&
+                        panResponse !== "" &&
                         (panResponse.res_Output[0].result_Description ===
                         "E" ? (
                           <SubInputAdornment
@@ -941,7 +960,7 @@ function PanBankEmail() {
                   <Stack>
                     <DatePicker
                       name="dob"
-                      openTo="day"
+                      openTo="year"
                       variant="inline"
                       inputVariant="outlined"
                       views={["year", "month", "day"]}
@@ -951,9 +970,8 @@ function PanBankEmail() {
                       TextFieldComponent={TextFieldComponent}
                       value={selectedDate}
                       disabled={DobDisable}
-                      // inputFormat="dd/mm/yyyy"
-                      minDate={new Date("1980-04-18")}
-                      maxDate={new Date()}
+                      minDate={new Date("1985-12-12")}
+                      maxDate={new Date("2003-12-12")}
                       onChange={setSelectedDate}
                       onBlur={handleKRASolidFetch}
                       renderInput={(params) => (
