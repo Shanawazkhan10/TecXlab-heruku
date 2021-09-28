@@ -10,6 +10,8 @@
 .modal_open {
   margin-left: 162px;
   cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: -9px;
   /* float: right; */
 }
 .close {
@@ -40,6 +42,15 @@
 }
 .abc > .MuiMonthPicker-root {
   background-color: white;
+}
+.email-error-msg {
+  color: red;
+  font-size: 10px;
+  font-family: 400;
+}
+.email-error-div {
+  margin-left: 10px;
+  margin-top: -10px;
 }
 @media only screen and (max-width: 600px) {
   .margin-pan {

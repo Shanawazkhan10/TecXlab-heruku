@@ -92,13 +92,15 @@ function PanBankEmail() {
     // address: "",
   });
 
-  // const [errorMsg, seterrorMsg] = useState({
-  //   errorOBJ: {
-  //     errorEmail: "",
-  //     errorPan: "",
-  //     error: "",
-  //   },
-  // });
+  const [errorMsg, seterrorMsg] = useState({
+    errorOBJ: {
+      errorEmail: "",
+      errorPan: "",
+      errorDate: "",
+      errorAccNo: "",
+      errorIFSC: "",
+    },
+  });
   const [selectedDate, setSelectedDate] = useState(null);
   const [btnDisable, setbtnDisable] = useState(true);
   const classList = useStylesForList();
@@ -110,7 +112,9 @@ function PanBankEmail() {
       setdisbaleEmail(true);
     }
   }, [emailResponse]);
-
+  useEffect(() => {
+    $(".modal_open").hide();
+  }, []);
   //For Date of Birth Field
   // useEffect(() => {
   //   if (panResponse.status !== 200) {
@@ -123,6 +127,7 @@ function PanBankEmail() {
   useEffect(() => {
     if (inputs.AcNo !== "") {
       setifscDisable(false);
+      $(".modal_open").show();
     }
   }, [inputs.AcNo]);
   // useEffect(() => {
@@ -161,14 +166,35 @@ function PanBankEmail() {
   useEffect(() => {
     if (selectedDate !== "" && PanDetails !== "") {
       handleKRASolidFetch();
-      setAccountNoDisable(false);
     }
   }, [selectedDate]);
-  // useEffect(() => {}, []);
+  // useEffect(() => {
+  //   var oneYearFromNow = new Date();
+  //   const abc = oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() - 18);
+  //   const bca = moment(abc).format("DD/MM/YYYY");
+  //   console.log(bca);
+  // }, []);
   const handleKRASolidFetch = () => {
-    console.log(PanDetails);
-    // console.log("i m called");
-    if (selectedDate !== "") {
+    // const fromServer = moment(selectedDate).format("YYYY");
+    var now = moment();
+    var birthDate = moment(selectedDate, "MM/DD/YYYY");
+    var yearDiff = moment.duration(now - birthDate).as("years");
+    // const generate = Math.floor(yearDiff);
+    // console.log(generate);
+    // x.toString().length;
+    // const a = generate.;
+    const abc = yearDiff.toString();
+    const bca = abc.split(".");
+    console.log(bca[0]);
+    if (bca[0].length === 2 && bca[0] >= 18) {
+      setAccountNoDisable(false);
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorDate: "",
+        },
+      }));
       var myHeaders = new Headers();
       myHeaders.append(
         "Authorization",
@@ -194,36 +220,48 @@ function PanBankEmail() {
           console.log("HELLO:", result);
         })
         .catch((error) => console.log("error", error));
+      const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
+      var myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
+      );
+      myHeaders.append("Content-Type", "application/json");
+      var raw = JSON.stringify({
+        org_Id: ORG_ID,
+        lead_Id: localStorage.getItem("lead_Id"),
+        paN_NO: PanDetails,
+        date_Of_birth: FormattedDate,
+      });
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch(
+        `${SERVER_ID}/api/cvlkra/SolicitPANDetailsFetchALLKRA`,
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => console.log("SEOCUND CALL", result))
+        .catch((error) => console.log("error", error));
+    } else {
+      setAccountNoDisable(true);
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorDate: "Invalid date",
+        },
+      }));
     }
     // solidCity pan API
-    const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
-    var myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("userToken")}`
-    );
-    myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify({
-      org_Id: ORG_ID,
-      lead_Id: localStorage.getItem("lead_Id"),
-      paN_NO: PanDetails,
-      date_Of_birth: FormattedDate,
-    });
+    // }
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch(
-      `${SERVER_ID}/api/cvlkra/SolicitPANDetailsFetchALLKRA`,
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => console.log("SEOCUND CALL", result))
-      .catch((error) => console.log("error", error));
+    // console.log("works");
   };
 
   const handleInputChange = (event) => {
@@ -279,7 +317,7 @@ function PanBankEmail() {
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
-      history.push("/AccountOpen");
+      history.push("/Account");
     }
     console.log(FormData);
   };
@@ -324,7 +362,24 @@ function PanBankEmail() {
       // .catch((error) => console.log("error", error));
       const getIfscData = await response.json();
       setIfscResponse(getIfscData);
-      // console.log(IfscResponse);
+      console.log(getIfscData);
+      if (getIfscData === "Not Found") {
+        seterrorMsg((prevState) => ({
+          ...prevState,
+          errorOBJ: {
+            ...prevState.errorOBJ,
+            errorIFSC: "Please provide proper IFSC",
+          },
+        }));
+      } else {
+        seterrorMsg((prevState) => ({
+          ...prevState,
+          errorOBJ: {
+            ...prevState.errorOBJ,
+            errorIFSC: "",
+          },
+        }));
+      }
       setOpenIfsc(true);
     }
   };
@@ -363,6 +418,14 @@ function PanBankEmail() {
           setemailCircular(false);
         }
         if (result.status === 200) {
+          seterrorMsg((prevState) => ({
+            ...prevState,
+            errorOBJ: {
+              ...prevState.errorOBJ,
+              errorEmail: "",
+            },
+          }));
+
           var myHeaders = new Headers();
           myHeaders.append(
             "Authorization",
@@ -392,6 +455,13 @@ function PanBankEmail() {
             })
             .catch((error) => console.log("error", error));
         } else {
+          seterrorMsg((prevState) => ({
+            ...prevState,
+            errorOBJ: {
+              ...prevState.errorOBJ,
+              errorEmail: "Please provide proper email",
+            },
+          }));
           setemailCircular(false);
           return;
         }
@@ -449,12 +519,55 @@ function PanBankEmail() {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
+
+    // API FOR CONFIRM IFSC
+    // API FOR CONFIRM IFSC
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
+    console.log(IfscResponse.MICR, IfscResponse.ADDRESS);
+    var raw = JSON.stringify({
+      org_Id: ORG_ID,
+      lead_Id: localStorage.getItem("lead_Id"),
+      ifsC_Code: IFSCfromSearch,
+      method_Name: "",
+      micr: IfscResponse.MICR,
+      address: IfscResponse.ADDRESS,
+      branch: IfscResponse.BRANCH,
+      contact: IfscResponse.CONTACT,
+      phone: "",
+      city: IfscResponse.CITY,
+      state: IfscResponse.STATE,
+      district: IfscResponse.DISTRICT,
+      bank: IfscResponse.BANK,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${SERVER_ID}/api/bank/ConfirmIfscDetails`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        console.log(result);
+        console.log("im called");
+      })
+      .catch((error) => console.log("error", error));
+    // END FOR CONFIRM IFSC
+    console.log(IFSCfromSearch);
   };
 
   const handlePanBlur = () => {
     if (PanDetails === "") {
       return;
     }
+    console.log(PanDetails);
     setpanCircular(true);
     if (PanDetails !== "") {
       var myHeaders = new Headers();
@@ -469,7 +582,7 @@ function PanBankEmail() {
         lead_Id: localStorage.getItem("lead_Id"),
         org_Id: ORG_ID,
         // mobile_No: localStorage.getItem("userInfo"),
-        method_Name: "PAN_details",
+        method_Name: "NSDLeKYCPanAuthentication",
       });
 
       var requestOptions = {
@@ -485,16 +598,28 @@ function PanBankEmail() {
       )
         .then((response) => response.json())
         .then((result) => {
+          console.log(result);
           setPanResponse(result);
           setTimeout(() => {
-            if (panResponse === "") {
+            if (result === "") {
               setpanCircular(false);
               SetDobDisable(false);
               alert("NOT GET RESPONSE FORM NSDL PAN");
               return;
+            } else {
+              return;
             }
           }, 10000);
           if (result.res_Output[0].result_Description === "E") {
+            seterrorMsg((prevState) => ({
+              ...prevState,
+              errorOBJ: {
+                ...prevState.errorOBJ,
+                errorPan: "",
+              },
+            }));
+            setpanCircular(false);
+            SetDobDisable(false);
             var PanToKra = PanDetails;
             var myHeaders = new Headers();
             myHeaders.append(
@@ -521,6 +646,16 @@ function PanBankEmail() {
                 // console.log(result)
               })
               .catch((error) => console.log("error", error));
+          } else {
+            seterrorMsg((prevState) => ({
+              ...prevState,
+              errorOBJ: {
+                ...prevState.errorOBJ,
+                errorPan: "Please provide valid pan No.",
+              },
+            }));
+            setpanCircular(false);
+            SetDobDisable(false);
           }
         })
         .catch((error) => {
@@ -858,7 +993,9 @@ function PanBankEmail() {
                   id="outlined-error-helper-text"
                   // autoFocus
                   error={
-                    emailResponse && emailResponse.status !== 200 ? true : false
+                    errorMsg.errorOBJ.errorEmail && errorMsg.errorOBJ.errorEmail
+                      ? true
+                      : false
                   }
                   disabled={disbaleEmail}
                   variant="outlined"
@@ -891,22 +1028,22 @@ function PanBankEmail() {
                       ),
                   }}
                 />
-                {emailResponse !== "" &&
-                  (emailResponse.status !== 200 ? (
-                    <div>
-                      {" "}
-                      {/* <br /> */}
-                      <span className="error-email">
-                        please provide valid email
-                      </span>
-                    </div>
-                  ) : (
-                    ""
-                  ))}
+                <div className="email-error-div">
+                  {errorMsg.errorOBJ.errorEmail && (
+                    <span className="email-error-msg">
+                      {errorMsg.errorOBJ.errorEmail}
+                    </span>
+                  )}
+                </div>
+
                 <TextField
                   // errorhelperText="Incorrect entry."
                   id="outlined-error-helper-text"
                   type="text"
+                  error={
+                    errorMsg.errorOBJ.errorPan &&
+                    (errorMsg.errorOBJ.errorPan ? true : false)
+                  }
                   // id="input_capital"
                   disabled={PanDisable}
                   inputProps={{
@@ -931,31 +1068,27 @@ function PanBankEmail() {
                         </div>
                       ) : (
                         panResponse &&
-                        panResponse !== "" &&
-                        (panResponse.res_Output[0].result_Description ===
+                        (panResponse.res_Output[0].result_Description !==
                         "E" ? (
                           <SubInputAdornment
-                            Dataicon={<CheckCircleIcon className="succ-msg" />}
+                            Dataicon={<ErrorOutlineIcon className="err-msg" />}
                           />
                         ) : (
                           <SubInputAdornment
-                            Dataicon={<ErrorOutlineIcon className="err-msg" />}
+                            Dataicon={<CheckCircleIcon className="succ-msg" />}
                           />
                         ))
                       ),
                   }}
                 />
                 {/* commented for handle error */}
-                {/* {panResponse !== "" &&
-                  (panResponse.res_Output[0].result_Description === "E" ? (
-                    <div>
-                      <span className="pan-error">Pan No. exist</span>
-                    </div>
-                  ) : (
-                    <div>
-                      <span className="error-email">Pan No. not exist</span>
-                    </div>
-                  ))} */}
+                <div className="email-error-div">
+                  {errorMsg.errorOBJ.errorPan && (
+                    <span className="email-error-msg">
+                      {errorMsg.errorOBJ.errorPan}
+                    </span>
+                  )}
+                </div>
                 {/* commented for handle error */}
                 {/* <TextField
                   // errorhelperText="Incorrect entry."
@@ -1021,6 +1154,14 @@ function PanBankEmail() {
                     />
                   </Stack>
                 </LocalizationProvider>
+
+                <div className="email-error-div">
+                  {errorMsg.errorOBJ.errorDate && (
+                    <span className="email-error-msg">
+                      {errorMsg.errorOBJ.errorDate}
+                    </span>
+                  )}
+                </div>
                 <TextField
                   // errorhelperText="Incorrect entry."
                   id="outlined-error-helper-text"
@@ -1044,10 +1185,19 @@ function PanBankEmail() {
                     style: { textTransform: "uppercase" },
                   }}
                 />
+                <div className="email-error-div">
+                  {errorMsg.errorOBJ.errorAccNo && (
+                    <span className="email-error-msg">
+                      {errorMsg.errorOBJ.errorAccNo}
+                    </span>
+                  )}
+                </div>
                 <TextField
                   // errorhelperText="Incorrect entry."
+                  className="mb-1"
                   id="outlined-error-helper-text"
                   type="text"
+                  error={errorMsg.errorOBJ.errorIFSC ? true : false}
                   // id="input_capital"
                   inputProps={{
                     maxLength: 11,
@@ -1076,7 +1226,13 @@ function PanBankEmail() {
                       )),
                   }}
                 />
-
+                <div className="email-error-div">
+                  {errorMsg.errorOBJ.errorIFSC && (
+                    <span className="email-error-msg">
+                      {errorMsg.errorOBJ.errorIFSC}
+                    </span>
+                  )}
+                </div>
                 <small>
                   {" "}
                   <p
@@ -1088,8 +1244,10 @@ function PanBankEmail() {
                   </p>
                 </small>
               </div>
+              <br />
               <Button
                 // disabled={btnDisable}
+                // className="mt-3"
                 type="submit"
                 onClick={handleProceed}
                 className="btn-comman text-white ml-2"
