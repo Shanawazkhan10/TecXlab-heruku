@@ -314,10 +314,12 @@ function PanBankEmail() {
       };
 
       fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
+        .then((response) => response.json())
+        .then((result) => {
+          // console.log(result.res_Output[0].stage_Id);
+          history.push(result.res_Output[0].stage_Id);
+        })
         .catch((error) => console.log("error", error));
-      history.push("/Account");
     }
     console.log(FormData);
   };
@@ -600,67 +602,74 @@ function PanBankEmail() {
         .then((result) => {
           console.log(result);
           setPanResponse(result);
-          setTimeout(() => {
-            if (result === "") {
+          // setTimeout(() => {
+          //   if (result.status === 500) {
+          //     setpanCircular(false);
+          //     SetDobDisable(false);
+          //     // setPanResponse("")
+          //     alert("NOT GET RESPONSE FORM NSDL PAN");
+          //     return;
+          //   }
+          // }, 10000);
+          if (result.status !== 500) {
+            if (result.res_Output[0].result_Description === "E") {
+              seterrorMsg((prevState) => ({
+                ...prevState,
+                errorOBJ: {
+                  ...prevState.errorOBJ,
+                  errorPan: "",
+                },
+              }));
               setpanCircular(false);
               SetDobDisable(false);
-              alert("NOT GET RESPONSE FORM NSDL PAN");
-              return;
+              var PanToKra = PanDetails;
+              var myHeaders = new Headers();
+              myHeaders.append(
+                "Authorization",
+                `Bearer ${localStorage.getItem("userToken")}`
+              );
+              myHeaders.append("Content-Type", "application/json");
+
+              var raw = JSON.stringify({
+                pan_No: PanToKra,
+                method_Name: "Get_PanStatus",
+              });
+
+              var requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow",
+              };
+
+              fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
+                .then((response) => response.json())
+                .then((result) => {
+                  // console.log(result)
+                })
+                .catch((error) => console.log("error", error));
             } else {
-              return;
+              seterrorMsg((prevState) => ({
+                ...prevState,
+                errorOBJ: {
+                  ...prevState.errorOBJ,
+                  errorPan: "Please provide valid pan No.",
+                },
+              }));
+              setpanCircular(false);
+              SetDobDisable(false);
             }
-          }, 10000);
-          if (result.res_Output[0].result_Description === "E") {
-            seterrorMsg((prevState) => ({
-              ...prevState,
-              errorOBJ: {
-                ...prevState.errorOBJ,
-                errorPan: "",
-              },
-            }));
-            setpanCircular(false);
-            SetDobDisable(false);
-            var PanToKra = PanDetails;
-            var myHeaders = new Headers();
-            myHeaders.append(
-              "Authorization",
-              `Bearer ${localStorage.getItem("userToken")}`
-            );
-            myHeaders.append("Content-Type", "application/json");
-
-            var raw = JSON.stringify({
-              pan_No: PanToKra,
-              method_Name: "Get_PanStatus",
-            });
-
-            var requestOptions = {
-              method: "POST",
-              headers: myHeaders,
-              body: raw,
-              redirect: "follow",
-            };
-
-            fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
-              .then((response) => response.json())
-              .then((result) => {
-                // console.log(result)
-              })
-              .catch((error) => console.log("error", error));
-          } else {
-            seterrorMsg((prevState) => ({
-              ...prevState,
-              errorOBJ: {
-                ...prevState.errorOBJ,
-                errorPan: "Please provide valid pan No.",
-              },
-            }));
-            setpanCircular(false);
-            SetDobDisable(false);
           }
+          // else{
+          //   alert("No Response From NSDL, Please Try after some time");
+          // setpanCircular(false);
+          // setPanResponse("");
+          // return;
+          // }
         })
         .catch((error) => {
           console.log("error", error);
-          alert("ERROR OCCURS FROM NSDL API");
+          alert("No Response From NSDL, Please Try after some time");
           setpanCircular(false);
           setPanResponse("");
           return;
@@ -1067,7 +1076,7 @@ function PanBankEmail() {
                           <CircularProgress false size={25} color="success" />
                         </div>
                       ) : (
-                        panResponse &&
+                        panResponse && panResponse.status!==500 &&
                         (panResponse.res_Output[0].result_Description !==
                         "E" ? (
                           <SubInputAdornment

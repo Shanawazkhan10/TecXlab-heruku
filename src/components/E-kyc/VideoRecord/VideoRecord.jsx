@@ -170,28 +170,28 @@ function VideoRecord({ props, sendToParent }) {
           },
         }));
       } else {
-        // var myHeaders = new Headers();
-        // myHeaders.append("Content-Type", "application/json");
-        // myHeaders.append(
-        //   "Authorization",
-        //   `Bearer ${localStorage.getItem("userToken")}`
-        // );
-        // var raw = JSON.stringify({
-        //   method_Name: "Update_Stage_Id",
-        //   mobile_No: localStorage.getItem("userInfo"),
-        // });
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append(
+          "Authorization",
+          `Bearer ${localStorage.getItem("userToken")}`
+        );
+        var raw = JSON.stringify({
+          method_Name: "Update_Stage_Id",
+          mobile_No: localStorage.getItem("userInfo"),
+        });
 
-        // var requestOptions = {
-        //   method: "POST",
-        //   headers: myHeaders,
-        //   body: raw,
-        //   redirect: "follow",
-        // };
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
 
-        // fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
-        //   .then((response) => response.text())
-        //   .then((result) => console.log(result))
-        //   .catch((error) => console.log("error", error));
+        fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
         history.push("/Document");
       }
     }

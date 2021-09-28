@@ -111,33 +111,33 @@ const AccOpenInfo = () => {
           .then((result) => console.log(result))
           .catch((error) => console.log("error", error));
         // staged ID API
-        // var myHeaders = new Headers();
-        // myHeaders.append("Content-Type", "application/json");
-        // myHeaders.append(
-        //   "Authorization",
-        //   `Bearer ${localStorage.getItem("userToken")}`
-        // );
-        // var raw = JSON.stringify({
-        //   method_Name: "Update_Stage_Id",
-        //   org_Id: ORG_ID,
-        //   lead_Id: localStorage.getItem("lead_Id"),
-        // });
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append(
+          "Authorization",
+          `Bearer ${localStorage.getItem("userToken")}`
+        );
+        var raw = JSON.stringify({
+          method_Name: "Update_Stage_Id",
+          org_Id: ORG_ID,
+          lead_Id: localStorage.getItem("lead_Id"),
+        });
 
-        // var requestOptions = {
-        //   method: "POST",
-        //   headers: myHeaders,
-        //   body: raw,
-        //   redirect: "follow",
-        // };
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
 
-        // const stagedID_data = await fetch(
-        //   `${SERVER_ID}/api/lead/Update_StageId`,
-        //   requestOptions
-        // )
-        //   .then((response) => response.text())
-        //   .then((result) => console.log(result))
-        //   .catch((error) => console.log("error", error));
-        // console.log(stagedID_data);
+        const stagedID_data = await fetch(
+          `${SERVER_ID}/api/lead/Update_StageId`,
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+        console.log(stagedID_data);
         history.push("/Digilocker");
       },
     };
