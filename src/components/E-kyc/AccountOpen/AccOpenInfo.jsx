@@ -91,12 +91,12 @@ const AccOpenInfo = () => {
         var raw = JSON.stringify({
           org_Id: ORG_ID,
           lead_Id: localStorage.getItem("lead_Id"),
-          amount: 111,
+          amount: 200,
           currencyType: "INR",
           mobile_No: localStorage.getItem("userInfo"),
-          merchantTransactionId: "232323244242",
-          payment_Id: "3232323233",
-          signature: "2323232332",
+          merchantTransactionId: "merchant-0001",
+          payment_Id: "payId-0002",
+          signature: "signture-0003",
         });
 
         var requestOptions = {

@@ -332,10 +332,13 @@ function PanBankEmail() {
   // const openModal = () => {};
   const openModal = () => {
     setOpen(true);
+    setBankDetails("");
   };
 
   const handleClose = () => {
     setOpen(false);
+    setBankName("");
+    setBranchName("");
   };
   // const openIfscModal = () => {
   //   setOpenIfsc(true);
@@ -469,7 +472,11 @@ function PanBankEmail() {
         }
         // console.log(result.status);
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => {
+        console.log("error", error);
+
+        // history.push("/");
+      });
   };
   const handleIFSCDialog = async () => {
     setBankName("");
@@ -728,93 +735,105 @@ function PanBankEmail() {
       >
         <DialogContent>
           <Container style={{ width: 320 }}>
-            <Row>
-              <Col md="10">
-                <span>Find your IFSC Code</span>
-              </Col>
-              <Col md="2">
-                <CloseIcon className="close" onClick={handleClose} />
-              </Col>
-            </Row>
-            {/* <Col md="12"> */}
-            <Row>
-              <Col md="12">
-                <TextField
-                  variant="outlined"
-                  // autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Enter IFSC Code"
-                  type="text"
-                  fullWidth
-                />
-              </Col>
-            </Row>
-            {/* </Col> */}
-            <Row>
-              <Col className="text-center">
-                {" "}
-                <span align="center">Or</span>
-              </Col>
-            </Row>
-            <Row>
-              <Col md="12">
-                <TextField
-                  variant="outlined"
-                  // autoFocus
-                  value={bankName}
-                  onChange={(e) => setBankName(e.target.value)}
-                  margin="dense"
-                  id="name"
-                  label="Enter Bank Name"
-                  type="text"
-                  fullWidth
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col md="12">
-                <TextField
-                  variant="outlined"
-                  // autoFocus
-                  value={branchName}
-                  margin="dense"
-                  // id="name"Enter Branch Location
-                  onChange={(e) => setBranchName(e.target.value)}
-                  label="Enter Branch Location"
-                  type="text"
-                  fullWidth
-                />
-              </Col>
-            </Row>
-            {/* </Col> */}
-            <Row>
-              <Col className="mt-3">
-                <Button
-                  fullWidth="true"
-                  type="submit"
-                  onClick={IFSCsearch}
-                  className="btn-searchIFSC text-white"
-                >
-                  Search
-                </Button>
-              </Col>
-            </Row>
+            {!bankDetails && (
+              <div>
+                <Row>
+                  <Col md="10">
+                    <span>Find your IFSC Code</span>
+                  </Col>
+                  <Col md="2">
+                    <CloseIcon className="close" onClick={handleClose} />
+                  </Col>
+                </Row>
+                {/* <Col md="12"> */}
+                <Row>
+                  <Col md="12">
+                    <TextField
+                      variant="outlined"
+                      // autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Enter IFSC Code"
+                      type="text"
+                      fullWidth
+                    />
+                  </Col>
+                </Row>
+                {/* </Col> */}
+                <Row>
+                  <Col className="text-center">
+                    {" "}
+                    <span align="center">Or</span>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="12">
+                    <TextField
+                      variant="outlined"
+                      // autoFocus
+                      value={bankName}
+                      onChange={(e) => setBankName(e.target.value)}
+                      margin="dense"
+                      id="name"
+                      label="Enter Bank Name"
+                      type="text"
+                      fullWidth
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="12">
+                    <TextField
+                      variant="outlined"
+                      // autoFocus
+                      value={branchName}
+                      margin="dense"
+                      // id="name"Enter Branch Location
+                      onChange={(e) => setBranchName(e.target.value)}
+                      label="Enter Branch Location"
+                      type="text"
+                      fullWidth
+                    />
+                  </Col>
+                </Row>
+                {/* </Col> */}
+                <Row>
+                  <Col className="mt-3">
+                    <Button
+                      fullWidth="true"
+                      type="submit"
+                      onClick={IFSCsearch}
+                      className="btn-searchIFSC text-white"
+                    >
+                      Search
+                    </Button>
+                  </Col>
+                </Row>
+              </div>
+            )}
             <Row>
               {/* <Container style={{ height: 100 }}> */}
               <Col className="mt-2 ">
                 <div className="search-list">
                   {bankDetails && (
                     <div>
-                      <List className={classList.root}>
+                      <List
+                        // margin-left: 30px;
+                        // margin-top: -43px;
+                        style={{
+                          overflowX: "hidden",
+                        }}
+                        className={classList.root}
+                      >
                         {bankDetails.map((value) => {
                           const labelId = `checkbox-list-label-${value}`;
 
                           return (
                             <div>
                               <Row>
-                                <Col md="2">
+                                <Col md="1">
                                   <Radio
+                                    size="small"
                                     key={value.ifsc}
                                     role={undefined}
                                     dense
@@ -822,12 +841,17 @@ function PanBankEmail() {
                                     onClick={handleToggle(value)}
                                   />
                                 </Col>
-                                <Col md="10">
+                                <Col md="11">
                                   <ListItem>
                                     <Container>
                                       <Row>
                                         <Col>
-                                          <div>
+                                          <div
+                                            style={{
+                                              marginLeft: "30px",
+                                              marginTop: "-43px",
+                                            }}
+                                          >
                                             <Typography
                                               style={{
                                                 fontSize: 14,
@@ -902,6 +926,7 @@ function PanBankEmail() {
                             type="submit"
                             onClick={() => {
                               setIFSCfromSearch("");
+                              setBankDetails("");
                             }}
                             className="btn-searchIFSC text-white"
                           >
@@ -1076,7 +1101,8 @@ function PanBankEmail() {
                           <CircularProgress false size={25} color="success" />
                         </div>
                       ) : (
-                        panResponse && panResponse.status!==500 &&
+                        panResponse &&
+                        panResponse.status !== 500 &&
                         (panResponse.res_Output[0].result_Description !==
                         "E" ? (
                           <SubInputAdornment
