@@ -39,6 +39,9 @@
   margin-top: -9px;
   margin-left: 3px;
 }
+.master-textField {
+  min-width: 250px;
+}
 @media screen and (max-width: 760px) {
   .inside_div_personal {
     margin-top: -15px;
