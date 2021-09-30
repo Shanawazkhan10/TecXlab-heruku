@@ -1,4 +1,21 @@
 .web-info {
-    font-size: 12px;
-  }
-  
+  font-size: 12px;
+}
+.ico-msg {
+  display: inline-flex;
+  width: 50px;
+  justify-content: center;
+  /* background-color: #f0f0f0; */
+}
+.fnt-ok {
+  transform: scale(0.6);
+  color: green;
+}
+.fnt-err {
+  color: red;
+  transform: scale(0.6);
+}
+.glass-hat-icon {
+  /* transform: scale(1); */
+  font-size: 27px;
+}

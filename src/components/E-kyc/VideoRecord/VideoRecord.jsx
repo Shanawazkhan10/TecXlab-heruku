@@ -12,6 +12,13 @@ import img from '../../../images/black.png';
 import SERVER_ID from '../Configure/configure';
 import './VideoRec.css';
 import { Col } from 'reactstrap';
+import { HiOutlineLightBulb } from 'react-icons/hi';
+import { GiSunglasses } from 'react-icons/gi';
+// import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { FaRedhat } from 'react-icons/fa';
+
 const captureCamera = (callback) => {
   navigator.mediaDevices
     .getUserMedia({
@@ -248,6 +255,7 @@ function VideoRecord({ props, sendToParent }) {
         <video playsInline ref={videoElement} style={{ width: `35vw` }} />
       )}
       <br />
+
       <br />
       <TextField
         type="number"
@@ -264,14 +272,14 @@ function VideoRecord({ props, sendToParent }) {
         label="Enter the OTP"
         style={{ width: `17rem` }}
       />
-      <Col>
+      <Col className="mb-3">
         {errorMsg.errorOBJ.OtpError && (
           <div className="div-msg">
             <span className="div-err">{errorMsg.errorOBJ.OtpError}</span>
           </div>
         )}
       </Col>
-      <br />
+
       <div>
         {!recorder && (
           <Button

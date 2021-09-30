@@ -5,6 +5,12 @@ import WebCamImg from '../../../images/Webcam_Verification_Illustration.png';
 import './style.css';
 import VideoRecord from './VideoRecord';
 // import Swal from 'sweetalert2';
+import { HiOutlineLightBulb } from 'react-icons/hi';
+import { GiSunglasses } from 'react-icons/gi';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { FaRedhat } from 'react-icons/fa';
+import { RiSurgicalMaskLine } from 'react-icons/ri';
 
 const WebCam = () => {
   const [data, SetData] = useState('');
@@ -17,7 +23,7 @@ const WebCam = () => {
     <div>
       <Container>
         <Row>
-          <Col md="6" className="div-PanEmail">
+          <Col md="6">
             <Col>
               <text style={{ fontSize: '12px' }}>
                 <b>Step 5 of 7</b>
@@ -39,14 +45,46 @@ const WebCam = () => {
             </Col>
             <Col>
               <Image
-                className="mt-5 mb-5 p-4 login-img-res"
+                className=" login-img-res img-custom"
                 src={WebCamImg}
                 fluid
               />
+              <Col
+                style={{
+                  position: 'relative',
+                  top: '-30px',
+                  textAlign: 'center',
+                }}
+              >
+                <div className="ico-msg m-1">
+                  <div>
+                    <HiOutlineLightBulb className="glass-hat-icon" />
+                    <div style={{ fontSize: '9px' }}>Bright Light</div>
+                  </div>
+                </div>
+                <div className="ico-msg m-1">
+                  <div>
+                    <GiSunglasses className="glass-hat-icon" />
+                    <div style={{ fontSize: '9px' }}>No Glasses</div>
+                  </div>
+                </div>
+                <div className="ico-msg m-1">
+                  <div>
+                    <FaRedhat className="glass-hat-icon" />
+                    <div style={{ fontSize: '9px' }}>No Hat</div>
+                  </div>
+                </div>
+                <div className="ico-msg m-1">
+                  <div>
+                    <RiSurgicalMaskLine className="glass-hat-icon" />
+                    <div style={{ fontSize: '9px' }}>No Mask</div>
+                  </div>
+                </div>
+              </Col>
             </Col>
           </Col>
-          <Col md="6" className="div-PanEmail">
-            <div className="mt-5" style={{ textAlign: 'center' }}>
+          <Col md="6">
+            <div style={{ textAlign: 'center' }}>
               {' '}
               <VideoRecord
                 sendToParent={sendToParent}
