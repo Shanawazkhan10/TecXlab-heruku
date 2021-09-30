@@ -80,6 +80,12 @@ const PersonalInfo = () => {
       setInputs({
         ...inputs,
         fatherName: populateData.res_Output[0].father_Name,
+        mstatus: populateData.res_Output[0].marital_Status,
+        income: populateData.res_Output[0].income,
+        gender: populateData.res_Output[0].gender,
+        occupation: populateData.res_Output[0].occupation,
+        experience: populateData.res_Output[0].trading_Experience,
+        motherName: populateData.res_Output[0].mother_Name,
       });
       console.log(inputs);
     }
@@ -426,10 +432,7 @@ const PersonalInfo = () => {
                       type="text"
                       id="fieldSelectorname"
                       name="motherName"
-                      value={
-                        populateData && populateData.res_Output[0].mother_Name
-                        // : inputs.motherName
-                      }
+                      value={inputs.motherName}
                       onChange={handleInputChange}
                       className="form-control"
                       label="Mother's Full Name*"
@@ -464,11 +467,7 @@ const PersonalInfo = () => {
                             size="large"
                             name="mstatus"
                             variant="outlined"
-                            value={
-                              populateData
-                                ? populateData.res_Output[0].marital_Status
-                                : inputs.mstatus
-                            }
+                            value={inputs.mstatus}
                             // value={inputs.mstatus}
                             onChange={handleInputChange}
                             label="Marital Status"
@@ -509,11 +508,7 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="gender"
-                            value={
-                              populateData
-                                ? populateData.res_Output[0].gender
-                                : inputs.gender
-                            }
+                            value={inputs.gender}
                             onChange={handleInputChange}
                             label="Gender"
                           >
@@ -568,11 +563,7 @@ const PersonalInfo = () => {
                             size="large"
                             name="income"
                             variant="outlined"
-                            value={
-                              populateData
-                                ? populateData.res_Output[0].income
-                                : inputs.income
-                            }
+                            value={inputs.income}
                             onChange={handleInputChange}
                             label="Annual Income"
                           >
@@ -629,11 +620,7 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="occupation"
-                            value={
-                              populateData
-                                ? populateData.res_Output[0].occupation
-                                : inputs.occupation
-                            }
+                            value={inputs.occupation}
                             onChange={handleInputChange}
                             label="occupation"
                           >
@@ -702,11 +689,7 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="experience"
-                            value={
-                              populateData
-                                ? populateData.res_Output[0].trading_Experience
-                                : inputs.experience
-                            }
+                            value={inputs.experience}
                             onChange={handleInputChange}
                             label="Trading Experience"
                           >
