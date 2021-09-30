@@ -60,3 +60,10 @@
     margin-top: 0px;
   }
 }
+.txt-msg {
+  /* border: 2px solid black; */
+  font-size: 9px;
+  color: rgb(76, 70, 70);
+  margin-bottom: 3px;
+  margin-top: -5px;
+}
