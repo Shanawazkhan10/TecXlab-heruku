@@ -47,3 +47,9 @@
     margin-top: -15px;
   }
 }
+.check {
+  display: flex;
+  align-items: center;
+  font-size: 9px;
+  margin-left: 15px;
+}
