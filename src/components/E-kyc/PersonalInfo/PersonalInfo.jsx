@@ -17,6 +17,8 @@ import { ORG_ID } from "../Helper/Helper";
 const PersonalInfo = () => {
   const history = useHistory();
   // const [isBtnVisible, SetIsBtnVisible] = useState(true);
+  const [populateData, setPopulateData] = useState("");
+  // const [fatherName, setfatherName] = useState("");
   const [inputs, setInputs] = useState({
     mstatus: "",
     income: "",
@@ -41,6 +43,47 @@ const PersonalInfo = () => {
       errorEducation: "",
     },
   });
+  // GET THE DETAILS FROM API IF CODITION FOLLOWS
+  useEffect(() => {
+    const unsuscribe = () => {
+      var myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
+      );
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      fetch(
+        `${SERVER_ID}/api/personal/Get_Personal_Details?Lead_Id=T001211000031`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setPopulateData(result);
+        })
+        .catch((error) => {
+          console.log("error", error);
+          // history.push("/");
+        });
+    };
+    return unsuscribe();
+  }, []);
+  useEffect(() => {
+    console.log(populateData);
+    if (populateData !== "") {
+      console.log("I M HERE");
+      setInputs({
+        ...inputs,
+        fatherName: populateData.res_Output[0].father_Name,
+      });
+      console.log(inputs);
+    }
+  }, [populateData]);
   // const history = useHistory();
   const { control } = useForm();
   // const useStyles = makeStyles((theme) => ({
@@ -173,6 +216,7 @@ const PersonalInfo = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // const {name,value}=e.target;
+    console.log(inputs);
     if (inputs.fatherName === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
@@ -346,7 +390,7 @@ const PersonalInfo = () => {
               </Row>
               <Row>
                 <Col md="6" sm="12" className="mt-2  div-center">
-                  <div className="form-group master-textField">
+                  <div className="form-group ">
                     <TextField
                       type="text"
                       error={
@@ -355,6 +399,7 @@ const PersonalInfo = () => {
                       id="fieldSelectorname"
                       name="fatherName"
                       value={inputs.fatherName}
+                      inputProps={{ readOnly: false }}
                       onChange={handleInputChange}
                       className="form-control"
                       label="Father's Full Name*"
@@ -373,7 +418,7 @@ const PersonalInfo = () => {
                 </Col>
 
                 <Col md="6" sm="12" className="mt-2">
-                  <div className="form-group master-textField">
+                  <div className="form-group ">
                     <TextField
                       error={
                         errorMsg.errorOBJ.errorMotherName === "" ? false : true
@@ -381,7 +426,10 @@ const PersonalInfo = () => {
                       type="text"
                       id="fieldSelectorname"
                       name="motherName"
-                      value={inputs.motherName}
+                      value={
+                        populateData && populateData.res_Output[0].mother_Name
+                        // : inputs.motherName
+                      }
                       onChange={handleInputChange}
                       className="form-control"
                       label="Mother's Full Name*"
@@ -400,7 +448,7 @@ const PersonalInfo = () => {
               </Row>
               <Row>
                 <Col md="6" sm="12" className="mt-2">
-                  <div className=" master-textField">
+                  <div className=" ">
                     <FormControl
                       variant="outlined"
                       key="Marital Status"
@@ -416,7 +464,11 @@ const PersonalInfo = () => {
                             size="large"
                             name="mstatus"
                             variant="outlined"
-                            value={inputs.mstatus}
+                            value={
+                              populateData
+                                ? populateData.res_Output[0].marital_Status
+                                : inputs.mstatus
+                            }
                             // value={inputs.mstatus}
                             onChange={handleInputChange}
                             label="Marital Status"
@@ -442,7 +494,7 @@ const PersonalInfo = () => {
                   )}
                 </Col>
                 <Col md="6" sm="12" className="mt-2">
-                  <div className=" master-textField">
+                  <div className=" ">
                     <FormControl
                       error={
                         errorMsg.errorOBJ.errorGender === "" ? false : true
@@ -457,7 +509,11 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="gender"
-                            value={inputs.gender}
+                            value={
+                              populateData
+                                ? populateData.res_Output[0].gender
+                                : inputs.gender
+                            }
                             onChange={handleInputChange}
                             label="Gender"
                           >
@@ -495,7 +551,7 @@ const PersonalInfo = () => {
               </Row>
               <Row>
                 <Col md="6" sm="12" className="mt-2">
-                  <div className=" master-textField">
+                  <div className=" ">
                     <FormControl
                       error={
                         errorMsg.errorOBJ.errorIncome === "" ? false : true
@@ -512,7 +568,11 @@ const PersonalInfo = () => {
                             size="large"
                             name="income"
                             variant="outlined"
-                            value={inputs.income}
+                            value={
+                              populateData
+                                ? populateData.res_Output[0].income
+                                : inputs.income
+                            }
                             onChange={handleInputChange}
                             label="Annual Income"
                           >
@@ -534,7 +594,9 @@ const PersonalInfo = () => {
                         )}
                         name="appliance"
                         control={control}
-                        value=""
+                        // value={
+
+                        // }
                         rules={{
                           required: "Please Choose Your Appliance.",
                         }}
@@ -551,7 +613,7 @@ const PersonalInfo = () => {
                   )}
                 </Col>
                 <Col md="6" sm="12" className="mt-2 ">
-                  <div className="master-textField">
+                  <div className="">
                     <FormControl
                       error={
                         errorMsg.errorOBJ.errorOccupation === "" ? false : true
@@ -567,7 +629,11 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="occupation"
-                            value={inputs.occupation}
+                            value={
+                              populateData
+                                ? populateData.res_Output[0].occupation
+                                : inputs.occupation
+                            }
                             onChange={handleInputChange}
                             label="occupation"
                           >
@@ -619,14 +685,13 @@ const PersonalInfo = () => {
               </Row>
               <Row>
                 <Col md="6" sm="12" className="mt-2">
-                  <div className="form-group master-textField">
+                  <div className="form-group ">
                     <FormControl
                       error={
                         errorMsg.errorOBJ.errorExperience === "" ? false : true
                       }
                       variant="outlined"
                       key="Appliances"
-                      // error={Boolean(errors.appliance)}
                       fullWidth
                     >
                       <InputLabel required={true}>
@@ -637,7 +702,11 @@ const PersonalInfo = () => {
                           <Select
                             size="large"
                             name="experience"
-                            value={inputs.experience}
+                            value={
+                              populateData
+                                ? populateData.res_Output[0].trading_Experience
+                                : inputs.experience
+                            }
                             onChange={handleInputChange}
                             label="Trading Experience"
                           >
@@ -649,8 +718,6 @@ const PersonalInfo = () => {
                               Intermediate
                             </MenuItem>
                             <MenuItem value={"Advanced"}>Advanced</MenuItem>
-                            {/* <MenuItem value={"Range"}>Range</MenuItem>
-                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                           </Select>
                         )}
                         name="appliance"
@@ -660,7 +727,6 @@ const PersonalInfo = () => {
                           required: "Please Choose Your Appliance.",
                         }}
                       />
-                      {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
                     </FormControl>
                     {errorMsg.errorOBJ.errorExperience && (
                       <div className="div-error">
@@ -671,8 +737,8 @@ const PersonalInfo = () => {
                     )}
                   </div>
                 </Col>
-                <Col md="6" sm="12" className="mt-2">
-                  <div className="form-group master-textField inside_div_personal">
+                {/* <Col md="6" sm="12" className="mt-2">
+                  <div className="form-group  inside_div_personal">
                     <FormControl
                       error={
                         errorMsg.errorOBJ.errorPolitical === "" ? false : true
@@ -717,18 +783,18 @@ const PersonalInfo = () => {
                       </div>
                     )}
                   </div>
-                </Col>
+                </Col> */}
               </Row>
-              <Row className="div_personal">
+              {/* <Row className="div_personal">
                 <Col md="6" sm="12" className="mt-2">
-                  <div className="form-group master-textField">
+                  <div className="form-group ">
                     <FormControl
                       error={
                         errorMsg.errorOBJ.errorEducation === "" ? false : true
                       }
                       variant="outlined"
                       key="Appliances"
-                      // error={Boolean(errors.appliance)}
+                      
                       fullWidth
                     >
                       <InputLabel required={true}>Education</InputLabel>
@@ -753,8 +819,7 @@ const PersonalInfo = () => {
                             <MenuItem value={"Non-formal Education."}>
                               Non-formal Education.
                             </MenuItem>
-                            {/* <MenuItem value={"Range"}>Range</MenuItem>
-                  <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
+                           
                           </Select>
                         )}
                         name="appliance"
@@ -764,7 +829,7 @@ const PersonalInfo = () => {
                           required: "Please Choose Your Appliance.",
                         }}
                       />
-                      {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
+                      
                     </FormControl>
                     {errorMsg.errorOBJ.errorEducation && (
                       <div className="div-error">
@@ -775,7 +840,7 @@ const PersonalInfo = () => {
                     )}
                   </div>
                 </Col>
-              </Row>
+              </Row> */}
               <Row>
                 <Col md="3"></Col>
                 <Col md="6">
