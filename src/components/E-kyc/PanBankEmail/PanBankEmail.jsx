@@ -164,7 +164,7 @@ function PanBankEmail() {
   //   // return unsuscribe;
   // }, []);
   useEffect(() => {
-    if (selectedDate !== '' && PanDetails !== '') {
+    if (selectedDate !== null && PanDetails !== '') {
       handleKRASolidFetch();
     }
   }, [selectedDate]);
@@ -177,7 +177,7 @@ function PanBankEmail() {
   const handleKRASolidFetch = () => {
     // const fromServer = moment(selectedDate).format("YYYY");
     var now = moment();
-    var birthDate = moment(selectedDate, 'MM/DD/YYYY');
+    var birthDate = moment(selectedDate);
     var yearDiff = moment.duration(now - birthDate).as('years');
     // const generate = Math.floor(yearDiff);
     // console.log(generate);
@@ -185,6 +185,7 @@ function PanBankEmail() {
     // const a = generate.;
     const abc = yearDiff.toString();
     const bca = abc.split('.');
+    // console.log('whole bca');
     console.log(bca[0]);
     if (bca[0].length === 2 && bca[0] >= 18) {
       setAccountNoDisable(false);
@@ -275,6 +276,27 @@ function PanBankEmail() {
       };
     });
   };
+  // useEffect(() => {
+  //   if (inputs.dob !== '') {
+  //     seterrorMsg((prevState) => ({
+  //       ...prevState,
+  //       errorOBJ: {
+  //         ...prevState.errorOBJ,
+  //         errorDate: '',
+  //       },
+  //     }));
+  //   }
+  //   if (inputs.AcNo !== '') {
+  //     seterrorMsg((prevState) => ({
+  //       ...prevState,
+  //       errorOBJ: {
+  //         ...prevState.errorOBJ,
+  //         errorAccNo: '',
+  //       },
+  //     }));
+  //   }
+  // });
+
   const handleProceed = (e) => {
     e.preventDefault();
 
@@ -286,6 +308,52 @@ function PanBankEmail() {
       email: emails,
       pan: PanDetails,
     };
+
+    if (FormData.email === '') {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorEmail: 'Please enter your email',
+        },
+      }));
+    }
+    if (FormData.pan === '' && PanDisable === false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorPan: 'Please enter your PAN',
+        },
+      }));
+    }
+    if (!selectedDate && DobDisable === false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorDate: 'Please enter your DOB bouy ',
+        },
+      }));
+    }
+    if (inputs.AcNo === '' && AccountNoDisable === false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorAccNo: 'Please enter your account number',
+        },
+      }));
+    }
+    if (FormData.ifsc === '' && ifscDisable === false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorIFSC: 'Please enter your IFSC',
+        },
+      }));
+    }
     if (
       FormData.pan &&
       FormData.dob &&
@@ -323,6 +391,27 @@ function PanBankEmail() {
     }
     console.log(FormData);
   };
+
+  useEffect(() => {
+    if (selectedDate) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorDate: '',
+        },
+      }));
+    }
+    if (inputs.AcNo !== '' && inputs.AcNo.length >= 9) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorAccNo: '',
+        },
+      }));
+    }
+  }, [selectedDate, inputs.AcNo]);
 
   $('#input_capital').keyup(function (e) {
     var str = $(this).val();
@@ -660,7 +749,7 @@ function PanBankEmail() {
                 ...prevState,
                 errorOBJ: {
                   ...prevState.errorOBJ,
-                  errorPan: 'Please provide valid pan No.',
+                  errorPan: 'Please provide valid PAN.',
                 },
               }));
               setpanCircular(false);
@@ -717,7 +806,7 @@ function PanBankEmail() {
     // setOpen(false);
     // setBankDetails("");
   };
-  const minDate = '04.18.1996';
+  // const minDate = '04.18.1996';
   const TextFieldComponent = (props) => {
     return <TextField {...props} disabled={true} />;
   };
@@ -1012,7 +1101,7 @@ function PanBankEmail() {
           <Col className="mt-5" md="7">
             <Image src={startImg} fluid />
           </Col>
-          <Col md="5" className="div-PanEmail">
+          <Col className="mt-5" md="5">
             <Row>
               <Col>
                 <h3 className="float-left">Let's get started</h3>
@@ -1069,7 +1158,6 @@ function PanBankEmail() {
                     </span>
                   )}
                 </div>
-
                 <TextField
                   // errorhelperText="Incorrect entry."
                   id="outlined-error-helper-text"
@@ -1167,29 +1255,33 @@ function PanBankEmail() {
                       name="dob"
                       openTo="year"
                       variant="inline"
-                      inputVariant="outlined"
+                      // inputVariant="outlined"
                       views={['year', 'month', 'day']}
                       label="Enter DOB"
                       clearable
+                      // inputFormat="dd/mm/yyyy"
                       orientation="landscape"
                       TextFieldComponent={TextFieldComponent}
                       value={selectedDate}
                       disabled={DobDisable}
+                      // inputFormat="dd/mm/yyyy"
                       minDate={new Date('1953-12-12')}
                       maxDate={new Date('2003-12-12')}
                       onChange={setSelectedDate}
                       onBlur={handleKRASolidFetch}
                       renderInput={(params) => (
                         <TextField
+                          error={
+                            errorMsg.errorOBJ.errorDate &&
+                            (errorMsg.errorOBJ.errorDate ? true : false)
+                          }
                           variant="outlined"
                           {...params}
-                          helperText={null}
                         />
                       )}
                     />
                   </Stack>
                 </LocalizationProvider>
-
                 <div className="email-error-div">
                   {errorMsg.errorOBJ.errorDate && (
                     <span className="email-error-msg">
@@ -1202,6 +1294,10 @@ function PanBankEmail() {
                   id="outlined-error-helper-text"
                   // type="number"
                   variant="outlined"
+                  error={
+                    errorMsg.errorOBJ.errorAccNo &&
+                    (errorMsg.errorOBJ.errorAccNo ? true : false)
+                  }
                   autoComplete="off"
                   // id="outlined-error-helper-text"
                   type="text"

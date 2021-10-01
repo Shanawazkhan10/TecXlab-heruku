@@ -14,12 +14,15 @@ import { useHistory } from 'react-router';
 import SERVER_ID from '../Configure/configure';
 import Checkbox from '@mui/material/Checkbox';
 import { ORG_ID } from '../Helper/Helper';
+// import Checkbox from '@mui/material/Checkbox';
+
 const PersonalInfo = () => {
   const history = useHistory();
   // const [isBtnVisible, SetIsBtnVisible] = useState(true);
   const [populateData, setPopulateData] = useState('');
   // const [fatherName, setfatherName] = useState("");
-  const [ButtonChecked, setButtonChecked] = useState('');
+  const [ButtonChecked1, setButtonChecked1] = useState(false);
+  const [ButtonChecked2, setButtonChecked2] = useState(false);
   const [inputs, setInputs] = useState({
     mstatus: '',
     income: '',
@@ -42,6 +45,8 @@ const PersonalInfo = () => {
       errorExperience: '',
       errorPolitical: '',
       errorEducation: '',
+      errorCheckbox1: '',
+      errorCheckbox2: '',
     },
   });
   // GET THE DETAILS FROM API IF CODITION FOLLOWS
@@ -208,6 +213,24 @@ const PersonalInfo = () => {
         },
       }));
     }
+    if (ButtonChecked1 !== false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorCheckbox1: '',
+        },
+      }));
+    }
+    if (ButtonChecked2 !== false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorCheckbox2: '',
+        },
+      }));
+    }
   }, [
     inputs.fatherName,
     inputs.motherName,
@@ -218,6 +241,8 @@ const PersonalInfo = () => {
     inputs.experience,
     inputs.political,
     inputs.education,
+    ButtonChecked1,
+    ButtonChecked2,
   ]);
 
   const handleSubmit = (e) => {
@@ -305,6 +330,24 @@ const PersonalInfo = () => {
         },
       }));
     }
+    if (ButtonChecked1 === false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorCheckbox1: 'Please confirm this checkbox1',
+        },
+      }));
+    }
+    if (ButtonChecked2 === false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorCheckbox2: 'Please confirm this checkbox2 ',
+        },
+      }));
+    }
     // if()
     if (
       inputs.fatherName !== '' &&
@@ -314,9 +357,8 @@ const PersonalInfo = () => {
       inputs.experience !== '' &&
       inputs.occupation !== '' &&
       inputs.income !== '' &&
-      inputs.political !== '' &&
-      inputs.education !== '' &&
-      ButtonChecked === true
+      ButtonChecked1 === true &&
+      ButtonChecked2 === true
     ) {
       // API FOR PERSONAL
       var myHeaders = new Headers();
@@ -774,20 +816,40 @@ const PersonalInfo = () => {
                     type="checkbox"
                     style={{ cursor: 'pointer' }}
                     className="mr-1"
-                    onChange={(e) => setButtonChecked(e.target.checked)}
+                    onChange={(e) => setButtonChecked1(e.target.checked)}
                   />
-                  I was born in India, my nationality is Indian & my country of
-                  tax is India
+                  <text>
+                    I was born in India, my nationality is Indian & my country
+                    of tax is India
+                  </text>
+                  <div className="err-checkbox">
+                    {errorMsg.errorOBJ.errorCheckbox1 && (
+                      <div className="div-error">
+                        <span className="error-msg">
+                          {errorMsg.errorOBJ.errorCheckbox1}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="check">
                   <input
                     type="checkbox"
                     style={{ cursor: 'pointer' }}
                     className="mr-1"
-                    onChange={(e) => setButtonChecked(e.target.checked)}
+                    onChange={(e) => setButtonChecked2(e.target.checked)}
                   />
                   I have read and accepted the declaration and I am neither
                   mentally nor a politically exposed person.
+                </div>
+                <div style={{ marginLeft: '27px' }}>
+                  {errorMsg.errorOBJ.errorCheckbox2 && (
+                    <div className="div-error">
+                      <span className="error-msg">
+                        {errorMsg.errorOBJ.errorCheckbox2}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </Row>
               {/* <Row className="div_personal">
