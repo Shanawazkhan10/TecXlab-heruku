@@ -67,3 +67,43 @@
   margin-bottom: 3px;
   margin-top: -5px;
 }
+.css-1ozefeb
+  > .MuiPaper-root
+  > .css-1xhj18k
+  > .css-epd502
+  > .MuiCalendarPicker-root
+  > .css-1dozdou
+  + .PrivatePickersFadeTransitionGroup-root
+  > div
+  > div
+  > .MuiTypography-root {
+  border: none;
+  background-color: white;
+}
+.css-1ozefeb
+  > .MuiPaper-root
+  > .css-1xhj18k
+  > .css-epd502
+  > .MuiCalendarPicker-root
+  > .css-1dozdou
+  + .PrivatePickersFadeTransitionGroup-root
+  > div
+  > div
+  > .MuiTypography-root:hover {
+  background: lightgray;
+  border-radius: 10px;
+}
+/* > .PrivatePickersFadeTransitionGroup-root
+> .css-1v994a0
+> .MuiIconButton-root
+> .MuiSvgIcon-root
+> .MuiTouchRipple-root
+> .css-k008qs
+> .MuiButtonBase-root
+> .css-18puooo
+> .MuiButtonBase-root
+> .MuiSvgIcon-root
+> .MuiTouchRipple-root
+> .PrivatePickersFadeTransitionGroup-root
+> .MuiMonthPicker-root
+> .MuiTypography-root */
