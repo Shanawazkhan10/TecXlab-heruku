@@ -12,8 +12,9 @@ const AdhaarKyc = (url) => {
   const history = useHistory();
 
   const handleClick = () => {
-    url =
-      "https://api.digitallocker.gov.in/public/oauth2/1/authorize?response_type=code&client_id=140FF210&state=Lead_Id123&redirect_uri=https://nuniyo.tech/digilocker/index.html";
+    url = `https://api.digitallocker.gov.in/public/oauth2/1/authorize?response_type=code&client_id=140FF210&state=${localStorage.getItem(
+      "lead_Id"
+    )}&redirect_uri=https://nuniyo.tech/digilocker/index.html`;
     const newPopup = window.open(url, "name", "height=500,width=500");
     if (window.focus) {
       newPopup.focus();
