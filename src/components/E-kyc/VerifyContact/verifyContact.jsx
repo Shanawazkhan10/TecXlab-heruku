@@ -29,7 +29,7 @@ function VerifyContact() {
   const [countResend, setCountResend] = useState(0);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [MobileDisable, setMobileDisable] = useState(false);
-  const [ButtonChecked, setButtonChecked] = useState('');
+  const [ButtonChecked, setButtonChecked] = useState(false);
   const [Disabled, setDisabled] = useState(true);
   // const [userToken, setUserToken] = useLocalStorage('user-token', '');
   //T&C hooks
@@ -42,6 +42,7 @@ function VerifyContact() {
     errorOBJ: {
       errorOTP: '',
       errorNumber: '',
+      errorCheck: '',
     },
   });
   useEffect(() => {
@@ -154,6 +155,15 @@ function VerifyContact() {
         errorOBJ: {
           ...prevState.errorOBJ,
           errorOTP: 'Please enter OTP',
+        },
+      }));
+    }
+    if (ButtonChecked === false && contact !== '' && otp !== '') {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorCheck: 'Please confirm this checkbox',
         },
       }));
     }
@@ -306,6 +316,19 @@ function VerifyContact() {
       }
     }
   };
+
+  useEffect(() => {
+    if (ButtonChecked !== false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorCheck: '',
+        },
+      }));
+    }
+  }, [ButtonChecked]);
+
   const smsVerify = async () => {
     // e.preventDefault();
     $('.btn-submit').show();
@@ -600,6 +623,15 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                       </span>
                     </span>
                   </small>
+                </div>
+                <div style={{ marginTop: '5px', marginLeft: '17px' }}>
+                  {errorMsg.errorOBJ.errorCheck && (
+                    <div className="div-error-contact">
+                      <span className="error-contact">
+                        {errorMsg.errorOBJ.errorCheck}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>
