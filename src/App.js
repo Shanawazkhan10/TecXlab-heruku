@@ -24,6 +24,7 @@ import AdhaarKyc from "./components/E-kyc/AdhaarKyc/AdhaarKyc";
 import UploadDocs from "./components/E-kyc/UploadDocuments/UploadDocsUi";
 import AccountOpen from "./components/E-kyc/AccountOpen/AccOpenInfo";
 import VideoKyc from "./components/E-kyc/VideoRecord/WebCam";
+import EmailConfirm from "./components/E-kyc/EmailConfirm/EmailConfirm";
 // import Esign from './components/E-kyc/DigitalSignature/Esign';
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
           {/* <Route exact path="/UploadDocuments" component={UploadDocuments} /> */}
           <Route exact path="/Document" component={UploadDocs} />
           <Route exact path="/IPV" component={VideoKyc} />
+          <Route exact path="/EmailConfirm" component={EmailConfirm} />
           {/* <Route exact path="/E-sign" component={Esign} /> */}
           <ProtectedPages path="/PanOrc" Cmp={PanOrc} />
         </Switch>
