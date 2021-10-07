@@ -19,6 +19,31 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { FaRedhat } from 'react-icons/fa';
 
+const STATUS = {
+  STARTED: 'Started',
+  STOPPED: 'Stopped',
+};
+const INITIAL_COUNT = 12;
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
+
 const captureCamera = (callback) => {
   navigator.mediaDevices
     .getUserMedia({
@@ -66,6 +91,28 @@ function VideoRecord({ props, sendToParent }) {
       OtpError: '',
     },
   });
+  //Counter
+  const twoDigits = (num) => String(num).padStart(2, '0');
+  const [secondsRemaining, setSecondsRemaining] = useState(INITIAL_COUNT);
+  const [status, setStatus] = useState(STATUS.STOPPED);
+
+  const secondsToDisplay = secondsRemaining % 60;
+
+  const handleStart = () => {
+    setStatus(STATUS.STARTED);
+  };
+  useInterval(
+    () => {
+      if (secondsRemaining > 0) {
+        setSecondsRemaining(secondsRemaining - 1);
+      } else {
+        setStatus(STATUS.STOPPED);
+      }
+    },
+    status === STATUS.STARTED ? 1000 : null
+    // passing null stops the interval
+  );
+
   let history = useHistory();
   // useEffect(() => {
   //   if (flag === true) {
@@ -76,6 +123,7 @@ function VideoRecord({ props, sendToParent }) {
   // }, [flag]);
 
   const onStartRecordVideo = () => {
+    handleStart();
     getLocation(function (data) {
       console.log('data from child:', data);
       // work with your data came from server
@@ -254,9 +302,11 @@ function VideoRecord({ props, sendToParent }) {
       ) : (
         <video playsInline ref={videoElement} style={{ width: `35vw` }} />
       )}
-      <br />
-
-      <br />
+      {recorder && (
+        <div style={{ fontSize: '10px', marginBottom: '2px' }}>
+          Recording will be stop in {twoDigits(secondsToDisplay)}
+        </div>
+      )}
       <TextField
         type="number"
         error={errorMsg.errorOBJ.OtpError ? true : false}
@@ -267,7 +317,7 @@ function VideoRecord({ props, sendToParent }) {
         disabled={otpField}
         // onBlur={handleOtp}
         onChange={(e) => changeHandler(e)}
-        className="form-control mb-3"
+        className="form-control mb-3 mt-2"
         // onBlur={handleOTO}
         label="Enter the OTP"
         style={{ width: `17rem` }}

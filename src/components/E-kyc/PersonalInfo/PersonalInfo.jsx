@@ -822,15 +822,16 @@ const PersonalInfo = () => {
                     I was born in India, my nationality is Indian & my country
                     of tax is India
                   </text>
-                  <div className="err-checkbox">
-                    {errorMsg.errorOBJ.errorCheckbox1 && (
-                      <div className="div-error">
-                        <span className="error-msg">
-                          {errorMsg.errorOBJ.errorCheckbox1}
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                  <br />
+                </div>
+                <div className="err-checkbox">
+                  {errorMsg.errorOBJ.errorCheckbox1 && (
+                    <div className="div-error">
+                      <span className="error-msg">
+                        {errorMsg.errorOBJ.errorCheckbox1}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <div className="check">
                   <input

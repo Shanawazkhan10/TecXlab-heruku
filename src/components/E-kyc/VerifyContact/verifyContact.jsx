@@ -29,7 +29,7 @@ function VerifyContact() {
   const [countResend, setCountResend] = useState(0);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [MobileDisable, setMobileDisable] = useState(false);
-  const [ButtonChecked, setButtonChecked] = useState('');
+  const [ButtonChecked, setButtonChecked] = useState(false);
   const [Disabled, setDisabled] = useState(true);
   // const [userToken, setUserToken] = useLocalStorage('user-token', '');
   //T&C hooks
@@ -42,10 +42,11 @@ function VerifyContact() {
     errorOBJ: {
       errorOTP: '',
       errorNumber: '',
+      errorCheck: '',
     },
   });
   useEffect(() => {
-    console.log(ORG_ID);
+    // console.log(ORG_ID);
     $('#countdown').hide();
     $('.class-referal').hide();
     $('.link-resend').hide();
@@ -157,6 +158,15 @@ function VerifyContact() {
         },
       }));
     }
+    if (ButtonChecked === false && contact !== '' && otp !== '') {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorCheck: 'Please confirm this checkbox',
+        },
+      }));
+    }
     // if (otp.length <= 3) {
     //   seterrorMsg((prevState) => ({
     //     ...prevState,
@@ -191,7 +201,7 @@ function VerifyContact() {
           fetch(`${SERVER_ID}/api/lead/Verify_OTP`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-              console.log(result);
+              // console.log(result);
               // console.log(result);
               localStorage.setItem(
                 'userToken',
@@ -238,7 +248,7 @@ function VerifyContact() {
                 // staged ID
                 // console.log(result.res_Output[0].stage_ID);
                 if (result.res_Output[0].stage_Id !== '') {
-                  console.log(result.res_Output[0].stage_Id);
+                  // console.log(result.res_Output[0].stage_Id);
                   history.push(result.res_Output[0].stage_Id);
                 } else {
                   console.log('ERROR ON VERIFY MIDDLEWARE OR BACKEND');
@@ -306,6 +316,19 @@ function VerifyContact() {
       }
     }
   };
+
+  useEffect(() => {
+    if (ButtonChecked !== false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorCheck: '',
+        },
+      }));
+    }
+  }, [ButtonChecked]);
+
   const smsVerify = async () => {
     // e.preventDefault();
     $('.btn-submit').show();
@@ -333,7 +356,7 @@ function VerifyContact() {
     fetch(`${SERVER_ID}/api/lead/Read_Lead`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         setgenerateOtp(result.res_Output[0].result_Extra_Key);
         // console.log(result);
       })
@@ -367,13 +390,13 @@ function VerifyContact() {
           open={open}
           onClose={handleClose}
           scroll={scroll}
-          aria-labelledby="scroll-dialog-title"
-          aria-describedby="scroll-dialog-description"
+          aria-labelledby='scroll-dialog-title'
+          aria-describedby='scroll-dialog-description'
         >
-          <DialogTitle id="scroll-dialog-title">Terms & conditions</DialogTitle>
+          <DialogTitle id='scroll-dialog-title'>Terms & conditions</DialogTitle>
           <DialogContent dividers={scroll === 'paper'}>
             <DialogContentText
-              id="scroll-dialog-description"
+              id='scroll-dialog-description'
               ref={descriptionElementRef}
               tabIndex={-1}
             >
@@ -413,7 +436,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button className="mr-3" onClick={handleClose}>
+            <Button className='mr-3' onClick={handleClose}>
               Proceed
             </Button>
           </DialogActions>
@@ -421,45 +444,45 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
       </div>
       <Container>
         <Row>
-          <Col className="mt-5" md="7">
-            <Image className="login-img-res" src={loginImg} fluid />
+          <Col className='mt-5' md='7'>
+            <Image className='login-img-res' src={loginImg} fluid />
           </Col>
-          <Col className="div-PanEmail" md="5">
+          <Col className='div-PanEmail' md='5'>
             <Row>
               <Col>
-                <h3 className="float-left">Registration</h3>
+                <h3 className='float-left'>Registration</h3>
                 <br />
-                <hr className="hr-personal color-gradiant" />
+                <hr className='hr-personal color-gradiant' />
               </Col>
             </Row>
 
             <Row>
-              <Col className="" sm="12" md="8">
+              <Col className='' sm='12' md='8'>
                 <p>
                   <span> Already have an account? </span>
-                  <span className="link-comman">Sign in </span>
+                  <span className='link-comman'>Sign in </span>
                 </p>
               </Col>
             </Row>
 
             <Row>
-              <Col className="" sm="12" md="8">
+              <Col className='' sm='12' md='8'>
                 <TextField
-                  type="number"
+                  type='number'
                   error={errorMsg.errorOBJ.errorNumber ? true : false}
-                  id="fieldSelectorNo"
-                  pattern="[1-9]{1}[0-9]{9}"
+                  id='fieldSelectorNo'
+                  pattern='[1-9]{1}[0-9]{9}'
                   value={contact}
                   disabled={MobileDisable}
                   onChange={handleChange}
                   onBlur={handleContactBlur}
-                  className="form-control"
-                  label="Enter Contact"
-                  variant="outlined"
+                  className='form-control'
+                  label='Enter Contact'
+                  variant='outlined'
                   // InputProps={{}}
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start">
+                      <InputAdornment position='start'>
                         {/* <AccountCircle /> */}
                         +91
                       </InputAdornment>
@@ -468,7 +491,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                       <SubInputAdornment
                         Dataicon={
                           <Image
-                            className="login-img-res"
+                            className='login-img-res'
                             src={mobileImg}
                             fluid
                           />
@@ -480,8 +503,8 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                 <br />
                 <br />
                 {errorMsg.errorOBJ.errorNumber && (
-                  <div className="div-error-contact">
-                    <span className="error-contact">
+                  <div className='div-error-contact'>
+                    <span className='error-contact'>
                       {errorMsg.errorOBJ.errorNumber}
                     </span>
                   </div>
@@ -489,18 +512,18 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                 <TextField
                   error={errorMsg.errorOBJ.errorOTP ? true : false}
                   value={otp}
-                  type="number"
-                  id="mobileOtp"
+                  type='number'
+                  id='mobileOtp'
                   disabled={Disabled}
                   onChange={OtpValidator}
-                  className="form-control"
-                  label="Enter OTP"
-                  variant="outlined"
+                  className='form-control'
+                  label='Enter OTP'
+                  variant='outlined'
                   InputProps={{
                     endAdornment: (
                       <SubInputAdornment
                         Dataicon={
-                          <Image className="login-img-res" src={otpImg} fluid />
+                          <Image className='login-img-res' src={otpImg} fluid />
                         }
                       />
                     ),
@@ -512,9 +535,9 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               {/* <Col className="" sm="12" md="8"> */}
               <div>
                 {
-                  <div className="error-div-contact">
+                  <div className='error-div-contact'>
                     {/* <br /> */}
-                    <span className="error-contact">
+                    <span className='error-contact'>
                       {errorMsg.errorOBJ.errorOTP}
                     </span>
                   </div>
@@ -523,12 +546,12 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               {/* </Col> */}
             </Row>
             <Row>
-              <Col className="" sm="12" md="8">
+              <Col className='' sm='12' md='8'>
                 <small>
                   {/* <span> Do you have a </span> */}
                   <span
                     onClick={contactBlock}
-                    className="link-comman link-resend"
+                    className='link-comman link-resend'
                   >
                     Resend OTP?{' '}
                   </span>
@@ -536,22 +559,22 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               </Col>
             </Row>
             <Row>
-              <Col className="" sm="12" md="8">
+              <Col className='' sm='12' md='8'>
                 <TextField
-                  type="text"
+                  type='text'
                   // value={name}
-                  id="fieldSelectorname"
+                  id='fieldSelectorname'
                   // onChange={handleNameChange}
-                  className="form-control mt-3 class-referal"
-                  label="Referral Code (Optional)"
-                  autoComplete="off"
-                  variant="outlined"
+                  className='form-control mt-3 class-referal'
+                  label='Referral Code (Optional)'
+                  autoComplete='off'
+                  variant='outlined'
                   InputProps={{
                     endAdornment: (
                       <SubInputAdornment
                         Dataicon={
                           <Image
-                            className="login-img-res"
+                            className='login-img-res'
                             src={ReferalImg}
                             fluid
                           />
@@ -564,11 +587,11 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
             </Row>
 
             <Row>
-              <Col sm="12" md="12">
+              <Col sm='12' md='12'>
                 <br />
                 <small>
                   <span> Do you have a </span>
-                  <span onClick={referalFun} className="link-comman">
+                  <span onClick={referalFun} className='link-comman'>
                     Referral Code?{' '}
                   </span>
                 </small>
@@ -580,12 +603,12 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                     name="checkedI"
                   /> */}
                 <div
-                  className="mt-2"
+                  className='mt-2'
                   style={{ display: 'flex', alignItems: 'center' }}
                 >
                   <input
-                    className="mr-2"
-                    type="checkbox"
+                    className='mr-2'
+                    type='checkbox'
                     style={{ cursor: 'pointer' }}
                     onClick={(e) => setButtonChecked(e.target.checked)}
                   />
@@ -593,13 +616,22 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                     <span>
                       I agree to the{' '}
                       <span
-                        className="link-comman"
+                        className='link-comman'
                         onClick={handleClickOpen('paper')}
                       >
                         Terms & Conditions{' '}
                       </span>
                     </span>
                   </small>
+                </div>
+                <div style={{ marginTop: '5px', marginLeft: '17px' }}>
+                  {errorMsg.errorOBJ.errorCheck && (
+                    <div className='div-error-contact'>
+                      <span className='error-contact'>
+                        {errorMsg.errorOBJ.errorCheck}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>
@@ -614,13 +646,13 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
             </Row> */}
             <br />
             <Row>
-              <Col className="" sm="12" md="8">
+              <Col className='' sm='12' md='8'>
                 <Button
                   // disabled={btnDisabled}
-                  type="submit"
+                  type='submit'
                   // fullWidth="true"
                   onClick={handleProceed}
-                  className="btn font-weight-bold color-gradiant form-control text-white border-0 btn-block"
+                  className='btn font-weight-bold color-gradiant form-control text-white border-0 btn-block'
                 >
                   Proceed
                 </Button>

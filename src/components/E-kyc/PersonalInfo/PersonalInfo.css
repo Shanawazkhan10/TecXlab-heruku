@@ -48,14 +48,12 @@
   }
 }
 .check {
-  /* display: flex; */
+  /* border: 1px solid black; */
+  display: flex;
   align-items: center;
   font-size: 11px;
   margin-left: 10px;
 }
-.txt-bx {
-  border: 1px solid black;
-}
 .err-checkbox {
-  margin-left: 17px;
+  margin-left: 27px;
 }
