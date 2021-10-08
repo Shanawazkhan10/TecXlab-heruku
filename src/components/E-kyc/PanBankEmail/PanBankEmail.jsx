@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import TextField from '@material-ui/core/TextField';
-import $ from 'jquery';
-import SERVER_ID from '../Configure/configure';
-import { Container, Row, Col } from 'reactstrap';
-import Button from '@material-ui/core/Button';
-import Image from 'react-bootstrap/Image';
-import './PanBankEmail.css';
-import startImg from '../../../images/Get_Started_Illustration.png';
-import SearchIcon from '@material-ui/icons/Search';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
+import TextField from "@material-ui/core/TextField";
+import $ from "jquery";
+import SERVER_ID from "../Configure/configure";
+import { Container, Row, Col } from "reactstrap";
+import Button from "@material-ui/core/Button";
+import Image from "react-bootstrap/Image";
+import "./PanBankEmail.css";
+import startImg from "../../../images/Get_Started_Illustration.png";
+import SearchIcon from "@material-ui/icons/Search";
+import moment from "moment";
 // import Button from "@material-ui/core/Button";
-import Dialog from '@material-ui/core/Dialog';
-import { Typography } from '@mui/material';
-import DialogContent from '@material-ui/core/DialogContent';
-import CloseIcon from '@material-ui/icons/Close';
-import { useHistory } from 'react-router';
-import SubInputAdornment from '../SubComponent/SubInputAdornment';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-import { makeStyles } from '@material-ui/core/styles';
+import Dialog from "@material-ui/core/Dialog";
+import { Typography } from "@mui/material";
+import DialogContent from "@material-ui/core/DialogContent";
+import CloseIcon from "@material-ui/icons/Close";
+import { useHistory } from "react-router";
+import SubInputAdornment from "../SubComponent/SubInputAdornment";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import { makeStyles } from "@material-ui/core/styles";
 
-import ListItem from '@material-ui/core/ListItem';
+import ListItem from "@material-ui/core/ListItem";
 // import Checkbox from "@mui/material/Checkbox";
-import Radio from '@mui/material/Radio';
-import List from '@material-ui/core/List';
-import DateFnsUtils from '@date-io/date-fns';
-import CircularProgress from '@mui/material/CircularProgress';
-import './style.css';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
-import Stack from '@mui/material/Stack';
-import { ORG_ID } from '../Helper/Helper';
+import Radio from "@mui/material/Radio";
+import List from "@material-ui/core/List";
+import DateFnsUtils from "@date-io/date-fns";
+import CircularProgress from "@mui/material/CircularProgress";
+import "./style.css";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
+import Stack from "@mui/material/Stack";
+import { ORG_ID } from "../Helper/Helper";
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& .MuiTextField-root': {
+    "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: 300,
     },
@@ -42,18 +42,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 const useStylesForList = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
-    position: 'relative',
-    overflow: 'auto',
+    position: "relative",
+    overflow: "auto",
     maxHeight: 200,
   },
   listSection: {
-    backgroundColor: 'inherit',
+    backgroundColor: "inherit",
   },
   ul: {
-    backgroundColor: 'inherit',
+    backgroundColor: "inherit",
     padding: 0,
   },
 }));
@@ -63,18 +63,18 @@ function PanBankEmail() {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [openIfsc, setOpenIfsc] = useState(false);
-  const [IfscResponse, setIfscResponse] = useState('');
-  const [emailResponse, setemailResponse] = useState('');
-  const [panResponse, setPanResponse] = useState('');
+  const [IfscResponse, setIfscResponse] = useState("");
+  const [emailResponse, setemailResponse] = useState("");
+  const [panResponse, setPanResponse] = useState("");
   const [textifsc, setTextifsc] = useState(false);
-  const [IFSCfromSearch, setIFSCfromSearch] = useState('');
+  const [IFSCfromSearch, setIFSCfromSearch] = useState("");
   const [emailCircular, setemailCircular] = useState(false);
   const [panCircular, setpanCircular] = useState(false);
-  const [bankName, setBankName] = useState('');
-  const [branchName, setBranchName] = useState('');
-  const [bankDetails, setBankDetails] = useState('');
-  const [emails, setEmails] = useState('');
-  const [PanDetails, setPanDetails] = useState('');
+  const [bankName, setBankName] = useState("");
+  const [branchName, setBranchName] = useState("");
+  const [bankDetails, setBankDetails] = useState("");
+  const [emails, setEmails] = useState("");
+  const [PanDetails, setPanDetails] = useState("");
   const [PanDisable, setPanDisable] = useState(true);
   const [AccountNoDisable, setAccountNoDisable] = useState(true);
   const [DobDisable, SetDobDisable] = useState(true);
@@ -83,23 +83,23 @@ function PanBankEmail() {
   // const [PanDisable, setPanDisable] = useState(true);
   const classes = useStyles();
   const [inputs, setInputs] = useState({
-    email: '',
+    email: "",
     // otp: "",
-    pan: '',
-    dob: '',
-    AcNo: '',
-    ifsc: '',
-    getPanName: '',
+    pan: "",
+    dob: "",
+    AcNo: "",
+    ifsc: "",
+    getPanName: "",
     // address: "",
   });
 
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
-      errorEmail: '',
-      errorPan: '',
-      errorDate: '',
-      errorAccNo: '',
-      errorIFSC: '',
+      errorEmail: "",
+      errorPan: "",
+      errorDate: "",
+      errorAccNo: "",
+      errorIFSC: "",
     },
   });
   const [selectedDate, setSelectedDate] = useState(null);
@@ -114,7 +114,7 @@ function PanBankEmail() {
     }
   }, [emailResponse]);
   useEffect(() => {
-    $('.modal_open').hide();
+    $(".modal_open").hide();
   }, []);
   //For Date of Birth Field
   // useEffect(() => {
@@ -126,9 +126,9 @@ function PanBankEmail() {
   // }, [panResponse]);
 
   useEffect(() => {
-    if (inputs.AcNo !== '') {
+    if (inputs.AcNo !== "") {
       setifscDisable(false);
-      $('.modal_open').show();
+      $(".modal_open").show();
     }
   }, [inputs.AcNo]);
   // useEffect(() => {
@@ -166,31 +166,26 @@ function PanBankEmail() {
   // }, []);
   useEffect(() => {
     setTimeout(() => {
-      $('.Name-Pan-msg').fadeOut(1000);
+      $(".Name-Pan-msg").fadeOut(1000);
     }, 10000);
   }, [inputs.getPanName]);
   useEffect(() => {
-    if (selectedDate !== null) {
+    if (selectedDate !== null && PanDetails !== "") {
       handleKRASolidFetch();
     }
   }, [selectedDate]);
-  // useEffect(() => {
-  //   var oneYearFromNow = new Date();
-  //   const abc = oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() - 18);
-  //   const bca = moment(abc).format("DD/MM/YYYY");
-  //   console.log(bca);
-  // }, []);
+
   const handleKRASolidFetch = () => {
     // const fromServer = moment(selectedDate).format("YYYY");
     var now = moment();
     var birthDate = moment(selectedDate);
-    var yearDiff = moment.duration(now - birthDate).as('years');
+    var yearDiff = moment.duration(now - birthDate).as("years");
     // const generate = Math.floor(yearDiff);
     // console.log(generate);
     // x.toString().length;
     // const a = generate.;
     const abc = yearDiff.toString();
-    const bca = abc.split('.');
+    const bca = abc.split(".");
     // console.log('whole bca');
     console.log(bca[0]);
     if (bca[0].length === 2 && bca[0] >= 18) {
@@ -199,29 +194,29 @@ function PanBankEmail() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorDate: '',
+          errorDate: "",
         },
       }));
 
-      const FormattedDate = moment(selectedDate).format('DD/MM/YYYY');
+      const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
       var myHeaders = new Headers();
       myHeaders.append(
-        'Authorization',
-        `Bearer ${localStorage.getItem('userToken')}`
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
       );
-      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append("Content-Type", "application/json");
       var raw = JSON.stringify({
         org_Id: ORG_ID,
-        lead_Id: localStorage.getItem('lead_Id'),
+        lead_Id: localStorage.getItem("lead_Id"),
         paN_NO: PanDetails,
         date_Of_birth: FormattedDate,
       });
 
       var requestOptions = {
-        method: 'POST',
+        method: "POST",
         headers: myHeaders,
         body: raw,
-        redirect: 'follow',
+        redirect: "follow",
       };
 
       fetch(
@@ -229,15 +224,15 @@ function PanBankEmail() {
         requestOptions
       )
         .then((response) => response.text())
-        .then((result) => console.log('SEOCUND CALL', result))
-        .catch((error) => console.log('error', error));
+        .then((result) => console.log("SEOCUND CALL", result))
+        .catch((error) => console.log("error", error));
     } else {
       setAccountNoDisable(true);
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorDate: 'Invalid date',
+          errorDate: "Invalid date",
         },
       }));
     }
@@ -282,7 +277,7 @@ function PanBankEmail() {
   const handleProceed = (e) => {
     e.preventDefault();
 
-    const FormattedDate = moment(selectedDate).format('DD/MM/YYYY');
+    const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
     const FormData = {
       ...inputs,
       dob: `${FormattedDate}`,
@@ -291,21 +286,21 @@ function PanBankEmail() {
       pan: PanDetails,
     };
 
-    if (FormData.email === '') {
+    if (FormData.email === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorEmail: 'Please enter your email',
+          errorEmail: "Please enter your email",
         },
       }));
     }
-    if (FormData.pan === '' && PanDisable === false) {
+    if (FormData.pan === "" && PanDisable === false) {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorPan: 'Please enter your PAN',
+          errorPan: "Please enter your PAN",
         },
       }));
     }
@@ -314,25 +309,25 @@ function PanBankEmail() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorDate: 'Please enter your DOB bouy ',
+          errorDate: "Please enter your DOB bouy ",
         },
       }));
     }
-    if (inputs.AcNo === '' && AccountNoDisable === false) {
+    if (inputs.AcNo === "" && AccountNoDisable === false) {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorAccNo: 'Please enter your account number',
+          errorAccNo: "Please enter your account number",
         },
       }));
     }
-    if (FormData.ifsc === '' && ifscDisable === false) {
+    if (FormData.ifsc === "" && ifscDisable === false) {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorIFSC: 'Please enter your IFSC',
+          errorIFSC: "Please enter your IFSC",
         },
       }));
     }
@@ -341,26 +336,26 @@ function PanBankEmail() {
       FormData.dob &&
       FormData.email &&
       FormData.ifsc &&
-      FormData.AcNo !== ''
+      FormData.AcNo !== ""
     ) {
       var myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append("Content-Type", "application/json");
       myHeaders.append(
-        'Authorization',
-        `Bearer ${localStorage.getItem('userToken')}`
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
       );
       var raw = JSON.stringify({
-        method_Name: 'Update_Stage_Id',
+        method_Name: "Update_Stage_Id",
         // mobile_No: localStorage.getItem("userInfo"),
         org_Id: ORG_ID,
-        lead_Id: localStorage.getItem('lead_Id'),
+        lead_Id: localStorage.getItem("lead_Id"),
       });
 
       var requestOptions = {
-        method: 'POST',
+        method: "POST",
         headers: myHeaders,
         body: raw,
-        redirect: 'follow',
+        redirect: "follow",
       };
 
       fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
@@ -369,7 +364,7 @@ function PanBankEmail() {
           // console.log(result.res_Output[0].stage_Id);
           history.push(result.res_Output[0].stage_Id);
         })
-        .catch((error) => console.log('error', error));
+        .catch((error) => console.log("error", error));
     }
     console.log(FormData);
   };
@@ -380,36 +375,36 @@ function PanBankEmail() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorDate: '',
+          errorDate: "",
         },
       }));
     }
-    if (inputs.AcNo !== '' && inputs.AcNo.length >= 9) {
+    if (inputs.AcNo !== "" && inputs.AcNo.length >= 9) {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorAccNo: '',
+          errorAccNo: "",
         },
       }));
     }
   }, [selectedDate, inputs.AcNo]);
 
-  $('#input_capital').keyup(function (e) {
+  $("#input_capital").keyup(function (e) {
     var str = $(this).val();
-    $('#input_capital').val(str.toUpperCase());
+    $("#input_capital").val(str.toUpperCase());
   });
   // modal function
   // const openModal = () => {};
   const openModal = () => {
     setOpen(true);
-    setBankDetails('');
+    setBankDetails("");
   };
 
   const handleClose = () => {
     setOpen(false);
-    setBankName('');
-    setBranchName('');
+    setBankName("");
+    setBranchName("");
   };
   // const openIfscModal = () => {
   //   setOpenIfsc(true);
@@ -423,10 +418,10 @@ function PanBankEmail() {
     // console.log("blur happed");
     // const ifscCode = inputs.ifsc;
     // console.log(IFSCfromSearch);
-    if (IFSCfromSearch !== '') {
+    if (IFSCfromSearch !== "") {
       var requestOptions = {
-        method: 'GET',
-        redirect: 'follow',
+        method: "GET",
+        redirect: "follow",
       };
 
       const response = await fetch(
@@ -439,12 +434,12 @@ function PanBankEmail() {
       const getIfscData = await response.json();
       setIfscResponse(getIfscData);
       console.log(getIfscData);
-      if (getIfscData === 'Not Found') {
+      if (getIfscData === "Not Found") {
         seterrorMsg((prevState) => ({
           ...prevState,
           errorOBJ: {
             ...prevState.errorOBJ,
-            errorIFSC: 'Please provide proper IFSC',
+            errorIFSC: "Please provide proper IFSC",
           },
         }));
       } else {
@@ -452,7 +447,7 @@ function PanBankEmail() {
           ...prevState,
           errorOBJ: {
             ...prevState.errorOBJ,
-            errorIFSC: '',
+            errorIFSC: "",
           },
         }));
       }
@@ -460,29 +455,29 @@ function PanBankEmail() {
     }
   };
   const handleEmailBlur = () => {
-    if (emails === '') {
+    if (emails === "") {
       return;
     }
     setemailCircular(true);
     var myHeaders = new Headers();
     myHeaders.append(
-      'Authorization',
-      `Bearer ${localStorage.getItem('userToken')}`
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
     );
-    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
       org_Id: ORG_ID,
-      lead_Id: localStorage.getItem('lead_Id'),
+      lead_Id: localStorage.getItem("lead_Id"),
       // mobile_No: localStorage.getItem("userInfo"),
       email: emails,
-      method_Name: 'Email_Status',
+      method_Name: "Email_Status",
     });
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     fetch(`${SERVER_ID}/api/email/Email_Status`, requestOptions)
@@ -490,7 +485,7 @@ function PanBankEmail() {
       .then((result) => {
         setemailResponse(result);
         // console.log(result);
-        if (result !== '') {
+        if (result !== "") {
           setemailCircular(false);
         }
         if (result.status === 200) {
@@ -498,30 +493,30 @@ function PanBankEmail() {
             ...prevState,
             errorOBJ: {
               ...prevState.errorOBJ,
-              errorEmail: '',
+              errorEmail: "",
             },
           }));
 
           var myHeaders = new Headers();
           myHeaders.append(
-            'Authorization',
-            `Bearer ${localStorage.getItem('userToken')}`
+            "Authorization",
+            `Bearer ${localStorage.getItem("userToken")}`
           );
-          myHeaders.append('Content-Type', 'application/json');
+          myHeaders.append("Content-Type", "application/json");
 
           var raw = JSON.stringify({
             org_Id: ORG_ID,
-            lead_Id: localStorage.getItem('lead_Id'),
-            mobile_No: localStorage.getItem('userInfo'),
+            lead_Id: localStorage.getItem("lead_Id"),
+            mobile_No: localStorage.getItem("userInfo"),
             email: emails,
-            method_Name: 'Update_Email',
+            method_Name: "Update_Email",
           });
 
           var requestOptions = {
-            method: 'POST',
+            method: "POST",
             headers: myHeaders,
             body: raw,
-            redirect: 'follow',
+            redirect: "follow",
           };
 
           fetch(`${SERVER_ID}/api/email/Update_Email`, requestOptions)
@@ -529,13 +524,13 @@ function PanBankEmail() {
             .then((result) => {
               console.log(result);
             })
-            .catch((error) => console.log('error', error));
+            .catch((error) => console.log("error", error));
         } else {
           seterrorMsg((prevState) => ({
             ...prevState,
             errorOBJ: {
               ...prevState.errorOBJ,
-              errorEmail: 'Please provide proper email',
+              errorEmail: "Please provide proper email",
             },
           }));
           setemailCircular(false);
@@ -544,20 +539,20 @@ function PanBankEmail() {
         // console.log(result.status);
       })
       .catch((error) => {
-        console.log('error', error);
+        console.log("error", error);
 
         // history.push("/");
       });
   };
   const handleIFSCDialog = async () => {
-    setBankName('');
-    setBranchName('');
+    setBankName("");
+    setBranchName("");
     setOpen(false);
-    setBankDetails('');
-    if (IFSCfromSearch !== '') {
+    setBankDetails("");
+    if (IFSCfromSearch !== "") {
       var requestOptions = {
-        method: 'GET',
-        redirect: 'follow',
+        method: "GET",
+        redirect: "follow",
       };
 
       const response = await fetch(
@@ -576,49 +571,49 @@ function PanBankEmail() {
     // api call
     var myHeaders = new Headers();
     myHeaders.append(
-      'Authorization',
-      `Bearer ${localStorage.getItem('userToken')}`
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
     );
-    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
       beneficiary_account_no: inputs.AcNo,
       beneficiary_ifsc: IFSCfromSearch,
       org_Id: ORG_ID,
-      lead_Id: localStorage.getItem('lead_Id'),
+      lead_Id: localStorage.getItem("lead_Id"),
     });
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     fetch(`${SERVER_ID}/api/bank/VerifyBankAccount`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
+      .catch((error) => console.log("error", error));
 
     // API FOR CONFIRM IFSC
     // API FOR CONFIRM IFSC
     var myHeaders = new Headers();
     myHeaders.append(
-      'Authorization',
-      `Bearer ${localStorage.getItem('userToken')}`
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
     );
-    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append("Content-Type", "application/json");
     console.log(IfscResponse.MICR, IfscResponse.ADDRESS);
     var raw = JSON.stringify({
       org_Id: ORG_ID,
-      lead_Id: localStorage.getItem('lead_Id'),
+      lead_Id: localStorage.getItem("lead_Id"),
       ifsC_Code: IFSCfromSearch,
-      method_Name: '',
+      method_Name: "",
       micr: IfscResponse.MICR,
       address: IfscResponse.ADDRESS,
       branch: IfscResponse.BRANCH,
       contact: IfscResponse.CONTACT,
-      phone: '',
+      phone: "",
       city: IfscResponse.CITY,
       state: IfscResponse.STATE,
       district: IfscResponse.DISTRICT,
@@ -626,142 +621,48 @@ function PanBankEmail() {
     });
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     fetch(`${SERVER_ID}/api/bank/ConfirmIfscDetails`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         console.log(result);
-        console.log('im called');
+        console.log("im called");
       })
-      .catch((error) => console.log('error', error));
+      .catch((error) => console.log("error", error));
     // END FOR CONFIRM IFSC
     console.log(IFSCfromSearch);
   };
 
   const handlePanBlur = () => {
-    if (PanDetails === '') {
+    if (PanDetails === "") {
       return;
     }
     console.log(PanDetails);
-    setpanCircular(true);
-    if (PanDetails !== '') {
-      var myHeaders = new Headers();
-      myHeaders.append(
-        'Authorization',
-        `Bearer ${localStorage.getItem('userToken')}`
-      );
-      myHeaders.append('Content-Type', 'application/json');
-
-      var raw = JSON.stringify({
-        pan_No: PanDetails,
-        lead_Id: localStorage.getItem('lead_Id'),
-        org_Id: ORG_ID,
-        // mobile_No: localStorage.getItem("userInfo"),
-        method_Name: 'NSDLeKYCPanAuthentication',
-      });
-
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow',
-      };
-
-      fetch(
-        `${SERVER_ID}/api/nsdlpan/NSDLeKYCPanAuthentication`,
-        requestOptions
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result);
-          setPanResponse(result);
-          if (result.status !== 500) {
-            if (result.res_Output[0].result_Description === 'E') {
-              seterrorMsg((prevState) => ({
-                ...prevState,
-                errorOBJ: {
-                  ...prevState.errorOBJ,
-                  errorPan: '',
-                },
-              }));
-              setpanCircular(false);
-              SetDobDisable(false);
-              var PanToKra = PanDetails;
-              var myHeaders = new Headers();
-              myHeaders.append(
-                'Authorization',
-                `Bearer ${localStorage.getItem('userToken')}`
-              );
-              myHeaders.append('Content-Type', 'application/json');
-
-              var raw = JSON.stringify({
-                pan_No: PanToKra,
-                method_Name: 'Get_PanStatus',
-              });
-
-              var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow',
-              };
-
-              fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
-                .then((response) => response.json())
-                .then((result) => {
-                  // console.log(result)
-                })
-                .catch((error) => console.log('error', error));
-            } else {
-              seterrorMsg((prevState) => ({
-                ...prevState,
-                errorOBJ: {
-                  ...prevState.errorOBJ,
-                  errorPan: 'Please provide valid PAN.',
-                },
-              }));
-              setpanCircular(false);
-              SetDobDisable(false);
-            }
-          }
-          // else{
-          //   alert("No Response From NSDL, Please Try after some time");
-          // setpanCircular(false);
-          // setPanResponse("");
-          // return;
-          // }
-        })
-        .catch((error) => {
-          console.log('error', error);
-          alert('No Response From NSDL, Please Try after some time');
-          setpanCircular(false);
-          setPanResponse('');
-          return;
-        });
+    if (PanDetails !== "") {
       // KRA FETCH API
       var myHeaders = new Headers();
       myHeaders.append(
-        'Authorization',
-        `Bearer ${localStorage.getItem('userToken')}`
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
       );
       var getName;
-      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append("Content-Type", "application/json");
       var raw = JSON.stringify({
         pan_No: PanDetails,
         org_Id: ORG_ID,
-        lead_Id: localStorage.getItem('lead_Id'),
+        lead_Id: localStorage.getItem("lead_Id"),
       });
 
       var requestOptions = {
-        method: 'POST',
+        method: "POST",
         headers: myHeaders,
         body: raw,
-        redirect: 'follow',
+        redirect: "follow",
       };
 
       fetch(`${SERVER_ID}/api/cvlkra/Get_PanStatus`, requestOptions)
@@ -770,40 +671,41 @@ function PanBankEmail() {
           if (!result) {
             return;
           }
+          SetDobDisable(false);
           getName = result.res_Output[0].result_Description;
           setInputs({
             ...inputs,
             getPanName: getName,
           });
         })
-        .catch((error) => console.log('error', error));
+        .catch((error) => console.log("error", error));
     }
   };
   const IFSCsearch = () => {
     var myHeaders = new Headers();
     myHeaders.append(
-      'Authorization',
-      `Bearer ${localStorage.getItem('userToken')}`
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
     );
-    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
       bank: bankName,
-      ifsc: 'string',
+      ifsc: "string",
       branch: branchName,
     });
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     fetch(`${SERVER_ID}/api/ifscmaster/IFSC_Master_Search`, requestOptions)
       .then((response) => response.json())
       .then((result) => setBankDetails(result.res_Output))
-      .catch((error) => console.log('error', error));
+      .catch((error) => console.log("error", error));
   };
   const handleToggle = (value) => async () => {
     // console.log(value.ifsc);
@@ -824,82 +726,82 @@ function PanBankEmail() {
       {/* <Container> */}
       {/* <BackDrop data={BackDropOption} /> */}
       <Dialog
-        maxWidth='xs'
+        maxWidth="xs"
         open={open}
         onClose={handleClose}
-        aria-labelledby='form-dialog-title'
+        aria-labelledby="form-dialog-title"
       >
         <DialogContent>
           <Container style={{ width: 320 }}>
             {!bankDetails && (
               <div>
                 <Row>
-                  <Col md='10'>
+                  <Col md="10">
                     <span>Find your IFSC Code</span>
                   </Col>
-                  <Col md='2'>
-                    <CloseIcon className='close' onClick={handleClose} />
+                  <Col md="2">
+                    <CloseIcon className="close" onClick={handleClose} />
                   </Col>
                 </Row>
                 {/* <Col md="12"> */}
                 <Row>
-                  <Col md='12'>
+                  <Col md="12">
                     <TextField
-                      variant='outlined'
+                      variant="outlined"
                       // autoFocus
-                      margin='dense'
-                      id='name'
-                      label='Enter IFSC Code'
-                      type='text'
+                      margin="dense"
+                      id="name"
+                      label="Enter IFSC Code"
+                      type="text"
                       fullWidth
                     />
                   </Col>
                 </Row>
                 {/* </Col> */}
                 <Row>
-                  <Col className='text-center'>
-                    {' '}
-                    <span align='center'>Or</span>
+                  <Col className="text-center">
+                    {" "}
+                    <span align="center">Or</span>
                   </Col>
                 </Row>
                 <Row>
-                  <Col md='12'>
+                  <Col md="12">
                     <TextField
-                      variant='outlined'
+                      variant="outlined"
                       // autoFocus
                       value={bankName}
                       onChange={(e) => setBankName(e.target.value)}
-                      margin='dense'
-                      id='name'
-                      label='Enter Bank Name'
-                      type='text'
+                      margin="dense"
+                      id="name"
+                      label="Enter Bank Name"
+                      type="text"
                       fullWidth
                     />
                   </Col>
                 </Row>
                 <Row>
-                  <Col md='12'>
+                  <Col md="12">
                     <TextField
-                      variant='outlined'
+                      variant="outlined"
                       // autoFocus
                       value={branchName}
-                      margin='dense'
+                      margin="dense"
                       // id="name"Enter Branch Location
                       onChange={(e) => setBranchName(e.target.value)}
-                      label='Enter Branch Location'
-                      type='text'
+                      label="Enter Branch Location"
+                      type="text"
                       fullWidth
                     />
                   </Col>
                 </Row>
                 {/* </Col> */}
                 <Row>
-                  <Col className='mt-3'>
+                  <Col className="mt-3">
                     <Button
-                      fullWidth='true'
-                      type='submit'
+                      fullWidth="true"
+                      type="submit"
                       onClick={IFSCsearch}
-                      className='btn-searchIFSC text-white'
+                      className="btn-searchIFSC text-white"
                     >
                       Search
                     </Button>
@@ -909,15 +811,15 @@ function PanBankEmail() {
             )}
             <Row>
               {/* <Container style={{ height: 100 }}> */}
-              <Col className='mt-2 '>
-                <div className='search-list'>
+              <Col className="mt-2 ">
+                <div className="search-list">
                   {bankDetails && (
                     <div>
                       <List
                         // margin-left: 30px;
                         // margin-top: -43px;
                         style={{
-                          overflowX: 'hidden',
+                          overflowX: "hidden",
                         }}
                         className={classList.root}
                       >
@@ -927,9 +829,9 @@ function PanBankEmail() {
                           return (
                             <div>
                               <Row>
-                                <Col md='1'>
+                                <Col md="1">
                                   <Radio
-                                    size='small'
+                                    size="small"
                                     key={value.ifsc}
                                     role={undefined}
                                     dense
@@ -937,21 +839,21 @@ function PanBankEmail() {
                                     onClick={handleToggle(value)}
                                   />
                                 </Col>
-                                <Col md='11'>
+                                <Col md="11">
                                   <ListItem>
                                     <Container>
                                       <Row>
                                         <Col>
                                           <div
                                             style={{
-                                              marginLeft: '30px',
-                                              marginTop: '-43px',
+                                              marginLeft: "30px",
+                                              marginTop: "-43px",
                                             }}
                                           >
                                             <Typography
                                               style={{
                                                 fontSize: 14,
-                                                fontWeight: 'bold',
+                                                fontWeight: "bold",
                                               }}
                                             >
                                               {value.branch}
@@ -960,37 +862,37 @@ function PanBankEmail() {
                                             <Typography
                                               style={{
                                                 fontSize: 14,
-                                                fontWeight: 'bold',
+                                                fontWeight: "bold",
                                               }}
                                             >
-                                              Address :{' '}
+                                              Address :{" "}
                                               <span
                                                 style={{
                                                   fontSize: 11,
-                                                  fontWeight: 'bold',
+                                                  fontWeight: "bold",
                                                 }}
                                               >
                                                 {value.address}
                                               </span>
-                                            </Typography>{' '}
+                                            </Typography>{" "}
                                             {/* <br /> */}
                                             <Typography
                                               style={{
                                                 fontSize: 14,
-                                                fontWeight: 'bold',
+                                                fontWeight: "bold",
                                               }}
                                             >
                                               IFSC CODE :
                                               <span
                                                 style={{
                                                   fontSize: 11,
-                                                  fontWeight: 'bold',
+                                                  fontWeight: "bold",
                                                 }}
                                               >
-                                                {' '}
+                                                {" "}
                                                 {value.ifsc}
                                               </span>
-                                            </Typography>{' '}
+                                            </Typography>{" "}
                                           </div>
                                         </Col>
                                       </Row>
@@ -1004,27 +906,27 @@ function PanBankEmail() {
                         })}
                       </List>
                       <Row>
-                        <Col className='mt-3'>
+                        <Col className="mt-3">
                           <Button
-                            fullWidth='true'
-                            type='submit'
+                            fullWidth="true"
+                            type="submit"
                             onClick={handleIFSCDialog}
-                            className='btn-searchIFSC text-white'
+                            className="btn-searchIFSC text-white"
                           >
                             CONFIRM
                           </Button>
                         </Col>
                       </Row>
                       <Row>
-                        <Col className='mt-3'>
+                        <Col className="mt-3">
                           <Button
-                            fullWidth='true'
-                            type='submit'
+                            fullWidth="true"
+                            type="submit"
                             onClick={() => {
-                              setIFSCfromSearch('');
-                              setBankDetails('');
+                              setIFSCfromSearch("");
+                              setBankDetails("");
                             }}
-                            className='btn-searchIFSC text-white'
+                            className="btn-searchIFSC text-white"
                           >
                             CANCEL
                           </Button>
@@ -1041,21 +943,21 @@ function PanBankEmail() {
         <br />
       </Dialog>
       {/* dialog for IFSC CHECK */}
-      {IfscResponse !== 'Not Found' && (
+      {IfscResponse !== "Not Found" && (
         <Dialog
-          maxWidth='xs'
+          maxWidth="xs"
           open={openIfsc}
           onClose={handleIfscClose}
-          aria-labelledby='form-dialog-title'
+          aria-labelledby="form-dialog-title"
         >
           <DialogContent>
             <Container style={{ width: 330 }}>
               <Row>
-                <Col md='10'>
+                <Col md="10">
                   <span>Confirm Bank Details</span>
                 </Col>
-                <Col md='2'>
-                  <CloseIcon className='close' onClick={handleIfscClose} />
+                <Col md="2">
+                  <CloseIcon className="close" onClick={handleIfscClose} />
                 </Col>
               </Row>
 
@@ -1072,24 +974,24 @@ function PanBankEmail() {
               </Row>
 
               <Row>
-                <Col className='mt-3'>
+                <Col className="mt-3">
                   <Button
                     // fullWidth="true"
-                    type='submit'
+                    type="submit"
                     onClick={ifscConfirm}
-                    className='btn-comman text-white'
+                    className="btn-comman text-white"
                   >
                     Confirm
                   </Button>
                 </Col>
               </Row>
               <Row>
-                <Col className='mt-3'>
+                <Col className="mt-3">
                   <Button
                     // fullWidth="true"
-                    type='submit'
+                    type="submit"
                     onClick={handleIfscClose}
-                    className='btn-comman text-white'
+                    className="btn-comman text-white"
                   >
                     cancel
                   </Button>
@@ -1105,22 +1007,22 @@ function PanBankEmail() {
       {/* modal */}
       <Container>
         <Row>
-          <Col className='mt-5' md='7'>
+          <Col className="mt-5" md="7">
             <Image src={startImg} fluid />
           </Col>
-          <Col className='mt-5' md='5'>
+          <Col className="mt-5" md="5">
             <Row>
               <Col>
-                <h3 className='float-left'>Let's get started</h3>
+                <h3 className="float-left">Let's get started</h3>
                 <br />
-                <hr className='hr-personal color-gradiant' />
+                <hr className="hr-personal color-gradiant" />
               </Col>
             </Row>
-            <form className={classes.root} noValidate autoComplete='off'>
+            <form className={classes.root} noValidate autoComplete="off">
               <div>
                 <TextField
                   // errorhelperText="Incorrect entry."
-                  id='outlined-error-helper-text'
+                  id="outlined-error-helper-text"
                   // autoFocus
                   error={
                     errorMsg.errorOBJ.errorEmail && errorMsg.errorOBJ.errorEmail
@@ -1128,47 +1030,47 @@ function PanBankEmail() {
                       : false
                   }
                   disabled={disbaleEmail}
-                  variant='outlined'
-                  autoComplete='off'
-                  name='email'
+                  variant="outlined"
+                  autoComplete="off"
+                  name="email"
                   value={emails}
                   onChange={(e) => {
                     setEmails(e.target.value);
                   }}
                   onBlur={handleEmailBlur}
                   // className="form-control"
-                  label='Enter Email ID'
+                  label="Enter Email ID"
                   InputProps={{
                     endAdornment:
                       emailCircular === true ? (
                         <div>
-                          <CircularProgress false size={25} color='success' />
+                          <CircularProgress false size={25} color="success" />
                         </div>
                       ) : (
                         emailResponse &&
                         (emailResponse.status !== 200 ? (
                           <SubInputAdornment
-                            Dataicon={<ErrorOutlineIcon className='err-msg' />}
+                            Dataicon={<ErrorOutlineIcon className="err-msg" />}
                           />
                         ) : (
                           <SubInputAdornment
-                            Dataicon={<CheckCircleIcon className='succ-msg' />}
+                            Dataicon={<CheckCircleIcon className="succ-msg" />}
                           />
                         ))
                       ),
                   }}
                 />
-                <div className='email-error-div'>
+                <div className="email-error-div">
                   {errorMsg.errorOBJ.errorEmail && (
-                    <span className='email-error-msg'>
+                    <span className="email-error-msg">
                       {errorMsg.errorOBJ.errorEmail}
                     </span>
                   )}
                 </div>
                 <TextField
                   // errorhelperText="Incorrect entry."
-                  id='outlined-error-helper-text'
-                  type='text'
+                  id="outlined-error-helper-text"
+                  type="text"
                   error={
                     errorMsg.errorOBJ.errorPan &&
                     (errorMsg.errorOBJ.errorPan ? true : false)
@@ -1177,51 +1079,51 @@ function PanBankEmail() {
                   disabled={PanDisable}
                   inputProps={{
                     maxLength: 10,
-                    style: { textTransform: 'uppercase' },
+                    style: { textTransform: "uppercase" },
                   }}
-                  variant='outlined'
-                  autoComplete='off'
-                  name='pan'
+                  variant="outlined"
+                  autoComplete="off"
+                  name="pan"
                   value={PanDetails}
                   onBlur={handlePanBlur}
                   onChange={(e) => {
                     setPanDetails(e.target.value);
                   }}
                   // className="form-control"
-                  label='Enter PAN Number'
+                  label="Enter PAN Number"
                   InputProps={{
                     endAdornment:
                       panCircular === true ? (
                         <div>
-                          <CircularProgress false size={25} color='success' />
+                          <CircularProgress false size={25} color="success" />
                         </div>
                       ) : (
                         panResponse &&
                         panResponse.status !== 500 &&
                         (panResponse.res_Output[0].result_Description !==
-                        'E' ? (
+                        "E" ? (
                           <SubInputAdornment
-                            Dataicon={<ErrorOutlineIcon className='err-msg' />}
+                            Dataicon={<ErrorOutlineIcon className="err-msg" />}
                           />
                         ) : (
                           <SubInputAdornment
-                            Dataicon={<CheckCircleIcon className='succ-msg' />}
+                            Dataicon={<CheckCircleIcon className="succ-msg" />}
                           />
                         ))
                       ),
                   }}
                 />
                 {/* commented for handle error */}
-                <div className='email-error-div'>
+                <div className="email-error-div">
                   {errorMsg.errorOBJ.errorPan && (
-                    <span className='email-error-msg'>
+                    <span className="email-error-msg">
                       {errorMsg.errorOBJ.errorPan}
                     </span>
                   )}
                 </div>
-                <div className='email-error-div'>
+                <div className="email-error-div">
                   {inputs.getPanName && (
-                    <span className='Name-Pan-msg '>
+                    <span className="Name-Pan-msg ">
                       Name As Per Pan: {inputs.getPanName}
                     </span>
                   )}
@@ -1266,21 +1168,21 @@ function PanBankEmail() {
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <Stack>
                     <DatePicker
-                      name='dob'
-                      openTo='year'
-                      variant='inline'
+                      name="dob"
+                      openTo="year"
+                      variant="inline"
                       // inputVariant="outlined"
-                      views={['year', 'month', 'day']}
-                      label='Enter DOB'
+                      views={["year", "month", "day"]}
+                      label="Enter DOB"
                       clearable
                       // inputFormat="dd/mm/yyyy"
-                      orientation='landscape'
+                      orientation="landscape"
                       TextFieldComponent={TextFieldComponent}
                       value={selectedDate}
                       disabled={DobDisable}
                       // inputFormat="dd/mm/yyyy"
-                      minDate={new Date('1953-12-12')}
-                      maxDate={new Date('2003-12-12')}
+                      minDate={new Date("1953-12-12")}
+                      maxDate={new Date("2003-12-12")}
                       onChange={setSelectedDate}
                       onBlur={handleKRASolidFetch}
                       renderInput={(params) => (
@@ -1289,106 +1191,106 @@ function PanBankEmail() {
                             errorMsg.errorOBJ.errorDate &&
                             (errorMsg.errorOBJ.errorDate ? true : false)
                           }
-                          variant='outlined'
+                          variant="outlined"
                           {...params}
                         />
                       )}
                     />
                   </Stack>
                 </LocalizationProvider>
-                <div className='email-error-div'>
+                <div className="email-error-div">
                   {errorMsg.errorOBJ.errorDate && (
-                    <span className='email-error-msg'>
+                    <span className="email-error-msg">
                       {errorMsg.errorOBJ.errorDate}
                     </span>
                   )}
                 </div>
                 <TextField
                   // errorhelperText="Incorrect entry."
-                  id='outlined-error-helper-text'
+                  id="outlined-error-helper-text"
                   // type="number"
-                  variant='outlined'
+                  variant="outlined"
                   error={
                     errorMsg.errorOBJ.errorAccNo &&
                     (errorMsg.errorOBJ.errorAccNo ? true : false)
                   }
-                  autoComplete='off'
+                  autoComplete="off"
                   // id="outlined-error-helper-text"
-                  type='text'
+                  type="text"
                   // inputProps={{
                   //   maxLength: 8,
                   //   style: { textTransform: 'uppercase' },
                   // }}
-                  name='AcNo'
+                  name="AcNo"
                   disabled={AccountNoDisable}
                   value={inputs.AcNo}
                   onChange={handleInputChange}
                   // className="form-control"
-                  label='Enter Bank A/C Number'
+                  label="Enter Bank A/C Number"
                   inputProps={{
                     maxLength: 18,
-                    style: { textTransform: 'uppercase' },
+                    style: { textTransform: "uppercase" },
                   }}
                 />
-                <div className='ml-3 txt-msg'>
+                <div className="ml-3 txt-msg">
                   NRE/NRO bank details not accepted*
                 </div>
-                <div className='email-error-div'>
+                <div className="email-error-div">
                   {errorMsg.errorOBJ.errorAccNo && (
-                    <span className='email-error-msg'>
+                    <span className="email-error-msg">
                       {errorMsg.errorOBJ.errorAccNo}
                     </span>
                   )}
                 </div>
                 <TextField
                   // errorhelperText="Incorrect entry."
-                  className='mb-1'
-                  id='outlined-error-helper-text'
-                  type='text'
+                  className="mb-1"
+                  id="outlined-error-helper-text"
+                  type="text"
                   error={errorMsg.errorOBJ.errorIFSC ? true : false}
                   // id="input_capital"
                   inputProps={{
                     maxLength: 11,
-                    style: { textTransform: 'uppercase' },
+                    style: { textTransform: "uppercase" },
                   }}
-                  variant='outlined'
-                  autoComplete='off'
-                  name='ifsc'
+                  variant="outlined"
+                  autoComplete="off"
+                  name="ifsc"
                   value={IFSCfromSearch}
                   onChange={(e) => setIFSCfromSearch(e.target.value)}
                   onBlur={handleBlur}
                   // className="form-control"
-                  label='Enter IFSC Code'
+                  label="Enter IFSC Code"
                   disabled={ifscDisable}
                   InputProps={{
                     endAdornment:
                       IfscResponse &&
-                      (IfscResponse !== 'Not Found' ? (
+                      (IfscResponse !== "Not Found" ? (
                         <SubInputAdornment
-                          Dataicon={<CheckCircleIcon className='succ-msg' />}
+                          Dataicon={<CheckCircleIcon className="succ-msg" />}
                         />
                       ) : (
                         <SubInputAdornment
-                          Dataicon={<ErrorOutlineIcon className='err-msg' />}
+                          Dataicon={<ErrorOutlineIcon className="err-msg" />}
                         />
                       )),
                   }}
                 />
-                <div className='email-error-div'>
+                <div className="email-error-div">
                   {errorMsg.errorOBJ.errorIFSC && (
-                    <span className='email-error-msg'>
+                    <span className="email-error-msg">
                       {errorMsg.errorOBJ.errorIFSC}
                     </span>
                   )}
                 </div>
                 <small>
-                  {' '}
+                  {" "}
                   <p
                     // className=""
-                    className='link-comman modal_open'
+                    className="link-comman modal_open"
                     onClick={openModal}
                   >
-                    <SearchIcon fontSize='small' /> Find Your IFSC Code
+                    <SearchIcon fontSize="small" /> Find Your IFSC Code
                   </p>
                 </small>
               </div>
@@ -1396,9 +1298,9 @@ function PanBankEmail() {
               <Button
                 // disabled={btnDisable}
                 // className="mt-3"
-                type='submit'
+                type="submit"
                 onClick={handleProceed}
-                className='btn-comman text-white ml-2'
+                className="btn-comman text-white ml-2"
               >
                 Proceed
               </Button>
