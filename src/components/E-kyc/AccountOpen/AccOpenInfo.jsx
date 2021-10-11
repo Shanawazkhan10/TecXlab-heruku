@@ -130,15 +130,12 @@ const AccOpenInfo = () => {
           redirect: "follow",
         };
 
-        const stagedID_data = await fetch(
-          `${SERVER_ID}/api/lead/Update_StageId`,
-          requestOptions
-        )
-          .then((response) => response.text())
-          .then((result) => console.log(result))
+        fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            history.push(result.res_Output[0].stage_Id);
+          })
           .catch((error) => console.log("error", error));
-        console.log(stagedID_data);
-        history.push("/Digilocker");
       },
     };
 

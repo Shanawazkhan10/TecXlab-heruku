@@ -111,25 +111,46 @@ const Redirect = () => {
   console.log(Ret_Lead_Id);
   //
   // Send this data to server
-  var url = `${SERVER_ID}/api/digilocker/GetAuthorizationCode`;
-  var reqdata = {
-    Lead_Id: Ret_Lead_Id,
-    hmac: Ret_hmac,
-    code: Ret_code,
-    Method_Name: "DigiLocker_Res",
-  };
+  // var url = `${SERVER_ID}/api/digilocker/GetAuthorizationCode`;
+  // var reqdata = {
+  //   Lead_Id: Ret_Lead_Id,
+  //   hmac: Ret_hmac,
+  //   code: Ret_code,
+  //   Method_Name: "DigiLocker_Res",
+  // };
 
-  api_call.post(
-    url,
-    reqdata,
-    "",
-    function (res) {
-      console.log(res);
+  // api_call.post(
+  //   url,
+  //   reqdata,
+  //   "",
+  //   function (res) {
+  //     setParams(res);
+  //   },
+  //   function (res) {
+  //     setParams(res);
+  //   }
+  // );
+  fetch(`${SERVER_ID}/api/digilocker/GetAuthorizationCode`, {
+    method: "post",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-    function (res) {
-      console.log(res);
-    }
-  );
+
+    //make sure to serialize your JSON body
+    body: JSON.stringify({
+      Lead_Id: Ret_Lead_Id,
+      hmac: Ret_hmac,
+      code: Ret_code,
+      Method_Name: "DigiLocker_Res",
+    }),
+  }).then((res) => {
+    res
+      .json()
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err));
+    //do something awesome that makes the world a better place
+  });
 
   // </script>
   //   }, []);
