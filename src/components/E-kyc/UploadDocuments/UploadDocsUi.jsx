@@ -361,30 +361,38 @@ const AdhaarKyc = () => {
   );
 
   const handlePush = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("userToken")}`
-    );
-    var raw = JSON.stringify({
-      method_Name: "Update_Stage_Id",
-      org_Id: ORG_ID,
-      lead_Id: localStorage.getItem("lead_Id"),
-    });
+    if (Data1 === "") {
+      alert("Please upload PAN image");
+    }
+    if (Data2 === "") {
+      alert("Please upload sign image");
+    }
+    if (Data1 && Data2 !== "") {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
+      );
+      var raw = JSON.stringify({
+        method_Name: "Update_Stage_Id",
+        org_Id: ORG_ID,
+        lead_Id: localStorage.getItem("lead_Id"),
+      });
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
 
-    fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-    history.push("/Esign");
+      fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
+      history.push("/Esign");
+    }
   };
 
   return (

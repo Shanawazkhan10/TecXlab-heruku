@@ -60,7 +60,7 @@ function VerifyContact() {
     }
   }, [otpTime]);
   useEffect(() => {
-    if (otp.length < 6) {
+    if (otp.length === 6) {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
@@ -149,7 +149,7 @@ function VerifyContact() {
         },
       }));
     }
-    if (otp === '' && Disabled === false) {
+    if (otp.length < 6 && Disabled === false) {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
@@ -390,13 +390,13 @@ function VerifyContact() {
           open={open}
           onClose={handleClose}
           scroll={scroll}
-          aria-labelledby='scroll-dialog-title'
-          aria-describedby='scroll-dialog-description'
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
         >
-          <DialogTitle id='scroll-dialog-title'>Terms & conditions</DialogTitle>
+          <DialogTitle id="scroll-dialog-title">Terms & conditions</DialogTitle>
           <DialogContent dividers={scroll === 'paper'}>
             <DialogContentText
-              id='scroll-dialog-description'
+              id="scroll-dialog-description"
               ref={descriptionElementRef}
               tabIndex={-1}
             >
@@ -436,7 +436,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button className='mr-3' onClick={handleClose}>
+            <Button className="mr-3" onClick={handleClose}>
               Proceed
             </Button>
           </DialogActions>
@@ -444,45 +444,45 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
       </div>
       <Container>
         <Row>
-          <Col className='mt-5' md='7'>
-            <Image className='login-img-res' src={loginImg} fluid />
+          <Col className="mt-5" md="7">
+            <Image className="login-img-res" src={loginImg} fluid />
           </Col>
-          <Col className='div-PanEmail' md='5'>
+          <Col className="div-PanEmail" md="5">
             <Row>
               <Col>
-                <h3 className='float-left'>Registration</h3>
+                <h3 className="float-left">Registration</h3>
                 <br />
-                <hr className='hr-personal color-gradiant' />
+                <hr className="hr-personal color-gradiant" />
               </Col>
             </Row>
 
             <Row>
-              <Col className='' sm='12' md='8'>
+              <Col className="" sm="12" md="8">
                 <p>
                   <span> Already have an account? </span>
-                  <span className='link-comman'>Sign in </span>
+                  <span className="link-comman">Sign in </span>
                 </p>
               </Col>
             </Row>
 
             <Row>
-              <Col className='' sm='12' md='8'>
+              <Col className="" sm="12" md="8">
                 <TextField
-                  type='number'
+                  type="number"
                   error={errorMsg.errorOBJ.errorNumber ? true : false}
-                  id='fieldSelectorNo'
-                  pattern='[1-9]{1}[0-9]{9}'
+                  id="fieldSelectorNo"
+                  pattern="[1-9]{1}[0-9]{9}"
                   value={contact}
                   disabled={MobileDisable}
                   onChange={handleChange}
                   onBlur={handleContactBlur}
-                  className='form-control'
-                  label='Enter Contact'
-                  variant='outlined'
+                  className="form-control"
+                  label="Enter Contact"
+                  variant="outlined"
                   // InputProps={{}}
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position='start'>
+                      <InputAdornment position="start">
                         {/* <AccountCircle /> */}
                         +91
                       </InputAdornment>
@@ -491,7 +491,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                       <SubInputAdornment
                         Dataicon={
                           <Image
-                            className='login-img-res'
+                            className="login-img-res"
                             src={mobileImg}
                             fluid
                           />
@@ -503,8 +503,8 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                 <br />
                 <br />
                 {errorMsg.errorOBJ.errorNumber && (
-                  <div className='div-error-contact'>
-                    <span className='error-contact'>
+                  <div className="div-error-contact">
+                    <span className="error-contact">
                       {errorMsg.errorOBJ.errorNumber}
                     </span>
                   </div>
@@ -512,18 +512,18 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                 <TextField
                   error={errorMsg.errorOBJ.errorOTP ? true : false}
                   value={otp}
-                  type='number'
-                  id='mobileOtp'
+                  type="number"
+                  id="mobileOtp"
                   disabled={Disabled}
                   onChange={OtpValidator}
-                  className='form-control'
-                  label='Enter OTP'
-                  variant='outlined'
+                  className="form-control"
+                  label="Enter OTP"
+                  variant="outlined"
                   InputProps={{
                     endAdornment: (
                       <SubInputAdornment
                         Dataicon={
-                          <Image className='login-img-res' src={otpImg} fluid />
+                          <Image className="login-img-res" src={otpImg} fluid />
                         }
                       />
                     ),
@@ -535,9 +535,9 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               {/* <Col className="" sm="12" md="8"> */}
               <div>
                 {
-                  <div className='error-div-contact'>
+                  <div className="error-div-contact">
                     {/* <br /> */}
-                    <span className='error-contact'>
+                    <span className="error-contact">
                       {errorMsg.errorOBJ.errorOTP}
                     </span>
                   </div>
@@ -546,12 +546,12 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               {/* </Col> */}
             </Row>
             <Row>
-              <Col className='' sm='12' md='8'>
+              <Col className="" sm="12" md="8">
                 <small>
                   {/* <span> Do you have a </span> */}
                   <span
                     onClick={contactBlock}
-                    className='link-comman link-resend'
+                    className="link-comman link-resend"
                   >
                     Resend OTP?{' '}
                   </span>
@@ -559,22 +559,22 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               </Col>
             </Row>
             <Row>
-              <Col className='' sm='12' md='8'>
+              <Col className="" sm="12" md="8">
                 <TextField
-                  type='text'
+                  type="text"
                   // value={name}
-                  id='fieldSelectorname'
+                  id="fieldSelectorname"
                   // onChange={handleNameChange}
-                  className='form-control mt-3 class-referal'
-                  label='Referral Code (Optional)'
-                  autoComplete='off'
-                  variant='outlined'
+                  className="form-control mt-3 class-referal"
+                  label="Referral Code (Optional)"
+                  autoComplete="off"
+                  variant="outlined"
                   InputProps={{
                     endAdornment: (
                       <SubInputAdornment
                         Dataicon={
                           <Image
-                            className='login-img-res'
+                            className="login-img-res"
                             src={ReferalImg}
                             fluid
                           />
@@ -587,11 +587,17 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
             </Row>
 
             <Row>
-              <Col sm='12' md='12'>
+              <Col sm="12" md="12">
                 <br />
-                <small>
+                <small
+                  style={{
+                    // border: '1px solid black',
+                    position: 'relative',
+                    bottom: '8px',
+                  }}
+                >
                   <span> Do you have a </span>
-                  <span onClick={referalFun} className='link-comman'>
+                  <span onClick={referalFun} className="link-comman">
                     Referral Code?{' '}
                   </span>
                 </small>
@@ -603,12 +609,17 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                     name="checkedI"
                   /> */}
                 <div
-                  className='mt-2'
-                  style={{ display: 'flex', alignItems: 'center' }}
+                  className="mt-2"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    position: 'relative',
+                    bottom: '8px',
+                  }}
                 >
                   <input
-                    className='mr-2'
-                    type='checkbox'
+                    className="mr-2"
+                    type="checkbox"
                     style={{ cursor: 'pointer' }}
                     onClick={(e) => setButtonChecked(e.target.checked)}
                   />
@@ -616,7 +627,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                     <span>
                       I agree to the{' '}
                       <span
-                        className='link-comman'
+                        className="link-comman"
                         onClick={handleClickOpen('paper')}
                       >
                         Terms & Conditions{' '}
@@ -624,10 +635,10 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                     </span>
                   </small>
                 </div>
-                <div style={{ marginTop: '5px', marginLeft: '17px' }}>
+                <div style={{ marginLeft: '17px' }}>
                   {errorMsg.errorOBJ.errorCheck && (
-                    <div className='div-error-contact'>
-                      <span className='error-contact'>
+                    <div className="div-error-contact">
+                      <span className="error-contact">
                         {errorMsg.errorOBJ.errorCheck}
                       </span>
                     </div>
@@ -646,13 +657,13 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
             </Row> */}
             <br />
             <Row>
-              <Col className='' sm='12' md='8'>
+              <Col style={{ top: '-10px' }} className="" sm="12" md="8">
                 <Button
                   // disabled={btnDisabled}
-                  type='submit'
+                  type="submit"
                   // fullWidth="true"
                   onClick={handleProceed}
-                  className='btn font-weight-bold color-gradiant form-control text-white border-0 btn-block'
+                  className="btn font-weight-bold color-gradiant form-control text-white border-0 btn-block"
                 >
                   Proceed
                 </Button>

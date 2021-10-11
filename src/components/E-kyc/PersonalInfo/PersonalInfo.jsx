@@ -428,7 +428,7 @@ const PersonalInfo = () => {
             <Image className="login-img-res" src={PersonalImg} fluid />
           </Col>
           <Col>
-            <div className="form-info">
+            <div className="mt-2">
               <Row>
                 <Col>
                   <h3 className="float-left">Personal Details</h3>

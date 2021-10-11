@@ -1170,6 +1170,7 @@ function PanBankEmail() {
                     <DatePicker
                       name="dob"
                       openTo="year"
+                      // className="mt-5"
                       variant="inline"
                       // inputVariant="outlined"
                       views={["year", "month", "day"]}
@@ -1244,7 +1245,7 @@ function PanBankEmail() {
                 </div>
                 <TextField
                   // errorhelperText="Incorrect entry."
-                  className="mb-1"
+                  className="mb-1 mt-3"
                   id="outlined-error-helper-text"
                   type="text"
                   error={errorMsg.errorOBJ.errorIFSC ? true : false}
