@@ -35,9 +35,9 @@ const AccOpenInfo = () => {
     }
 
     const options = {
-      key: __DEV__ ? "rzp_test_dojmbldJSpz91g" : "PRODUCTION_KEY",
+      key: __DEV__ ? "rzp_live_q8gUCOxfHIbCkb" : "PRODUCTION_KEY",
       currency: "INR",
-      amount: 20000,
+      amount: 100,
       // order_id: data.id,
       name: "Donation",
       description: "Thank you for nothing. Please give us some money",
@@ -52,6 +52,7 @@ const AccOpenInfo = () => {
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
         alert(response.razorpay_signature);
+        console.log("success");
         // window.location.href = "/PersonalInfo";
         // post to database
         // var myHeaders = new Headers();
@@ -91,7 +92,7 @@ const AccOpenInfo = () => {
         var raw = JSON.stringify({
           org_Id: ORG_ID,
           lead_Id: localStorage.getItem("lead_Id"),
-          amount: 200,
+          amount: 1,
           currencyType: "INR",
           mobile_No: localStorage.getItem("userInfo"),
           merchantTransactionId: "merchant-0001",

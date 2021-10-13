@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "./static/css/main.16841206.chunk.css",
-    "main.js": "./static/js/main.7936ca10.chunk.js",
+    "main.css": "./static/css/main.1b341669.chunk.css",
+    "main.js": "./static/js/main.b5bc4a51.chunk.js",
     "runtime-main.js": "./static/js/runtime-main.ae43048b.js",
     "static/css/2.2366dfa8.chunk.css": "./static/css/2.2366dfa8.chunk.css",
-    "static/js/2.12ade461.chunk.js": "./static/js/2.12ade461.chunk.js",
+    "static/js/2.89c4cd7e.chunk.js": "./static/js/2.89c4cd7e.chunk.js",
     "index.html": "./index.html",
-    "static/js/2.12ade461.chunk.js.LICENSE.txt": "./static/js/2.12ade461.chunk.js.LICENSE.txt",
+    "static/js/2.89c4cd7e.chunk.js.LICENSE.txt": "./static/js/2.89c4cd7e.chunk.js.LICENSE.txt",
     "static/media/Aadhar_KYC_Illustration.8fb1daa9.png": "./static/media/Aadhar_KYC_Illustration.8fb1daa9.png",
     "static/media/Account_Opening_Fee_Illustration.0c156542.png": "./static/media/Account_Opening_Fee_Illustration.0c156542.png",
     "static/media/Congratulations_Illustration_Web.8ebf0aff.png": "./static/media/Congratulations_Illustration_Web.8ebf0aff.png",
@@ -27,8 +27,8 @@
   "entrypoints": [
     "static/js/runtime-main.ae43048b.js",
     "static/css/2.2366dfa8.chunk.css",
-    "static/js/2.12ade461.chunk.js",
-    "static/css/main.16841206.chunk.css",
-    "static/js/main.7936ca10.chunk.js"
+    "static/js/2.89c4cd7e.chunk.js",
+    "static/css/main.1b341669.chunk.css",
+    "static/js/main.b5bc4a51.chunk.js"
   ]
 }

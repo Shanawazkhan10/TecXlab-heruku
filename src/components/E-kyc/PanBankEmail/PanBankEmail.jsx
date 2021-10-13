@@ -116,14 +116,6 @@ function PanBankEmail() {
   useEffect(() => {
     $(".modal_open").hide();
   }, []);
-  //For Date of Birth Field
-  // useEffect(() => {
-  //   if (panResponse.status !== 200) {
-  //     SetDobDisable(true);
-  //   } else {
-  //     SetDobDisable(false);
-  //   }
-  // }, [panResponse]);
 
   useEffect(() => {
     if (inputs.AcNo !== "") {
@@ -131,48 +123,86 @@ function PanBankEmail() {
       $(".modal_open").show();
     }
   }, [inputs.AcNo]);
-  // useEffect(() => {
-  //   // const unsuscribe = () => {
-  //   var myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-  //   myHeaders.append(
-  //     "Authorization",
-  //     `Bearer ${localStorage.getItem("userToken")}`
-  //   );
-  //   var raw = JSON.stringify({
-  //     stageId: 1,
-  //     mobile_No: localStorage.getItem("userInfo"),
-  //   });
-
-  //   var requestOptions = {
-  //     method: "POST",
-  //     headers: myHeaders,
-  //     body: raw,
-  //     redirect: "follow",
-  //   };
-
-  //   fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((result) =>
-  //       // console.log(
-  //       {
-  //         setEmails(result.res_Output[0].result_Description);
-  //         setPanDetails(result.res_Output[0].result_Extra_Key);
-  //       }
-  //     )
-  //     .catch((error) => console.log("error", error));
-  //   // };
-  //   // return unsuscribe;
-  // }, []);
   useEffect(() => {
     setTimeout(() => {
       $(".Name-Pan-msg").fadeOut(1000);
     }, 10000);
   }, [inputs.getPanName]);
   useEffect(() => {
-    if (selectedDate !== null && PanDetails !== "") {
-      handleKRASolidFetch();
-    }
+    const unsuscribe = () => {
+      var now = moment();
+      var birthDate = moment(selectedDate);
+      var yearDiff = moment.duration(now - birthDate).as("years");
+      // const generate = Math.floor(yearDiff);
+      // console.log(generate);
+      // x.toString().length;
+      // const a = generate.;
+      const abc = yearDiff.toString();
+      const bca = abc.split(".");
+      // console.log('whole bca');
+      console.log(bca[0]);
+      const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
+      if (
+        selectedDate !== null &&
+        PanDetails !== "" &&
+        bca[0].length === 2 &&
+        bca[0] >= 18
+      ) {
+        handleKRASolidFetch();
+
+        setpanCircular(true);
+        const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
+        var myHeaders = new Headers();
+        myHeaders.append(
+          "Authorization",
+          `Bearer ${localStorage.getItem("userToken")}`
+        );
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+          lead_Id: localStorage.getItem("lead_Id"),
+          id_no: PanDetails,
+          dob: FormattedDate,
+        });
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+        fetch(
+          `${SERVER_ID}/api/PanAuthentication/Digio_PanAuthentication`,
+          requestOptions
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            setpanCircular(false);
+            setPanResponse(result);
+            if (result.res_Output[0].result_Extra_Key !== "") {
+              console.log("Digio call", result.res_Output[0].result_Extra_Key);
+              setpanCircular(false);
+              seterrorMsg((prevState) => ({
+                ...prevState,
+                errorOBJ: {
+                  ...prevState.errorOBJ,
+                  errorPan: "",
+                },
+              }));
+            } else {
+              seterrorMsg((prevState) => ({
+                ...prevState,
+                errorOBJ: {
+                  ...prevState.errorOBJ,
+                  errorPan: "Please enter valid Pan No.",
+                },
+              }));
+            }
+            // }
+          })
+          .catch((error) => console.log("error", error));
+      }
+    };
+    return unsuscribe();
   }, [selectedDate]);
 
   const handleKRASolidFetch = () => {
@@ -253,26 +283,6 @@ function PanBankEmail() {
       };
     });
   };
-  // useEffect(() => {
-  //   if (inputs.dob !== '') {
-  //     seterrorMsg((prevState) => ({
-  //       ...prevState,
-  //       errorOBJ: {
-  //         ...prevState.errorOBJ,
-  //         errorDate: '',
-  //       },
-  //     }));
-  //   }
-  //   if (inputs.AcNo !== '') {
-  //     seterrorMsg((prevState) => ({
-  //       ...prevState,
-  //       errorOBJ: {
-  //         ...prevState.errorOBJ,
-  //         errorAccNo: '',
-  //       },
-  //     }));
-  //   }
-  // });
 
   const handleProceed = (e) => {
     e.preventDefault();
@@ -1024,11 +1034,11 @@ function PanBankEmail() {
                   // errorhelperText="Incorrect entry."
                   id="outlined-error-helper-text"
                   // autoFocus
-                  error={
+                  error={Boolean(
                     errorMsg.errorOBJ.errorEmail && errorMsg.errorOBJ.errorEmail
                       ? true
                       : false
-                  }
+                  )}
                   disabled={disbaleEmail}
                   variant="outlined"
                   autoComplete="off"
@@ -1100,8 +1110,7 @@ function PanBankEmail() {
                       ) : (
                         panResponse &&
                         panResponse.status !== 500 &&
-                        (panResponse.res_Output[0].result_Description !==
-                        "E" ? (
+                        (panResponse.res_Output[0].result_Extra_Key === "" ? (
                           <SubInputAdornment
                             Dataicon={<ErrorOutlineIcon className="err-msg" />}
                           />

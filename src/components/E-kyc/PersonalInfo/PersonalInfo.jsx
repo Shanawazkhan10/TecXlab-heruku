@@ -1,52 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import './PersonalInfo.css';
-import TextField from '@material-ui/core/TextField';
-import { Container, Row, Col } from 'reactstrap';
-import Image from 'react-bootstrap/Image';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import { MenuItem } from '@material-ui/core';
-import InputLabel from '@material-ui/core/InputLabel';
-import { useForm, Controller } from 'react-hook-form';
-import Button from '@material-ui/core/Button';
-import PersonalImg from '../../../images/Personal_Details_Illustration.png';
-import { useHistory } from 'react-router';
-import SERVER_ID from '../Configure/configure';
-import Checkbox from '@mui/material/Checkbox';
-import { ORG_ID } from '../Helper/Helper';
+import React, { useState, useEffect } from "react";
+import "./PersonalInfo.css";
+import TextField from "@material-ui/core/TextField";
+import { Container, Row, Col } from "reactstrap";
+import Image from "react-bootstrap/Image";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import { MenuItem } from "@material-ui/core";
+import InputLabel from "@material-ui/core/InputLabel";
+import { useForm, Controller } from "react-hook-form";
+import Button from "@material-ui/core/Button";
+import PersonalImg from "../../../images/Personal_Details_Illustration.png";
+import { useHistory } from "react-router";
+import SERVER_ID from "../Configure/configure";
+import Checkbox from "@mui/material/Checkbox";
+import { ORG_ID } from "../Helper/Helper";
 // import Checkbox from '@mui/material/Checkbox';
 
 const PersonalInfo = () => {
   const history = useHistory();
   // const [isBtnVisible, SetIsBtnVisible] = useState(true);
-  const [populateData, setPopulateData] = useState('');
+  const [populateData, setPopulateData] = useState("");
   // const [fatherName, setfatherName] = useState("");
   const [ButtonChecked1, setButtonChecked1] = useState(false);
   const [ButtonChecked2, setButtonChecked2] = useState(false);
   const [inputs, setInputs] = useState({
-    mstatus: '',
-    income: '',
-    gender: '',
-    political: '',
-    occupation: '',
-    experience: '',
-    motherName: '',
-    fatherName: '',
-    education: '',
+    mstatus: "",
+    income: "",
+    gender: "",
+    political: "",
+    occupation: "",
+    experience: "",
+    motherName: "",
+    fatherName: "",
+    education: "",
   });
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
-      errorFatherName: '',
-      errorMotherName: '',
-      errorMstatus: '',
-      errorGender: '',
-      errorIncome: '',
-      errorOccupation: '',
-      errorExperience: '',
-      errorPolitical: '',
-      errorEducation: '',
-      errorCheckbox1: '',
-      errorCheckbox2: '',
+      errorFatherName: "",
+      errorMotherName: "",
+      errorMstatus: "",
+      errorGender: "",
+      errorIncome: "",
+      errorOccupation: "",
+      errorExperience: "",
+      errorPolitical: "",
+      errorEducation: "",
+      errorCheckbox1: "",
+      errorCheckbox2: "",
     },
   });
   // GET THE DETAILS FROM API IF CODITION FOLLOWS
@@ -54,26 +54,30 @@ const PersonalInfo = () => {
     const unsuscribe = () => {
       var myHeaders = new Headers();
       myHeaders.append(
-        'Authorization',
-        `Bearer ${localStorage.getItem('userToken')}`
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
       );
 
       var requestOptions = {
-        method: 'POST',
+        method: "POST",
         headers: myHeaders,
-        redirect: 'follow',
+        redirect: "follow",
       };
 
       fetch(
-        `${SERVER_ID}/api/personal/Get_Personal_Details?Lead_Id=T001211000031`,
+        `${SERVER_ID}/api/personal/Get_Personal_Details?Lead_Id=${localStorage.getItem(
+          "lead_Id"
+        )}`,
         requestOptions
       )
         .then((response) => response.json())
         .then((result) => {
-          setPopulateData(result);
+          if (result.res_Output.length !== 0) {
+            setPopulateData(result);
+          }
         })
         .catch((error) => {
-          console.log('error', error);
+          console.log("error", error);
           // history.push("/");
         });
     };
@@ -81,8 +85,8 @@ const PersonalInfo = () => {
   }, []);
   useEffect(() => {
     console.log(populateData);
-    if (populateData !== '') {
-      console.log('I M HERE');
+    if (populateData !== "") {
+      console.log("I M HERE");
       setInputs({
         ...inputs,
         fatherName: populateData.res_Output[0].father_Name,
@@ -132,84 +136,84 @@ const PersonalInfo = () => {
   // }, [inputs]);
 
   useEffect(() => {
-    if (inputs.fatherName !== '') {
+    if (inputs.fatherName !== "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorFatherName: '',
+          errorFatherName: "",
         },
       }));
     }
-    if (inputs.motherName !== '') {
+    if (inputs.motherName !== "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorMotherName: '',
+          errorMotherName: "",
         },
       }));
     }
-    if (inputs.mstatus !== '') {
+    if (inputs.mstatus !== "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorMstatus: '',
+          errorMstatus: "",
         },
       }));
     }
-    if (inputs.gender !== '') {
+    if (inputs.gender !== "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorGender: '',
+          errorGender: "",
         },
       }));
     }
-    if (inputs.income !== '') {
+    if (inputs.income !== "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorIncome: '',
+          errorIncome: "",
         },
       }));
     }
-    if (inputs.occupation !== '') {
+    if (inputs.occupation !== "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorOccupation: '',
+          errorOccupation: "",
         },
       }));
     }
-    if (inputs.experience !== '') {
+    if (inputs.experience !== "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorExperience: '',
+          errorExperience: "",
         },
       }));
     }
-    if (inputs.political !== '') {
+    if (inputs.political !== "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorPolitical: '',
+          errorPolitical: "",
         },
       }));
     }
-    if (inputs.education !== '') {
+    if (inputs.education !== "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorEducation: '',
+          errorEducation: "",
         },
       }));
     }
@@ -218,7 +222,7 @@ const PersonalInfo = () => {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorCheckbox1: '',
+          errorCheckbox1: "",
         },
       }));
     }
@@ -227,7 +231,7 @@ const PersonalInfo = () => {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorCheckbox2: '',
+          errorCheckbox2: "",
         },
       }));
     }
@@ -249,84 +253,84 @@ const PersonalInfo = () => {
     e.preventDefault();
     // const {name,value}=e.target;
     console.log(inputs);
-    if (inputs.fatherName === '') {
+    if (inputs.fatherName === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorFatherName: 'please provide  your fathername',
+          errorFatherName: "please provide  your fathername",
         },
       }));
     }
-    if (inputs.motherName === '') {
+    if (inputs.motherName === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorMotherName: 'please provide  your mothername',
+          errorMotherName: "please provide  your mothername",
         },
       }));
     }
-    if (inputs.mstatus === '') {
+    if (inputs.mstatus === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorMstatus: 'please provide your Marital Status',
+          errorMstatus: "please provide your Marital Status",
         },
       }));
     }
-    if (inputs.gender === '') {
+    if (inputs.gender === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorGender: 'please select your gender',
+          errorGender: "please select your gender",
         },
       }));
     }
-    if (inputs.income === '') {
+    if (inputs.income === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorIncome: 'please select your income',
+          errorIncome: "please select your income",
         },
       }));
     }
-    if (inputs.occupation === '') {
+    if (inputs.occupation === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorOccupation: 'please select your occupation',
+          errorOccupation: "please select your occupation",
         },
       }));
     }
-    if (inputs.experience === '') {
+    if (inputs.experience === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorExperience: 'please select your experience',
+          errorExperience: "please select your experience",
         },
       }));
     }
-    if (inputs.political === '') {
+    if (inputs.political === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorPolitical: 'please provide this field ',
+          errorPolitical: "please provide this field ",
         },
       }));
     }
-    if (inputs.education === '') {
+    if (inputs.education === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorEducation: 'please select your education',
+          errorEducation: "please select your education",
         },
       }));
     }
@@ -335,7 +339,7 @@ const PersonalInfo = () => {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorCheckbox1: 'Please confirm this checkbox1',
+          errorCheckbox1: "Please confirm this checkbox1",
         },
       }));
     }
@@ -344,32 +348,32 @@ const PersonalInfo = () => {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorCheckbox2: 'Please confirm this checkbox2 ',
+          errorCheckbox2: "Please confirm this checkbox2 ",
         },
       }));
     }
     // if()
     if (
-      inputs.fatherName !== '' &&
-      inputs.motherName !== '' &&
-      inputs.mstatus !== '' &&
-      inputs.gender !== '' &&
-      inputs.experience !== '' &&
-      inputs.occupation !== '' &&
-      inputs.income !== '' &&
+      inputs.fatherName !== "" &&
+      inputs.motherName !== "" &&
+      inputs.mstatus !== "" &&
+      inputs.gender !== "" &&
+      inputs.experience !== "" &&
+      inputs.occupation !== "" &&
+      inputs.income !== "" &&
       ButtonChecked1 === true &&
       ButtonChecked2 === true
     ) {
       // API FOR PERSONAL
       var myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append("Content-Type", "application/json");
       myHeaders.append(
-        'Authorization',
-        `Bearer ${localStorage.getItem('userToken')}`
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
       );
       var raw = JSON.stringify({
         org_Id: ORG_ID,
-        lead_Id: localStorage.getItem('lead_Id'),
+        lead_Id: localStorage.getItem("lead_Id"),
         father_Name: inputs.fatherName,
         mother_Name: inputs.motherName,
         income: inputs.income,
@@ -382,10 +386,10 @@ const PersonalInfo = () => {
       });
 
       var requestOptions = {
-        method: 'POST',
+        method: "POST",
         headers: myHeaders,
         body: raw,
-        redirect: 'follow',
+        redirect: "follow",
       };
 
       fetch(`${SERVER_ID}/api/personal/Personal_Details`, requestOptions)
@@ -393,31 +397,31 @@ const PersonalInfo = () => {
         .then((result) => {
           console.log(result);
           var myHeaders = new Headers();
-          myHeaders.append('Content-Type', 'application/json');
+          myHeaders.append("Content-Type", "application/json");
           myHeaders.append(
-            'Authorization',
-            `Bearer ${localStorage.getItem('userToken')}`
+            "Authorization",
+            `Bearer ${localStorage.getItem("userToken")}`
           );
           var raw = JSON.stringify({
-            method_Name: 'Update_Stage_Id',
+            method_Name: "Update_Stage_Id",
             org_Id: ORG_ID,
-            lead_Id: localStorage.getItem('lead_Id'),
+            lead_Id: localStorage.getItem("lead_Id"),
           });
 
           var requestOptions = {
-            method: 'POST',
+            method: "POST",
             headers: myHeaders,
             body: raw,
-            redirect: 'follow',
+            redirect: "follow",
           };
 
           fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
             .then((response) => response.text())
             .then((result) => console.log(result))
-            .catch((error) => console.log('error', error));
-          history.push('/IPV');
+            .catch((error) => console.log("error", error));
+          history.push("/IPV");
         })
-        .catch((error) => console.log('error', error));
+        .catch((error) => console.log("error", error));
     }
   };
   return (
@@ -442,7 +446,7 @@ const PersonalInfo = () => {
                     <TextField
                       type="text"
                       error={
-                        errorMsg.errorOBJ.errorFatherName === '' ? false : true
+                        errorMsg.errorOBJ.errorFatherName === "" ? false : true
                       }
                       id="fieldSelectorname"
                       name="fatherName"
@@ -469,7 +473,7 @@ const PersonalInfo = () => {
                   <div className="form-group ">
                     <TextField
                       error={
-                        errorMsg.errorOBJ.errorMotherName === '' ? false : true
+                        errorMsg.errorOBJ.errorMotherName === "" ? false : true
                       }
                       type="text"
                       id="fieldSelectorname"
@@ -499,7 +503,7 @@ const PersonalInfo = () => {
                       key="Marital Status"
                       fullWidth
                       error={
-                        errorMsg.errorOBJ.errorMstatus === '' ? false : true
+                        errorMsg.errorOBJ.errorMstatus === "" ? false : true
                       }
                     >
                       <InputLabel>Marital Status*</InputLabel>
@@ -515,9 +519,9 @@ const PersonalInfo = () => {
                             label="Marital Status"
                           >
                             <MenuItem disabled>Marital Status</MenuItem>
-                            <MenuItem value={'Single'}>Single</MenuItem>
-                            <MenuItem value={'Married'}>Married</MenuItem>
-                            <MenuItem value={'Others'}>Others</MenuItem>
+                            <MenuItem value={"Single"}>Single</MenuItem>
+                            <MenuItem value={"Married"}>Married</MenuItem>
+                            <MenuItem value={"Others"}>Others</MenuItem>
                           </Select>
                         )}
                         // name="mstatus"
@@ -538,7 +542,7 @@ const PersonalInfo = () => {
                   <div className=" ">
                     <FormControl
                       error={
-                        errorMsg.errorOBJ.errorGender === '' ? false : true
+                        errorMsg.errorOBJ.errorGender === "" ? false : true
                       }
                       variant="outlined"
                       key="Appliances"
@@ -555,16 +559,16 @@ const PersonalInfo = () => {
                             label="Gender"
                           >
                             <MenuItem disabled>Gender</MenuItem>
-                            <MenuItem value={'Male'}>Male</MenuItem>
-                            <MenuItem value={'Female'}>Female</MenuItem>
-                            <MenuItem value={'Others'}>Others</MenuItem>
+                            <MenuItem value={"Male"}>Male</MenuItem>
+                            <MenuItem value={"Female"}>Female</MenuItem>
+                            <MenuItem value={"Others"}>Others</MenuItem>
                           </Select>
                         )}
                         name="appliance"
                         control={control}
                         // value=""
                         rules={{
-                          required: 'Please Choose Your Appliance.',
+                          required: "Please Choose Your Appliance.",
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -591,7 +595,7 @@ const PersonalInfo = () => {
                   <div className=" ">
                     <FormControl
                       error={
-                        errorMsg.errorOBJ.errorIncome === '' ? false : true
+                        errorMsg.errorOBJ.errorIncome === "" ? false : true
                       }
                       variant="outlined"
                       key="Annual Income"
@@ -610,16 +614,16 @@ const PersonalInfo = () => {
                             label="Annual Income"
                           >
                             <MenuItem disabled>Annual Income</MenuItem>
-                            <MenuItem value={'less then 500000'}>
+                            <MenuItem value={"less then 500000"}>
                               less then 50,0000
                             </MenuItem>
-                            <MenuItem value={'More then 500000'}>
+                            <MenuItem value={"More then 500000"}>
                               More then 50,0000
                             </MenuItem>
-                            <MenuItem value={'less then 1000000'}>
+                            <MenuItem value={"less then 1000000"}>
                               less then 1,00,0000
                             </MenuItem>
-                            <MenuItem value={'More then 1000000'}>
+                            <MenuItem value={"More then 1000000"}>
                               More then 1,00,0000
                             </MenuItem>
                             {/* <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
@@ -631,7 +635,7 @@ const PersonalInfo = () => {
 
                         // }
                         rules={{
-                          required: 'Please Choose Your Appliance.',
+                          required: "Please Choose Your Appliance.",
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -649,7 +653,7 @@ const PersonalInfo = () => {
                   <div className="">
                     <FormControl
                       error={
-                        errorMsg.errorOBJ.errorOccupation === '' ? false : true
+                        errorMsg.errorOBJ.errorOccupation === "" ? false : true
                       }
                       variant="outlined"
                       key="Appliances"
@@ -669,26 +673,26 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Occupation
                             </MenuItem>
-                            <MenuItem value={'Private Sector Service '}>
+                            <MenuItem value={"Private Sector Service "}>
                               Private Sector Service
                             </MenuItem>
-                            <MenuItem value={'Govt. Sector'}>
+                            <MenuItem value={"Govt. Sector"}>
                               Govt. Sector
                             </MenuItem>
-                            <MenuItem value={'Retired'}>Retired</MenuItem>
-                            <MenuItem value={'Agriculturist'}>
+                            <MenuItem value={"Retired"}>Retired</MenuItem>
+                            <MenuItem value={"Agriculturist"}>
                               Agriculturist
                             </MenuItem>
-                            <MenuItem value={'Student'}>Student</MenuItem>
-                            <MenuItem value={'Forex Dealer'}>
+                            <MenuItem value={"Student"}>Student</MenuItem>
+                            <MenuItem value={"Forex Dealer"}>
                               Forex Dealer
                             </MenuItem>
-                            <MenuItem value={'Business'}>Business</MenuItem>
-                            <MenuItem value={'Government Service'}>
+                            <MenuItem value={"Business"}>Business</MenuItem>
+                            <MenuItem value={"Government Service"}>
                               Government Service
                             </MenuItem>
-                            <MenuItem value={'Housewife'}>Housewife</MenuItem>
-                            <MenuItem value={'Others'}>Others</MenuItem>
+                            <MenuItem value={"Housewife"}>Housewife</MenuItem>
+                            <MenuItem value={"Others"}>Others</MenuItem>
                             {/* <MenuItem value={"Range"}>Range</MenuItem>
                   <MenuItem value={"Trash Compactor"}>Trash Compactor</MenuItem> */}
                           </Select>
@@ -697,7 +701,7 @@ const PersonalInfo = () => {
                         control={control}
                         value=""
                         rules={{
-                          required: 'Please Choose Your Appliance.',
+                          required: "Please Choose Your Appliance.",
                         }}
                       />
                       {/* <FormHelperText>{errors.appliance?.message}</FormHelperText> */}
@@ -717,7 +721,7 @@ const PersonalInfo = () => {
                   <div className="form-group ">
                     <FormControl
                       error={
-                        errorMsg.errorOBJ.errorExperience === '' ? false : true
+                        errorMsg.errorOBJ.errorExperience === "" ? false : true
                       }
                       variant="outlined"
                       key="Appliances"
@@ -738,18 +742,18 @@ const PersonalInfo = () => {
                             <MenuItem value="" disabled>
                               Trading Experience
                             </MenuItem>
-                            <MenuItem value={'Beginner'}>Beginner</MenuItem>
-                            <MenuItem value={'Intermediate'}>
+                            <MenuItem value={"Beginner"}>Beginner</MenuItem>
+                            <MenuItem value={"Intermediate"}>
                               Intermediate
                             </MenuItem>
-                            <MenuItem value={'Advanced'}>Advanced</MenuItem>
+                            <MenuItem value={"Advanced"}>Advanced</MenuItem>
                           </Select>
                         )}
                         name="appliance"
                         control={control}
                         value=""
                         rules={{
-                          required: 'Please Choose Your Appliance.',
+                          required: "Please Choose Your Appliance.",
                         }}
                       />
                     </FormControl>
@@ -814,7 +818,7 @@ const PersonalInfo = () => {
                 <div className="check">
                   <input
                     type="checkbox"
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                     className="mr-1"
                     onChange={(e) => setButtonChecked1(e.target.checked)}
                   />
@@ -836,14 +840,14 @@ const PersonalInfo = () => {
                 <div className="check">
                   <input
                     type="checkbox"
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                     className="mr-1"
                     onChange={(e) => setButtonChecked2(e.target.checked)}
                   />
                   I have read and accepted the declaration and I am neither
                   mentally nor a politically exposed person.
                 </div>
-                <div style={{ marginLeft: '27px' }}>
+                <div style={{ marginLeft: "27px" }}>
                   {errorMsg.errorOBJ.errorCheckbox2 && (
                     <div className="div-error">
                       <span className="error-msg">
