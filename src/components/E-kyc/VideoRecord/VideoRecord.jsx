@@ -12,13 +12,13 @@ import img from "../../../images/black.png";
 import SERVER_ID from "../Configure/configure";
 import "./VideoRec.css";
 import { Col } from "reactstrap";
-import { HiOutlineLightBulb } from "react-icons/hi";
-import { GiSunglasses } from "react-icons/gi";
-// import LightbulbIcon from '@mui/icons-material/Lightbulb';
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
-import { FaRedhat } from "react-icons/fa";
-
+// import { HiOutlineLightBulb } from "react-icons/hi";
+// import { GiSunglasses } from "react-icons/gi";
+// // import LightbulbIcon from '@mui/icons-material/Lightbulb';
+// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+// import CancelIcon from "@mui/icons-material/Cancel";
+// import { FaRedhat } from "react-icons/fa";
+import { ORG_ID } from "../Helper/Helper";
 const STATUS = {
   STARTED: "Started",
   STOPPED: "Stopped",
@@ -71,6 +71,7 @@ const captureCamera = (callback) => {
 
 function VideoRecord({ props, sendToParent }) {
   const [recorder, setRecorder] = useState(null);
+  const [mpData, SetMpData] = useState("");
   const videoElement = useRef(null);
   const [flag, setFlag] = useState(false);
   const [disable, SetDisable] = useState(false);
@@ -112,7 +113,12 @@ function VideoRecord({ props, sendToParent }) {
     status === STATUS.STARTED ? 1000 : null
     // passing null stops the interval
   );
-
+  useEffect(() => {
+    const myFile = new File([ipvData], "demo.mp4", {
+      type: "video/mp4",
+    });
+    SetMpData(myFile);
+  }, [ipvData]);
   let history = useHistory();
   // useEffect(() => {
   //   if (flag === true) {
@@ -151,11 +157,36 @@ function VideoRecord({ props, sendToParent }) {
     //   document.getElementById("myButton").click();
     // }, 6000);
     SetDisable(true);
+    // API POST
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
+    var raw = JSON.stringify({
+      org_Id: ORG_ID,
+      lead_Id: localStorage.getItem("lead_Id"),
+      method_Name: "IPV_OTP",
+    });
 
-    const RandNums = (Math.floor(Math.random() * 10000) + 10000)
-      .toString()
-      .substring(1);
-    SetNumData(RandNums);
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+    fetch(`${SERVER_ID}/api/in_person_verification/IPV_OTP`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        // console.log("xwxwwcccw", result);
+        SetNumData(result.res_Output[0].result_Description);
+      })
+      .catch((err) => console.log(err));
+    // const RandNums = (Math.floor(Math.random() * 10000) + 10000)
+    //   .toString()
+    //   .substring(1);
+    // SetNumData(RandNums);
   };
 
   const onStopRecordVideo = () => {
@@ -212,11 +243,7 @@ function VideoRecord({ props, sendToParent }) {
     SetPass(e.target.value);
   };
 
-  const handleClick = () => {
-    // console.log(pass);
-    // console.log(numData);
-    // console.log('OPT VALS ON BLUE', OtpValue);
-
+  const handleClick = async () => {
     if (pass === "") {
       seterrorMsg((preState) => ({
         ...preState,
@@ -226,40 +253,125 @@ function VideoRecord({ props, sendToParent }) {
         },
       }));
     } else {
-      if (ipvData && pass !== numData && pass.length <= 4) {
-        seterrorMsg((preState) => ({
-          ...preState,
-          errorOBJ: {
-            ...preState.errorOBJ,
-            OtpError: "Please enter correct OTP",
-          },
-        }));
-      } else {
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append(
-          "Authorization",
-          `Bearer ${localStorage.getItem("userToken")}`
-        );
-        var raw = JSON.stringify({
-          method_Name: "Update_Stage_Id",
-          mobile_No: localStorage.getItem("userInfo"),
-        });
+      // API POST
+      var myHeaders = new Headers();
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("userToken")}`
+      );
+      myHeaders.append("Content-Type", "application/json");
+      var raw = JSON.stringify({
+        org_Id: ORG_ID,
+        lead_Id: localStorage.getItem("lead_Id"),
+        method_Name: "Verify_IPV_OTP",
+        otp: pass,
+      });
 
-        var requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          body: raw,
-          redirect: "follow",
-        };
-
-        fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
-          .then((response) => response.text())
-          .then((result) => console.log(result))
-          .catch((error) => console.log("error", error));
-        history.push("/Document");
-      }
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+      await fetch(
+        `${SERVER_ID}/api/in_person_verification/Verify_IPV_OTP`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.res_Output[0].result_Description === "Invalid OTP") {
+            seterrorMsg((preState) => ({
+              ...preState,
+              errorOBJ: {
+                ...preState.errorOBJ,
+                OtpError: "Please enter correct OTP",
+              },
+            }));
+          } else {
+            UploadVideoDoc();
+            // for upload video
+            // var myHeaders = new Headers();
+            // myHeaders.append("Content-Type", "application/json");
+            // myHeaders.append(
+            //   "Authorization",
+            //   `Bearer ${localStorage.getItem("userToken")}`
+            // );
+            // var raw = JSON.stringify({
+            //   method_Name: "Update_Stage_Id",
+            //   // mobile_No: localStorage.getItem("userInfo"),
+            //   org_Id: ORG_ID,
+            //   lead_Id: localStorage.getItem("lead_Id"),
+            // });
+            // var requestOptions = {
+            //   method: "POST",
+            //   headers: myHeaders,
+            //   body: raw,
+            //   redirect: "follow",
+            // };
+            // fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+            //   .then((response) => response.json())
+            //   .then((result) => {
+            //     // console.log(result.res_Output[0].stage_Id);
+            //     history.push(result.res_Output[0].stage_Id);
+            //   })
+            //   .catch((error) => console.log("error", error));
+          }
+        })
+        .catch((err) => console.log(err));
     }
+  };
+  const UploadVideoDoc = async () => {
+    // console.log("IPV DATA", myFile);
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+
+    var formdata = new FormData();
+    formdata.append("Lead_Id", localStorage.getItem("lead_Id"));
+    formdata.append("File", mpData);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    await fetch(
+      `${SERVER_ID}/api/in_person_verification/Video_Upload`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+    // staged id
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    var raw = JSON.stringify({
+      method_Name: "Update_Stage_Id",
+      // mobile_No: localStorage.getItem("userInfo"),
+      org_Id: ORG_ID,
+      lead_Id: localStorage.getItem("lead_Id"),
+    });
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+    await fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        // console.log(result.res_Output[0].stage_Id);
+        history.push(result.res_Output[0].stage_Id);
+      })
+      .catch((error) => console.log("error", error));
   };
   useEffect(() => {
     if (pass !== "" && pass === numData) {

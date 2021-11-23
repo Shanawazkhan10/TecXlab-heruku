@@ -284,8 +284,8 @@ function PanBankEmail() {
     });
   };
 
-  const handleProceed = (e) => {
-    e.preventDefault();
+  const handleProceed = () => {
+    // e.preventDefault();
 
     const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
     const FormData = {
@@ -296,86 +296,87 @@ function PanBankEmail() {
       pan: PanDetails,
     };
 
-    if (FormData.email === "") {
-      seterrorMsg((prevState) => ({
-        ...prevState,
-        errorOBJ: {
-          ...prevState.errorOBJ,
-          errorEmail: "Please enter your email",
-        },
-      }));
-    }
-    if (FormData.pan === "" && PanDisable === false) {
-      seterrorMsg((prevState) => ({
-        ...prevState,
-        errorOBJ: {
-          ...prevState.errorOBJ,
-          errorPan: "Please enter your PAN",
-        },
-      }));
-    }
-    if (!selectedDate && DobDisable === false) {
-      seterrorMsg((prevState) => ({
-        ...prevState,
-        errorOBJ: {
-          ...prevState.errorOBJ,
-          errorDate: "Please enter your DOB bouy ",
-        },
-      }));
-    }
-    if (inputs.AcNo === "" && AccountNoDisable === false) {
-      seterrorMsg((prevState) => ({
-        ...prevState,
-        errorOBJ: {
-          ...prevState.errorOBJ,
-          errorAccNo: "Please enter your account number",
-        },
-      }));
-    }
-    if (FormData.ifsc === "" && ifscDisable === false) {
-      seterrorMsg((prevState) => ({
-        ...prevState,
-        errorOBJ: {
-          ...prevState.errorOBJ,
-          errorIFSC: "Please enter your IFSC",
-        },
-      }));
-    }
-    if (
-      FormData.pan &&
-      FormData.dob &&
-      FormData.email &&
-      FormData.ifsc &&
-      FormData.AcNo !== ""
-    ) {
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append(
-        "Authorization",
-        `Bearer ${localStorage.getItem("userToken")}`
-      );
-      var raw = JSON.stringify({
-        method_Name: "Update_Stage_Id",
-        // mobile_No: localStorage.getItem("userInfo"),
-        org_Id: ORG_ID,
-        lead_Id: localStorage.getItem("lead_Id"),
-      });
+    // if (FormData.email === "") {
+    //   seterrorMsg((prevState) => ({
+    //     ...prevState,
+    //     errorOBJ: {
+    //       ...prevState.errorOBJ,
+    //       errorEmail: "Please enter your email",
+    //     },
+    //   }));
+    // }
+    // if (FormData.pan === "" && PanDisable === false) {
+    //   seterrorMsg((prevState) => ({
+    //     ...prevState,
+    //     errorOBJ: {
+    //       ...prevState.errorOBJ,
+    //       errorPan: "Please enter your PAN",
+    //     },
+    //   }));
+    // }
+    // if (!selectedDate && DobDisable === false) {
+    //   seterrorMsg((prevState) => ({
+    //     ...prevState,
+    //     errorOBJ: {
+    //       ...prevState.errorOBJ,
+    //       errorDate: "Please enter your DOB bouy ",
+    //     },
+    //   }));
+    // }
+    // if (inputs.AcNo === "" && AccountNoDisable === false) {
+    //   seterrorMsg((prevState) => ({
+    //     ...prevState,
+    //     errorOBJ: {
+    //       ...prevState.errorOBJ,
+    //       errorAccNo: "Please enter your account number",
+    //     },
+    //   }));
+    // }
+    // if (FormData.ifsc === "" && ifscDisable === false) {
+    //   seterrorMsg((prevState) => ({
+    //     ...prevState,
+    //     errorOBJ: {
+    //       ...prevState.errorOBJ,
+    //       errorIFSC: "Please enter your IFSC",
+    //     },
+    //   }));
+    // }
+    // if (
+    //   FormData.pan &&
+    //   FormData.dob &&
+    //   FormData.email &&
+    //   FormData.ifsc &&
+    //   FormData.AcNo !== ""
+    // )
+    // {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    var raw = JSON.stringify({
+      method_Name: "Update_Stage_Id",
+      // mobile_No: localStorage.getItem("userInfo"),
+      org_Id: ORG_ID,
+      lead_Id: localStorage.getItem("lead_Id"),
+    });
 
-      var requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-      };
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
 
-      fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          // console.log(result.res_Output[0].stage_Id);
-          history.push(result.res_Output[0].stage_Id);
-        })
-        .catch((error) => console.log("error", error));
-    }
+    fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result.res_Output[0].stage_Id);
+        history.push(result.res_Output[0].stage_Id);
+      })
+      .catch((error) => console.log("error", error));
+    // }
     console.log(FormData);
   };
 
@@ -646,6 +647,7 @@ function PanBankEmail() {
       .catch((error) => console.log("error", error));
     // END FOR CONFIRM IFSC
     console.log(IFSCfromSearch);
+    handleProceed();
   };
 
   const handlePanBlur = () => {
@@ -1305,15 +1307,14 @@ function PanBankEmail() {
                 </small>
               </div>
               <br />
-              <Button
-                // disabled={btnDisable}
-                // className="mt-3"
+              {/* <Button
+             
                 type="submit"
                 onClick={handleProceed}
                 className="btn-comman text-white ml-2"
               >
                 Proceed
-              </Button>
+              </Button> */}
             </form>
           </Col>
         </Row>

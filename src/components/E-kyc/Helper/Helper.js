@@ -19,7 +19,7 @@ function conVal() {
 function OtpVal() {
   $("#fieldOtp").keypress(function (e) {
     var length = $(this).val().length;
-    if (length > 3) {
+    if (length > 5) {
       return false;
     } else if (
       e.which !== 8 &&

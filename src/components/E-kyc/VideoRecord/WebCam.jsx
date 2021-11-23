@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
 import Image from "react-bootstrap/Image";
 import WebCamImg from "../../../images/Webcam_Verification_Illustration.png";
@@ -11,14 +11,20 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { FaRedhat } from "react-icons/fa";
 import { RiSurgicalMaskLine } from "react-icons/ri";
-
+import { useParams } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 const WebCam = () => {
   const [data, SetData] = useState("");
-
+  let history = useHistory();
   const sendToParent = (index) => {
     // console.log('IPV Data:', index);
     SetData(index);
   };
+  history.listen((location, action) => {
+    console.log("one change");
+    // Do stuff.
+  });
   return (
     <div>
       <Container>

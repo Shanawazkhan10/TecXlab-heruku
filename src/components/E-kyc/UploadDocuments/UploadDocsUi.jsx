@@ -78,42 +78,82 @@ const AdhaarKyc = () => {
   // const [fileError, SetFileError] = useState('');
   // const [fileViewer, SetFileViewer] = useState(null);
   // const defaultLayoutPluginInstance = defaultLayoutPlugin();
-  useEffect(() => {
-    const unsuscribe = async () => {
-      // getResponse();
-      let response = await fetch(croppedImage2);
-      let data = await response.blob();
-      let metadata = {
-        type: "image/jpeg",
-      };
-      let file1 = new File([data], "SignImg.jpg", metadata);
-      // ... do something with the file or return it
-      console.log(file1);
 
+  // for check if KRA VERIFIED
+  useEffect(() => {
+    console.log("wdcwd");
+    const unsuscribe = async () => {
       var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
       myHeaders.append(
         "Authorization",
         `Bearer ${localStorage.getItem("userToken")}`
       );
-
-      var formdata = new FormData();
-      formdata.append("Mobile_No", localStorage.getItem("userInfo"));
-      formdata.append("front_part", file1);
+      var raw = JSON.stringify(
+        // lead_Id: localStorage.getItem("lead_Id"),
+        {
+          lead_ID: localStorage.getItem("lead_Id"),
+        }
+      );
 
       var requestOptions = {
         method: "POST",
         headers: myHeaders,
-        body: formdata,
+        body: raw,
         redirect: "follow",
       };
 
-      fetch(
-        `${SERVER_ID}/api/documentupload/Document_Upload_Signature`,
+      await fetch(
+        `${SERVER_ID}/api/documentupload/Document_Upload_Check`,
         requestOptions
       )
-        .then((response) => response.text())
-        .then((result) => console.log(result))
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          SetStage_id(result.res_Output[0].is_Kra_Verified);
+        })
         .catch((error) => console.log("error", error));
+    };
+    unsuscribe();
+  }, []);
+  useEffect(() => {
+    const unsuscribe = async () => {
+      // getResponse();
+      if (Data2 !== "") {
+        let response = await fetch(croppedImage2);
+        let data = await response.blob();
+        let metadata = {
+          type: "image/jpeg",
+        };
+        let file1 = new File([data], "SignImg.jpg", metadata);
+        // ... do something with the file or return it
+        console.log(file1);
+
+        var myHeaders = new Headers();
+        myHeaders.append(
+          "Authorization",
+          `Bearer ${localStorage.getItem("userToken")}`
+        );
+
+        var formdata = new FormData();
+        formdata.append("lead_ID", localStorage.getItem("lead_Id"));
+        formdata.append("front_part", file1);
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: formdata,
+          redirect: "follow",
+        };
+
+        fetch(
+          `${SERVER_ID}/api/documentupload/Document_Upload_Signature`,
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+      }
     };
     unsuscribe();
   }, [Data2]);
@@ -465,109 +505,112 @@ const AdhaarKyc = () => {
         <Row>
           <Col md="7">
             <div className="form-info">
-              {stage_id === null && (
-                <Row>
-                  <Col md="7">
-                    <Row>
-                      <Col>
-                        {" "}
-                        <h3 className="float-left">Upload Documents</h3>
-                        <br />
-                        <hr className="hr-personal color-gradiant" />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        {" "}
-                        <h4>Copy of PAN</h4>
-                        {/* <br /> */}
-                        {/* <br /> */}
-                        <div className="mt-3">
-                          <text>Upload a signed copy of your PAN Card</text>
-                        </div>
-                        <text style={{ fontSize: "11px" }}>
-                          Format: PNG,JPG,JPEG
-                        </text>
-                        <br />
-                        <br />
-                        <input
-                          type="file"
-                          accept="image/*"
-                          name="file1"
-                          // name="files"
-                          // onInput={handlePdfFileChange}
-                          // onBlur={handlePdfFileSubmit}
-                          onChange={(event) => onUploadFile(event)}
-                          onClick={(event) => {
-                            event.target.value = null;
-                          }}
-                          id="PanId"
-                          style={{ display: "none" }}
-                        />
-                        <Button
-                          // fullWidth
-                          style={{ width: "245px" }}
-                          type="file"
-                          className="btn-comman text-white"
-                          onClick={handleTrigger}
-                          disabled={disable}
-                        >
-                          Upload
-                        </Button>
-                      </Col>
-                      {/* {fileError && (
+              {stage_id === 0 && (
+                <div>
+                  <Row>
+                    <Col md="7">
+                      <Row>
+                        <Col>
+                          {" "}
+                          <h3 className="float-left">Upload Documents</h3>
+                          <br />
+                          <hr className="hr-personal color-gradiant" />
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          {" "}
+                          <h4>Copy of PAN</h4>
+                          {/* <br /> */}
+                          {/* <br /> */}
+                          <div className="mt-3">
+                            <text>Upload a signed copy of your PAN Card</text>
+                          </div>
+                          <text style={{ fontSize: "11px" }}>
+                            Format: PNG,JPG,JPEG
+                          </text>
+                          <br />
+                          <br />
+                          <input
+                            type="file"
+                            accept="image/*"
+                            name="file1"
+                            // name="files"
+                            // onInput={handlePdfFileChange}
+                            // onBlur={handlePdfFileSubmit}
+                            onChange={(event) => onUploadFile(event)}
+                            onClick={(event) => {
+                              event.target.value = null;
+                            }}
+                            id="PanId"
+                            style={{ display: "none" }}
+                          />
+                          <Button
+                            // fullWidth
+                            style={{ width: "245px" }}
+                            type="file"
+                            className="btn-comman text-white"
+                            onClick={handleTrigger}
+                            disabled={disable}
+                          >
+                            Upload
+                          </Button>
+                        </Col>
+                        {/* {fileError && (
                       <sapn style={{ color: 'red' }}>{fileError}</sapn>
                     )} */}
-                    </Row>
-                    <div>
-                      {errorMsg.errorOBJ.errorFile1 && (
-                        <span className="error-file">
-                          {errorMsg.errorOBJ.errorFile1}
-                        </span>
-                      )}
-                    </div>
-                  </Col>
-                  {Data1 && (
-                    <Col md="5">
-                      <Row>
-                        <Col className="text-center">
-                          {" "}
-                          {
-                            <img
-                              alt="Cropped Img"
-                              className="image-select"
-                              width="200"
-                              height="180"
-                              src={Data1}
-                            />
-                          }
-                        </Col>
                       </Row>
-                      <Row>
-                        <Col className="text-center mt-2">
-                          <div>
-                            <CheckCircleIcon
-                              style={{ color: "green", cursor: "pointer" }}
-                            />
-                            &nbsp; &nbsp;
-                            <VisibilityIcon style={{ color: "#7f00ff" }} />
-                            &nbsp; &nbsp;
-                            <DeleteIcon
-                              color="secondary"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                setData1("");
-                              }}
-                            />
-                          </div>
-                        </Col>
-                      </Row>
+                      <div>
+                        {errorMsg.errorOBJ.errorFile1 && (
+                          <span className="error-file">
+                            {errorMsg.errorOBJ.errorFile1}
+                          </span>
+                        )}
+                      </div>
                     </Col>
-                  )}
-                </Row>
+                    {Data1 && (
+                      <Col md="5">
+                        <Row>
+                          <Col className="text-center">
+                            {" "}
+                            {
+                              <img
+                                alt="Cropped Img"
+                                className="image-select"
+                                width="200"
+                                height="180"
+                                src={Data1}
+                              />
+                            }
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col className="text-center mt-2">
+                            <div>
+                              <CheckCircleIcon
+                                style={{ color: "green", cursor: "pointer" }}
+                              />
+                              &nbsp; &nbsp;
+                              <VisibilityIcon style={{ color: "#7f00ff" }} />
+                              &nbsp; &nbsp;
+                              <DeleteIcon
+                                color="secondary"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  setData1("");
+                                }}
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                      </Col>
+                    )}
+                  </Row>
+
+                  <br />
+                  <hr />
+                </div>
               )}
-              <br />
-              <hr />
               {/* <Container> */}
               <Row>
                 <Col md="7">
