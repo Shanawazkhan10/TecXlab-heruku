@@ -11,6 +11,7 @@ import Image from "react-bootstrap/Image";
 import img from "../../../images/black.png";
 import SERVER_ID from "../Configure/configure";
 import "./VideoRec.css";
+import $ from "jquery";
 import { Col } from "reactstrap";
 // import { HiOutlineLightBulb } from "react-icons/hi";
 // import { GiSunglasses } from "react-icons/gi";
@@ -85,6 +86,7 @@ function VideoRecord({ props, sendToParent }) {
   const [otpField, SetOtpField] = useState(true);
   const [ipvData, SetIpvData] = useState("");
   const [Bimg, SetBImg] = useState(img);
+  const [baseImg, setBaseImg] = useState("");
   // const [isProceedVisible, setIsProceedVisible] = useState(true);
 
   const [errorMsg, seterrorMsg] = useState({
@@ -96,9 +98,53 @@ function VideoRecord({ props, sendToParent }) {
   const twoDigits = (num) => String(num).padStart(2, "0");
   const [secondsRemaining, setSecondsRemaining] = useState(INITIAL_COUNT);
   const [status, setStatus] = useState(STATUS.STOPPED);
-
+  const [ImgSelfie, setImgSelfie] = useState("");
   const secondsToDisplay = secondsRemaining % 60;
+  useEffect(() => {
+    if (baseImg !== "") {
+      function dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(","),
+          mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]),
+          n = bstr.length,
+          u8arr = new Uint8Array(n);
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
+      }
 
+      //Usage example:
+      var file = dataURLtoFile(baseImg, "a.png");
+      setImgSelfie(file);
+    }
+  }, [baseImg]);
+  const SignatureUpload = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+
+    var formdata = new FormData();
+    formdata.append("lead_ID", localStorage.getItem("lead_Id"));
+    formdata.append("File", ImgSelfie);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    await fetch(
+      `${SERVER_ID}/api/in_person_verification/VIPV_Selfie_Upload`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
   const handleStart = () => {
     setStatus(STATUS.STARTED);
   };
@@ -120,15 +166,18 @@ function VideoRecord({ props, sendToParent }) {
     SetMpData(myFile);
   }, [ipvData]);
   let history = useHistory();
-  // useEffect(() => {
-  //   if (flag === true) {
-  //     setTimeout(() => {
-  //       onStopRecordVideo();
-  //     }, 13000);
-  //   }
-  // }, [flag]);
 
   const onStartRecordVideo = () => {
+    setTimeout(() => {
+      var canvas = document.getElementById("canvas");
+      var video = document.getElementById("video");
+      // setTimeout(() => {
+      canvas
+        .getContext("2d")
+        .drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+      const dataURL = canvas.toDataURL();
+      setBaseImg(dataURL);
+    }, 7000);
     handleStart();
     getLocation(function (data) {
       console.log("data from child:", data);
@@ -254,6 +303,7 @@ function VideoRecord({ props, sendToParent }) {
       }));
     } else {
       // API POST
+
       var myHeaders = new Headers();
       myHeaders.append(
         "Authorization",
@@ -288,6 +338,7 @@ function VideoRecord({ props, sendToParent }) {
               },
             }));
           } else {
+            SignatureUpload();
             UploadVideoDoc();
             // for upload video
             // var myHeaders = new Headers();
@@ -399,6 +450,12 @@ function VideoRecord({ props, sendToParent }) {
 
   return (
     <div>
+      <canvas
+        width="500"
+        height="500"
+        style={{ display: "none" }}
+        id="canvas"
+      ></canvas>
       <div className="otp-st">
         <div style={{ fontSize: "12px" }}>
           {numData ? (
@@ -415,7 +472,13 @@ function VideoRecord({ props, sendToParent }) {
       {Bimg ? (
         <Image src={Bimg} style={{ height: `44vh`, width: `35vw` }} />
       ) : (
-        <video playsInline ref={videoElement} style={{ width: `35vw` }} />
+        <video
+          id="video"
+          controls="controls"
+          playsInline
+          ref={videoElement}
+          style={{ width: `35vw` }}
+        />
       )}
       {recorder && (
         <div style={{ fontSize: "10px", marginBottom: "2px" }}>
@@ -479,6 +542,16 @@ function VideoRecord({ props, sendToParent }) {
             Proceed
           </Button>
         )}
+        {/* <div>
+          <button
+            id="getImg"
+            onClick={(e) => {
+              getImage(e);
+            }}
+          >
+            hello
+          </button>
+        </div> */}
         {/* {ipvData && pass === numData && pass.length <= 4 && (
           <Button
             type="button"

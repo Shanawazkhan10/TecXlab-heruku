@@ -21,8 +21,8 @@ const PersonalInfo = () => {
   // const [isBtnVisible, SetIsBtnVisible] = useState(true);
   const [populateData, setPopulateData] = useState("");
   // const [fatherName, setfatherName] = useState("");
-  const [ButtonChecked1, setButtonChecked1] = useState(false);
-  const [ButtonChecked2, setButtonChecked2] = useState(false);
+  const [ButtonChecked1, setButtonChecked1] = useState(true);
+  const [ButtonChecked2, setButtonChecked2] = useState(true);
   const [inputs, setInputs] = useState({
     mstatus: "",
     income: "",
@@ -818,6 +818,7 @@ const PersonalInfo = () => {
                 <div className="check">
                   <input
                     type="checkbox"
+                    defaultChecked={ButtonChecked1}
                     style={{ cursor: "pointer" }}
                     className="mr-1"
                     onChange={(e) => setButtonChecked1(e.target.checked)}
@@ -840,6 +841,7 @@ const PersonalInfo = () => {
                 <div className="check">
                   <input
                     type="checkbox"
+                    defaultChecked={ButtonChecked2}
                     style={{ cursor: "pointer" }}
                     className="mr-1"
                     onChange={(e) => setButtonChecked2(e.target.checked)}

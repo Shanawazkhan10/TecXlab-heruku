@@ -116,47 +116,46 @@ const AdhaarKyc = () => {
     };
     unsuscribe();
   }, []);
-  useEffect(() => {
-    const unsuscribe = async () => {
-      // getResponse();
-      if (Data2 !== "") {
-        let response = await fetch(croppedImage2);
-        let data = await response.blob();
-        let metadata = {
-          type: "image/jpeg",
-        };
-        let file1 = new File([data], "SignImg.jpg", metadata);
-        // ... do something with the file or return it
-        console.log(file1);
+  // useEffect(() => {
+  const SignatureUpload = async () => {
+    // getResponse();
 
-        var myHeaders = new Headers();
-        myHeaders.append(
-          "Authorization",
-          `Bearer ${localStorage.getItem("userToken")}`
-        );
-
-        var formdata = new FormData();
-        formdata.append("lead_ID", localStorage.getItem("lead_Id"));
-        formdata.append("front_part", file1);
-
-        var requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          body: formdata,
-          redirect: "follow",
-        };
-
-        fetch(
-          `${SERVER_ID}/api/documentupload/Document_Upload_Signature`,
-          requestOptions
-        )
-          .then((response) => response.text())
-          .then((result) => console.log(result))
-          .catch((error) => console.log("error", error));
-      }
+    let response = await fetch(croppedImage2);
+    let data = await response.blob();
+    let metadata = {
+      type: "image/jpeg",
     };
-    unsuscribe();
-  }, [Data2]);
+    let file1 = new File([data], "SignImg.jpg", metadata);
+    // ... do something with the file or return it
+    console.log(file1);
+
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+
+    var formdata = new FormData();
+    formdata.append("lead_ID", localStorage.getItem("lead_Id"));
+    formdata.append("File", file1);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    await fetch(
+      `${SERVER_ID}/api/documentupload/Document_Upload_Signature`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
+  //   unsuscribe();
+  // }, [Data2]);
   const HandleOpen = () => {
     SetShow(true);
   };
@@ -168,26 +167,6 @@ const AdhaarKyc = () => {
   const handleClick = async () => {
     setOpen(false);
     setData1(croppedImage1);
-    // setOpen1(false);
-    // var file = new File([croppedImage1], "panCard");
-    //api call
-    // var file = new File([croppedImage1], "panCard", {
-    //   lastModified: 1534584790000,
-    // });
-    // var file = new File([croppedImage1], "panCard", {
-    //   type: "image/jpeg",
-    //   lastModified: Date.now(),
-    // });
-    // console.log(file);
-
-    var myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("userToken")}`
-    );
-    var formdata = new FormData();
-    formdata.append("Mobile_No", localStorage.getItem("userInfo"));
-
     // async function createFile() {
     let response = await fetch(croppedImage1);
     let data = await response.blob();
@@ -195,14 +174,15 @@ const AdhaarKyc = () => {
       type: "image/jpeg",
     };
     let file = new File([data], "pan.jpg", metadata);
-    // ... do something with the file or return it
-    console.log(file);
-    // }
-    // createFile();
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    var formdata = new FormData();
+    formdata.append("Lead_Id", localStorage.getItem("lead_Id"));
 
-    // formdata.append("front_part", blob, "image.jpeg");
-
-    formdata.append("front_part", file);
+    formdata.append("File", file);
 
     var requestOptions = {
       method: "POST",
@@ -212,18 +192,13 @@ const AdhaarKyc = () => {
     };
 
     fetch(`${SERVER_ID}/api/documentupload/Document_Upload_PAN`, requestOptions)
-      .then((response) => response.text())
+      .then((response) => response.json())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
   };
   const handleClickCrop = async () => {
     setData2(croppedImage2);
     setOpen1(false);
-    // api call
-    // var file1 = new File([croppedImage2], "Signature", {
-    //   type: "image/jpeg",
-    //   lastModified: Date.now(),
-    // });
   };
 
   const previewCloseHandler = () => {
@@ -236,15 +211,6 @@ const AdhaarKyc = () => {
     $("#SignId").trigger("click");
   };
 
-  // function uploadSign(event) {
-  //   var file = event.target.files[0];
-  //   var reader = new FileReader();
-  //   reader.onloadend = function () {
-  //     console.log("Encoded Base 64 File String:", reader.result);
-  //     setDataSign(reader.result);
-  //   };
-  //   reader.readAsDataURL(file);
-  // }
   const onUploadFile = (event) => {
     // console.log("console pic", event.target.files[0]);
     if (event.target.files && event.target.files.length > 0) {
@@ -301,51 +267,6 @@ const AdhaarKyc = () => {
     // console.log("2nd console pic", event.target.files[0]);
   };
 
-  //Pdf Functions
-
-  // const fileType = ['application/pdf'];
-
-  // const handlePdfFileChange = (e) => {
-  //   let selectedFile = e.target.files[0];
-  //   if (selectedFile) {
-  //     if (selectedFile && fileType.includes(selectedFile.type)) {
-  //       // console.log(selectedFile.type);
-  //       let reader = new FileReader();
-  //       reader.readAsDataURL(selectedFile);
-  //       reader.onloadend = (e) => {
-  //         SetFileData(e.target.result);
-  //         SetFileError('');
-  //         // console.log("Reader:", reader.result);
-  //       };
-  //     } else {
-  //       SetFileData(null);
-  //       SetFileError('Please select only JPEG, PNG, PDF files only');
-  //     }
-  //   } else {
-  //     console.log('select your file');
-  //   }
-  // };
-
-  // const handlePdfFileSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (fileData !== null) {
-  //     SetFileViewer(fileData);
-  //   } else {
-  //     SetFileViewer(null);
-  //   }
-  // };
-
-  // const EsignHandler = (event) => {
-  //   if (event.target.files) {
-  //     const DigiFileArray = Array.from(event.target.files).map((file) =>
-  //       URL.createObjectURL(file)
-  //     );
-  //     console.log(DigiFileArray);
-  //     SetDigiSign((revImg) => revImg.concat(DigiFileArray));
-  //     console.log(SetDigiSign);
-  //     Array.from(event.target.files).map((data) => URL.revokeObjectURL(data));
-  //   }
-  // };
   const EsignData = (data) => {
     // console.log("Upload UI:", data);
     if (data !== "") {
@@ -408,6 +329,8 @@ const AdhaarKyc = () => {
       alert("Please upload sign image");
     }
     if (Data1 && Data2 !== "") {
+      // upload signature
+      SignatureUpload();
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append(
