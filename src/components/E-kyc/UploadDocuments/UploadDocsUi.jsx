@@ -81,7 +81,12 @@ const AdhaarKyc = () => {
 
   // for check if KRA VERIFIED
   useEffect(() => {
-    console.log("wdcwd");
+    if (Data2 !== "") {
+      setCroppedImage2(Data2);
+    }
+  }, [Data2]);
+  useEffect(() => {
+    // console.log("wdcwd");
     const unsuscribe = async () => {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -117,10 +122,10 @@ const AdhaarKyc = () => {
     unsuscribe();
   }, []);
   // useEffect(() => {
-  const SignatureUpload = async () => {
+  const SignatureUpload = async (dataImg) => {
     // getResponse();
 
-    let response = await fetch(croppedImage2);
+    let response = await fetch(dataImg);
     let data = await response.blob();
     let metadata = {
       type: "image/jpeg",
@@ -322,15 +327,15 @@ const AdhaarKyc = () => {
   );
 
   const handlePush = () => {
-    if (Data1 === "") {
-      alert("Please upload PAN image");
-    }
-    if (Data2 === "") {
-      alert("Please upload sign image");
-    }
+    // if (Data1 === "") {
+    //   alert("Please upload PAN image");
+    // }
+    // if (Data2 === "") {
+    //   alert("Please upload sign image");
+    // }
     if (Data1 && Data2 !== "") {
       // upload signature
-      SignatureUpload();
+      SignatureUpload(croppedImage2);
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append(

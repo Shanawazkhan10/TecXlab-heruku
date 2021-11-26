@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useParams } from "react-router-dom";
 import SERVER_ID from "../Configure/configure";
+import { ORG_ID } from "../Helper/Helper";
+import { useHistory } from "react-router";
+import DialogAddess from "../SubComponent/DialogAddress";
 const Redirect = () => {
   let urlData = window.location.pathname;
   const [Params, setParams] = useState(urlData);
+  const [address, setAddress] = useState("");
+  const history = useHistory();
   //   useEffect(() => {
   // <script>
   const Get_QueryParams = (params) => {
@@ -147,20 +152,61 @@ const Redirect = () => {
   }).then((res) => {
     res
       .json()
-      .then((result) => console.log(result))
+      .then((result) => setAddress(result.res_Output))
       .catch((err) => console.log(err));
     //do something awesome that makes the world a better place
   });
 
   // </script>
   //   }, []);
+  const handleProceed = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    var raw = JSON.stringify({
+      method_Name: "Update_Stage_Id",
+      // mobile_No: localStorage.getItem("userInfo"),
+      org_Id: ORG_ID,
+      lead_Id: localStorage.getItem("lead_Id"),
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result.res_Output[0].stage_Id);
+        history.push(result.res_Output[0].stage_Id);
+      })
+      .catch((error) => console.log("error", error));
+    // history.push("/Personal");
+  };
+  useEffect(() => {
+    setTimeout(() => {
+      handleProceed();
+    }, 6000);
+  }, [address]);
   useEffect(() => {
     console.log(Params);
   }, [Params]);
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <CircularProgress style={{ marginTop: "20%" }} />
+        {address ? (
+          <div>
+            <DialogAddess address={address} />
+          </div>
+        ) : (
+          <CircularProgress style={{ marginTop: "20%" }} />
+        )}
       </div>
     </div>
   );

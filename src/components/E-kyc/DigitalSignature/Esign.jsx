@@ -1,7 +1,7 @@
-import React, { createContext } from 'react';
-import SignatureCanvas from 'react-signature-canvas';
-import { useRef, useState } from 'react';
-import Button from '@material-ui/core/Button';
+import React, { createContext } from "react";
+import SignatureCanvas from "react-signature-canvas";
+import { useRef, useState } from "react";
+import Button from "@material-ui/core/Button";
 // import { SignData } from '../../Feature/Feature';
 // import { useHistory } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
@@ -23,15 +23,31 @@ const Esign = ({ EsignData, HandleModalCloser }) => {
   //Disable Handler only for normal buttons
   const DisableButtonHandler = () => {
     if (BtnRef.current) {
-      BtnRef.current.setAttribute('disabled', 'disabled');
+      BtnRef.current.setAttribute("disabled", "disabled");
     }
   };
+  function b64toBlob(dataURI) {
+    var byteString = atob(dataURI.split(",")[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
 
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: "image/jpeg" });
+  }
   const SaveHandler = () => {
     DisableButtonHandler();
-    const data = SignRef.current.toDataURL();
-    // console.log('E-Sign Data:', data);
-    EsignData(data);
+    const dataFromPad = SignRef.current.toDataURL();
+
+    fetch(dataFromPad)
+      .then((res) => res.blob())
+      .then((blob) => {
+        // console.log(blob);
+        var data = window.URL.createObjectURL(blob);
+        EsignData(data);
+      });
+
     SetDisable(true);
 
     // dispatch(
@@ -65,27 +81,27 @@ const Esign = ({ EsignData, HandleModalCloser }) => {
         {/* <h5>Add your Digital Signature (E-sign)</h5> */}
         <div
           style={{
-            border: '1px solid gray',
-            borderRadius: '10px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            border: "1px solid gray",
+            borderRadius: "10px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          {' '}
+          {" "}
           <SignatureCanvas
             ref={SignRef}
             canvasProps={{
-              width: '334px',
-              height: '250px',
+              width: "334px",
+              height: "250px",
             }}
           />
         </div>
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginTop: '15px',
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "15px",
           }}
         >
           <Button
@@ -95,7 +111,7 @@ const Esign = ({ EsignData, HandleModalCloser }) => {
             color="primary"
             disabled={disable}
             onClick={SaveHandler}
-            style={{ marginRight: '20px' }}
+            style={{ marginRight: "20px" }}
           >
             Upload
           </Button>
@@ -104,7 +120,7 @@ const Esign = ({ EsignData, HandleModalCloser }) => {
             variant="contained"
             color="primary"
             onClick={ClearHandler}
-            style={{ marginLeft: '20px' }}
+            style={{ marginLeft: "20px" }}
             // disabled={retryDisable}
           >
             Retry

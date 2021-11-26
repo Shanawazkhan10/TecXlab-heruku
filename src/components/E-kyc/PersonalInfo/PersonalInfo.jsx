@@ -111,7 +111,10 @@ const PersonalInfo = () => {
   const handleInputChange = (e) => {
     setInputs({
       ...inputs,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.replace(
+        /[~`!@#$%^&()_={}[\]:;,.<>+\/?-]/,
+        ""
+      ),
     });
   };
   // useEffect(() => {

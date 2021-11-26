@@ -15,11 +15,12 @@ const AdhaarKyc = (url) => {
     url = `https://api.digitallocker.gov.in/public/oauth2/1/authorize?response_type=code&client_id=F98631E8&state=${localStorage.getItem(
       "lead_Id"
     )}&redirect_uri=http://localhost:3000/Redirect`;
-    const newPopup = window.open(url, "name", "height=500,width=500");
-    if (window.focus) {
-      newPopup.focus();
-    }
-    return false;
+    window.open(url, "_self");
+    // window.open(url, "name", "height=500,width=500");
+    // if (window.focus) {
+    //   newPopup.focus();
+    // }
+    // return false;
   };
   const handleProceed = () => {
     var myHeaders = new Headers();
@@ -89,7 +90,7 @@ const AdhaarKyc = (url) => {
                 </Button>
                 <br />
                 <br />
-                <Button
+                {/* <Button
                   // fullWidth="true"
                   type="submit"
                   onClick={handleProceed}
@@ -99,7 +100,7 @@ const AdhaarKyc = (url) => {
                   Proceed
                 </Button>
                 <br />
-                <br />
+                <br /> */}
                 <Col>
                   <div style={{ fontSize: "13px" }}>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.

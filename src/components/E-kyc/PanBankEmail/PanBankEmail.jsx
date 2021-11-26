@@ -31,7 +31,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import Stack from "@mui/material/Stack";
-import { ORG_ID } from "../Helper/Helper";
+import { ORG_ID, Space } from "../Helper/Helper";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -80,6 +80,7 @@ function PanBankEmail() {
   const [DobDisable, SetDobDisable] = useState(true);
   const [ifscDisable, setifscDisable] = useState(true);
   const [disbaleEmail, setdisbaleEmail] = useState(false);
+  const [eRegex, setERegex] = useState("");
   // const [PanDisable, setPanDisable] = useState(true);
   const classes = useStyles();
   const [inputs, setInputs] = useState({
@@ -279,7 +280,9 @@ function PanBankEmail() {
     setInputs((prevalue) => {
       return {
         ...prevalue, // Spread Operator
-        [name]: value,
+        [name]: value
+          .replace(/\s/g, "")
+          .replace(/[~`!@#$%^&()_={}[\]:;,.<>+\/?-]/, ""),
       };
     });
   };
@@ -465,9 +468,37 @@ function PanBankEmail() {
       setOpenIfsc(true);
     }
   };
+  function validateEmail(email) {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+  function validatePan(pan) {
+    const re = /[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+    return re.test(pan);
+  }
   const handleEmailBlur = () => {
     if (emails === "") {
       return;
+    } else if (validateEmail(emails) === false) {
+      setERegex("true");
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorEmail: "Enter valid Email",
+        },
+      }));
+      return;
+    } else if (validateEmail(emails) === true) {
+      setERegex("");
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorEmail: "",
+        },
+      }));
     }
     setemailCircular(true);
     var myHeaders = new Headers();
@@ -651,8 +682,26 @@ function PanBankEmail() {
   };
 
   const handlePanBlur = () => {
+    var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+
     if (PanDetails === "") {
       return;
+    } else if (regpan.test(PanDetails)) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorPan: "",
+        },
+      }));
+    } else {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorPan: "Enter valid PAN No.",
+        },
+      }));
     }
     console.log(PanDetails);
     if (PanDetails !== "") {
@@ -668,6 +717,7 @@ function PanBankEmail() {
         pan_No: PanDetails,
         org_Id: ORG_ID,
         lead_Id: localStorage.getItem("lead_Id"),
+        dob: FormData.dob,
       });
 
       var requestOptions = {
@@ -1047,7 +1097,8 @@ function PanBankEmail() {
                   name="email"
                   value={emails}
                   onChange={(e) => {
-                    setEmails(e.target.value);
+                    Space();
+                    setEmails(e.target.value.replace(/\s/g, ""));
                   }}
                   onBlur={handleEmailBlur}
                   // className="form-control"
@@ -1099,7 +1150,11 @@ function PanBankEmail() {
                   value={PanDetails}
                   onBlur={handlePanBlur}
                   onChange={(e) => {
-                    setPanDetails(e.target.value);
+                    setPanDetails(
+                      e.target.value
+                        .replace(/\s/g, "")
+                        .replace(/[~`!@#$%^&()_={}[\]:;,.<>+\/?-]/, "")
+                    );
                   }}
                   // className="form-control"
                   label="Enter PAN Number"
@@ -1244,9 +1299,9 @@ function PanBankEmail() {
                     style: { textTransform: "uppercase" },
                   }}
                 />
-                <div className="ml-3 txt-msg">
+                {/* <div className="ml-3 mt-1 txt-msg">
                   NRE/NRO bank details not accepted*
-                </div>
+                </div> */}
                 <div className="email-error-div">
                   {errorMsg.errorOBJ.errorAccNo && (
                     <span className="email-error-msg">
@@ -1256,7 +1311,7 @@ function PanBankEmail() {
                 </div>
                 <TextField
                   // errorhelperText="Incorrect entry."
-                  className="mb-1 mt-3"
+                  className="mb-1 "
                   id="outlined-error-helper-text"
                   type="text"
                   error={errorMsg.errorOBJ.errorIFSC ? true : false}
@@ -1269,7 +1324,13 @@ function PanBankEmail() {
                   autoComplete="off"
                   name="ifsc"
                   value={IFSCfromSearch}
-                  onChange={(e) => setIFSCfromSearch(e.target.value)}
+                  onChange={(e) =>
+                    setIFSCfromSearch(
+                      e.target.value
+                        .replace(/\s/g, "")
+                        .replace(/[~`!@#$%^&()_={}[\]:;,.<>+\/?-]/, "")
+                    )
+                  }
                   onBlur={handleBlur}
                   // className="form-control"
                   label="Enter IFSC Code"

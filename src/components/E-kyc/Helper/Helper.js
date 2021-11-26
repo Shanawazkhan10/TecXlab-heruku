@@ -72,6 +72,17 @@ function namVal() {
     }
   });
 }
+function Space() {
+  // $(function () {
+  // $(document).ready(function () {
+  $("#space").keydown(function (event) {
+    if (event.keyCode == 32) {
+      event.preventDefault();
+    }
+  });
+  // });
+  // });
+}
 //geolocation function
 function getLocation(callback) {
   $.ajax({
@@ -98,5 +109,6 @@ export {
   IfscValidator,
   OtpVal,
   mobileOtp,
+  Space,
   ORG_ID,
 };
