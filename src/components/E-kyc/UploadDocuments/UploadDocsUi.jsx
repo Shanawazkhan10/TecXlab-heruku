@@ -333,7 +333,7 @@ const AdhaarKyc = () => {
     // if (Data2 === "") {
     //   alert("Please upload sign image");
     // }
-    if (Data1 && Data2 !== "") {
+    // if (Data1 && Data2 !== "") {
       // upload signature
       SignatureUpload(croppedImage2);
       var myHeaders = new Headers();
@@ -360,7 +360,7 @@ const AdhaarKyc = () => {
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
       history.push("/Esign");
-    }
+    // }
   };
 
   return (

@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import TextField from '@material-ui/core/TextField';
-import $ from 'jquery';
-import './verifyContact.css';
-import SERVER_ID from '../Configure/configure';
-import { Container, Row, Col } from 'reactstrap';
-import Image from 'react-bootstrap/Image';
-import SubInputAdornment from '../SubComponent/SubInputAdornment';
-import Button from '@material-ui/core/Button';
-import loginImg from '../../../images/LoginPage.png';
-import otpImg from '../../../assets/Mobile-OTP.svg';
-import mobileImg from '../../../assets/mobile.svg';
-import ReferalImg from '../../../assets/Referral Code grey.svg';
-import { useHistory } from 'react-router-dom';
-import { getLocation, conVal, mobileOtp, ORG_ID } from '../Helper/Helper';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import React, { useState, useEffect } from "react";
+import TextField from "@material-ui/core/TextField";
+import $ from "jquery";
+import "./verifyContact.css";
+import SERVER_ID from "../Configure/configure";
+import { Container, Row, Col } from "reactstrap";
+import Image from "react-bootstrap/Image";
+import SubInputAdornment from "../SubComponent/SubInputAdornment";
+import Button from "@material-ui/core/Button";
+import loginImg from "../../../images/LoginPage.png";
+import otpImg from "../../../assets/Mobile-OTP.svg";
+import mobileImg from "../../../assets/mobile.svg";
+import ReferalImg from "../../../assets/Referral Code grey.svg";
+import { useHistory } from "react-router-dom";
+import { getLocation, conVal, mobileOtp, ORG_ID } from "../Helper/Helper";
+import InputAdornment from "@material-ui/core/InputAdornment";
 // import AccountCircle from '@material-ui/icons/AccountCircle';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 // import ORG_ID from "."
 function VerifyContact() {
-  const [contact, setContact] = useState('');
-  const [otp, setOtp] = useState('');
-  const [generateOtp, setgenerateOtp] = useState('');
-  const [otpTime, setotpTime] = useState('60');
+  const [contact, setContact] = useState("");
+  const [otp, setOtp] = useState("");
+  const [generateOtp, setgenerateOtp] = useState("");
+  const [otpTime, setotpTime] = useState("60");
   const [countResend, setCountResend] = useState(0);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [MobileDisable, setMobileDisable] = useState(false);
@@ -34,28 +34,28 @@ function VerifyContact() {
   // const [userToken, setUserToken] = useLocalStorage('user-token', '');
   //T&C hooks
   const [open, setOpen] = React.useState(false);
-  const [scroll, setScroll] = React.useState('paper');
+  const [scroll, setScroll] = React.useState("paper");
 
-  const [Location, setLocation] = useState('');
+  const [Location, setLocation] = useState("");
   let history = useHistory();
   const [errorMsg, seterrorMsg] = useState({
     errorOBJ: {
-      errorOTP: '',
-      errorNumber: '',
-      errorCheck: '',
+      errorOTP: "",
+      errorNumber: "",
+      errorCheck: "",
     },
   });
   useEffect(() => {
     // console.log(ORG_ID);
-    $('#countdown').hide();
-    $('.class-referal').hide();
-    $('.link-resend').hide();
+    $("#countdown").hide();
+    $(".class-referal").hide();
+    $(".link-resend").hide();
   }, []);
 
   // for OTP TIMER
   useEffect(() => {
     if (otpTime === 0) {
-      $('#countdown').hide();
+      $("#countdown").hide();
     } else {
     }
   }, [otpTime]);
@@ -65,7 +65,7 @@ function VerifyContact() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorOTP: '',
+          errorOTP: "",
         },
       }));
     }
@@ -77,7 +77,7 @@ function VerifyContact() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorNumber: 'Enter Valid Contact',
+          errorNumber: "Enter Valid Contact",
         },
       }));
     }
@@ -85,7 +85,7 @@ function VerifyContact() {
   //  mobile No checking
   useEffect(() => {
     if (contact.length === 10) {
-      $('.link-resend').show();
+      $(".link-resend").show();
       getLocation(function (data) {
         setLocation(data);
         setDisabled(false);
@@ -97,7 +97,7 @@ function VerifyContact() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorNumber: '',
+          errorNumber: "",
         },
       }));
       return;
@@ -138,14 +138,15 @@ function VerifyContact() {
     conVal();
     setContact(e.target.value);
   };
+  // for check otp valid or not
   const handleProceed = async (e) => {
     e.preventDefault();
-    if (contact === '') {
+    if (contact === "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorNumber: 'Please enter Contact',
+          errorNumber: "Please enter Contact",
         },
       }));
     }
@@ -154,16 +155,16 @@ function VerifyContact() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorOTP: 'Please enter OTP',
+          errorOTP: "Please enter OTP",
         },
       }));
     }
-    if (ButtonChecked === false && contact !== '' && otp !== '') {
+    if (ButtonChecked === false && contact !== "" && otp !== "") {
       seterrorMsg((prevState) => ({
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorCheck: 'Please confirm this checkbox',
+          errorCheck: "Please confirm this checkbox",
         },
       }));
     }
@@ -180,22 +181,22 @@ function VerifyContact() {
       if (otp.length === 6 && ButtonChecked === true) {
         try {
           var myHeaders = new Headers();
-          myHeaders.append('Content-Type', 'application/json');
+          myHeaders.append("Content-Type", "application/json");
 
           var raw = JSON.stringify({
             mobile_No: contact,
             otp: otp,
-            method_Name: 'Check_OTP',
+            method_Name: "Check_OTP",
             org_Id: ORG_ID,
-            flow_Id: 'M001001',
-            current_Stage_Id: 'C002001',
+            flow_Id: "M001001",
+            current_Stage_Id: "C002001",
           });
 
           var requestOptions = {
-            method: 'POST',
+            method: "POST",
             headers: myHeaders,
             body: raw,
-            redirect: 'follow',
+            redirect: "follow",
           };
 
           fetch(`${SERVER_ID}/api/lead/Verify_OTP`, requestOptions)
@@ -204,23 +205,23 @@ function VerifyContact() {
               // console.log(result);
               // console.log(result);
               localStorage.setItem(
-                'userToken',
+                "userToken",
                 result.res_Output[0].result_Description
               );
               if (result.res_Output[0].result_Id === 1) {
                 // const stage_ID = result.res_Output[0].result_Extra_Key;
                 const lead_Id = result.res_Output[0].lead_Id;
-                localStorage.setItem('userInfo', contact);
-                localStorage.setItem('lead_Id', lead_Id);
+                localStorage.setItem("userInfo", contact);
+                localStorage.setItem("lead_Id", lead_Id);
 
                 // console.log("OTP VERIFIED");
                 // work with your data came from server
                 var myHeaders = new Headers();
                 myHeaders.append(
-                  'Authorization',
-                  `Bearer ${localStorage.getItem('userToken')}`
+                  "Authorization",
+                  `Bearer ${localStorage.getItem("userToken")}`
                 );
-                myHeaders.append('Content-Type', 'application/json');
+                myHeaders.append("Content-Type", "application/json");
                 const lat = Location.latitude.toString();
                 const long = Location.longitude.toString();
 
@@ -235,23 +236,23 @@ function VerifyContact() {
                 });
 
                 var requestOptions = {
-                  method: 'POST',
+                  method: "POST",
                   headers: myHeaders,
                   body: raw,
-                  redirect: 'follow',
+                  redirect: "follow",
                 };
 
                 fetch(`${SERVER_ID}/api/lead/Lead_Location`, requestOptions)
                   .then((response) => response.text())
                   .then((result) => console.log(result))
-                  .catch((error) => console.log('error', error));
+                  .catch((error) => console.log("error", error));
                 // staged ID
                 // console.log(result.res_Output[0].stage_ID);
-                if (result.res_Output[0].stage_Id !== '') {
+                if (result.res_Output[0].stage_Id !== "") {
                   // console.log(result.res_Output[0].stage_Id);
                   history.push(result.res_Output[0].stage_Id);
                 } else {
-                  console.log('ERROR ON VERIFY MIDDLEWARE OR BACKEND');
+                  console.log("ERROR ON VERIFY MIDDLEWARE OR BACKEND");
                 }
                 // history.push()
                 // switch (stage_ID) {
@@ -290,12 +291,12 @@ function VerifyContact() {
                   ...prevState,
                   errorOBJ: {
                     ...prevState.errorOBJ,
-                    errorOTP: 'WRONG OTP!',
+                    errorOTP: "WRONG OTP!",
                   },
                 }));
               }
             })
-            .catch((error) => console.log('error', error));
+            .catch((error) => console.log("error", error));
         } catch (err) {
           // catches errors both in fetch and response.json
           alert(err);
@@ -323,7 +324,7 @@ function VerifyContact() {
         ...prevState,
         errorOBJ: {
           ...prevState.errorOBJ,
-          errorCheck: '',
+          errorCheck: "",
         },
       }));
     }
@@ -331,26 +332,26 @@ function VerifyContact() {
 
   const smsVerify = async () => {
     // e.preventDefault();
-    $('.btn-submit').show();
-    $('#countdown').show();
-    $('#resend').hide();
+    $(".btn-submit").show();
+    $("#countdown").show();
+    $("#resend").hide();
 
     var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
       mobile_No: contact,
-      method_Name: 'Check_Mobile_No',
+      method_Name: "Check_Mobile_No",
       org_Id: ORG_ID,
-      flow_Id: 'M001001',
-      current_Stage_Id: 'C002001',
+      flow_Id: "M001001",
+      current_Stage_Id: "C002001",
     });
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
     fetch(`${SERVER_ID}/api/lead/Read_Lead`, requestOptions)
@@ -360,21 +361,21 @@ function VerifyContact() {
         setgenerateOtp(result.res_Output[0].result_Extra_Key);
         // console.log(result);
       })
-      .catch((error) => console.log('error', error));
+      .catch((error) => console.log("error", error));
   };
   const contactBlock = () => {
-    setotpTime('');
+    setotpTime("");
     smsVerify();
     setCountResend(countResend + 1);
   };
   useEffect(() => {
     if (countResend >= 4) {
       setMobileDisable(true);
-      $('.link-resend').hide();
+      $(".link-resend").hide();
     }
   }, [countResend]);
   const referalFun = () => {
-    $('.class-referal').show();
+    $(".class-referal").show();
   };
   const OtpValidator = (e) => {
     e.preventDefault();
@@ -394,7 +395,7 @@ function VerifyContact() {
           aria-describedby="scroll-dialog-description"
         >
           <DialogTitle id="scroll-dialog-title">Terms & conditions</DialogTitle>
-          <DialogContent dividers={scroll === 'paper'}>
+          <DialogContent dividers={scroll === "paper"}>
             <DialogContentText
               id="scroll-dialog-description"
               ref={descriptionElementRef}
@@ -469,6 +470,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               <Col className="" sm="12" md="8">
                 <TextField
                   type="number"
+                  autoFocus
                   error={errorMsg.errorOBJ.errorNumber ? true : false}
                   id="fieldSelectorNo"
                   pattern="[1-9]{1}[0-9]{9}"
@@ -553,7 +555,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                     onClick={contactBlock}
                     className="link-comman link-resend"
                   >
-                    Resend OTP?{' '}
+                    Resend OTP?{" "}
                   </span>
                 </small>
               </Col>
@@ -592,13 +594,13 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                 <small
                   style={{
                     // border: '1px solid black',
-                    position: 'relative',
-                    bottom: '8px',
+                    position: "relative",
+                    bottom: "8px",
                   }}
                 >
                   <span> Do you have a </span>
                   <span onClick={referalFun} className="link-comman">
-                    Referral Code?{' '}
+                    Referral Code?{" "}
                   </span>
                 </small>
                 <br />
@@ -611,31 +613,31 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                 <div
                   className="mt-2"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    position: 'relative',
-                    bottom: '8px',
+                    display: "flex",
+                    alignItems: "center",
+                    position: "relative",
+                    bottom: "8px",
                   }}
                 >
                   <input
                     className="mr-2"
                     type="checkbox"
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                     onClick={(e) => setButtonChecked(e.target.checked)}
                   />
                   <small>
                     <span>
-                      I agree to the{' '}
+                      I agree to the{" "}
                       <span
                         className="link-comman"
-                        onClick={handleClickOpen('paper')}
+                        onClick={handleClickOpen("paper")}
                       >
-                        Terms & Conditions{' '}
+                        Terms & Conditions{" "}
                       </span>
                     </span>
                   </small>
                 </div>
-                <div style={{ marginLeft: '17px' }}>
+                <div style={{ marginLeft: "17px" }}>
                   {errorMsg.errorOBJ.errorCheck && (
                     <div className="div-error-contact">
                       <span className="error-contact">
@@ -657,7 +659,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
             </Row> */}
             <br />
             <Row>
-              <Col style={{ top: '-10px' }} className="" sm="12" md="8">
+              <Col style={{ top: "-10px" }} className="" sm="12" md="8">
                 <Button
                   // disabled={btnDisabled}
                   type="submit"

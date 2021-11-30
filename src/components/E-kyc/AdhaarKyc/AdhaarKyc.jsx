@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import './PersonalInfo.css';
 import { Container, Row, Col } from "reactstrap";
 import { Image } from "react-bootstrap";
@@ -7,12 +7,16 @@ import aadharImg from "../../../images/Aadhar_KYC_Illustration.png";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router";
 import SERVER_ID from "../Configure/configure";
-import { ORG_ID } from "../Helper/Helper";
+import { ORG_ID, Routing } from "../Helper/Helper";
+// import { useEffect } from "react";
 const AdhaarKyc = (url) => {
+  // useEffect(() => {
+  //   Routing();
+  // }, []);
   const history = useHistory();
-
+  // API Call for Calling digio API after this it will redrect to /Redirect page an futher process happens
   const handleClick = () => {
-    url = `https://api.digitallocker.gov.in/public/oauth2/1/authorize?response_type=code&client_id=F98631E8&state=${localStorage.getItem(
+    url = `https://api.digitallocker.gov.in/public/oauth2/authorize?response_type=code&client_id=F98631E8&state=${localStorage.getItem(
       "lead_Id"
     )}&redirect_uri=http://localhost:3000/Redirect`;
     window.open(url, "_self");
@@ -22,32 +26,32 @@ const AdhaarKyc = (url) => {
     // }
     // return false;
   };
-  const handleProceed = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("userToken")}`
-    );
-    var raw = JSON.stringify({
-      method_Name: "Update_Stage_Id",
-      org_Id: ORG_ID,
-      lead_Id: localStorage.getItem("lead_Id"),
-    });
+  // const handleProceed = () => {
+  //   var myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
+  //   myHeaders.append(
+  //     "Authorization",
+  //     `Bearer ${localStorage.getItem("userToken")}`
+  //   );
+  //   var raw = JSON.stringify({
+  //     method_Name: "Update_Stage_Id",
+  //     org_Id: ORG_ID,
+  //     lead_Id: localStorage.getItem("lead_Id"),
+  //   });
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+  //   var requestOptions = {
+  //     method: "POST",
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: "follow",
+  //   };
 
-    fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-    history.push("/Personal");
-  };
+  //   fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+  //     .then((response) => response.text())
+  //     .then((result) => console.log(result))
+  //     .catch((error) => console.log("error", error));
+  //   history.push("/Personal");
+  // };
   return (
     <div>
       <Container className="container-md">

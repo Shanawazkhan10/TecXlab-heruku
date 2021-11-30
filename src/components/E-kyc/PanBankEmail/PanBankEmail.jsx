@@ -141,7 +141,7 @@ function PanBankEmail() {
       const abc = yearDiff.toString();
       const bca = abc.split(".");
       // console.log('whole bca');
-      console.log(bca[0]);
+      // console.log(bca[0]);
       const FormattedDate = moment(selectedDate).format("DD/MM/YYYY");
       if (
         selectedDate !== null &&
@@ -180,7 +180,7 @@ function PanBankEmail() {
             setpanCircular(false);
             setPanResponse(result);
             if (result.res_Output[0].result_Extra_Key !== "") {
-              console.log("Digio call", result.res_Output[0].result_Extra_Key);
+              // console.log("Digio call", result.res_Output[0].result_Extra_Key);
               setpanCircular(false);
               seterrorMsg((prevState) => ({
                 ...prevState,
@@ -218,7 +218,7 @@ function PanBankEmail() {
     const abc = yearDiff.toString();
     const bca = abc.split(".");
     // console.log('whole bca');
-    console.log(bca[0]);
+    // console.log(bca[0]);
     if (bca[0].length === 2 && bca[0] >= 18) {
       setAccountNoDisable(false);
       seterrorMsg((prevState) => ({
@@ -286,7 +286,7 @@ function PanBankEmail() {
       };
     });
   };
-
+  // api for handle check details filled or not
   const handleProceed = () => {
     // e.preventDefault();
 
@@ -299,51 +299,51 @@ function PanBankEmail() {
       pan: PanDetails,
     };
 
-    // if (FormData.email === "") {
-    //   seterrorMsg((prevState) => ({
-    //     ...prevState,
-    //     errorOBJ: {
-    //       ...prevState.errorOBJ,
-    //       errorEmail: "Please enter your email",
-    //     },
-    //   }));
-    // }
-    // if (FormData.pan === "" && PanDisable === false) {
-    //   seterrorMsg((prevState) => ({
-    //     ...prevState,
-    //     errorOBJ: {
-    //       ...prevState.errorOBJ,
-    //       errorPan: "Please enter your PAN",
-    //     },
-    //   }));
-    // }
-    // if (!selectedDate && DobDisable === false) {
-    //   seterrorMsg((prevState) => ({
-    //     ...prevState,
-    //     errorOBJ: {
-    //       ...prevState.errorOBJ,
-    //       errorDate: "Please enter your DOB bouy ",
-    //     },
-    //   }));
-    // }
-    // if (inputs.AcNo === "" && AccountNoDisable === false) {
-    //   seterrorMsg((prevState) => ({
-    //     ...prevState,
-    //     errorOBJ: {
-    //       ...prevState.errorOBJ,
-    //       errorAccNo: "Please enter your account number",
-    //     },
-    //   }));
-    // }
-    // if (FormData.ifsc === "" && ifscDisable === false) {
-    //   seterrorMsg((prevState) => ({
-    //     ...prevState,
-    //     errorOBJ: {
-    //       ...prevState.errorOBJ,
-    //       errorIFSC: "Please enter your IFSC",
-    //     },
-    //   }));
-    // }
+    if (FormData.email === "") {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorEmail: "Please enter your email",
+        },
+      }));
+    }
+    if (FormData.pan === "" && PanDisable === false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorPan: "Please enter your PAN",
+        },
+      }));
+    }
+    if (!selectedDate && DobDisable === false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorDate: "Please enter your DOB bouy ",
+        },
+      }));
+    }
+    if (inputs.AcNo === "" && AccountNoDisable === false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorAccNo: "Please enter your account number",
+        },
+      }));
+    }
+    if (FormData.ifsc === "" && ifscDisable === false) {
+      seterrorMsg((prevState) => ({
+        ...prevState,
+        errorOBJ: {
+          ...prevState.errorOBJ,
+          errorIFSC: "Please enter your IFSC",
+        },
+      }));
+    }
     // if (
     //   FormData.pan &&
     //   FormData.dob &&
@@ -375,12 +375,12 @@ function PanBankEmail() {
     fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result.res_Output[0].stage_Id);
+        // console.log(result.res_Output[0].stage_Id);
         history.push(result.res_Output[0].stage_Id);
       })
       .catch((error) => console.log("error", error));
     // }
-    console.log(FormData);
+    // console.log(FormData);
   };
 
   useEffect(() => {
@@ -447,7 +447,7 @@ function PanBankEmail() {
       // .catch((error) => console.log("error", error));
       const getIfscData = await response.json();
       setIfscResponse(getIfscData);
-      console.log(getIfscData);
+      // console.log(getIfscData);
       if (getIfscData === "Not Found") {
         seterrorMsg((prevState) => ({
           ...prevState,
@@ -645,7 +645,7 @@ function PanBankEmail() {
       `Bearer ${localStorage.getItem("userToken")}`
     );
     myHeaders.append("Content-Type", "application/json");
-    console.log(IfscResponse.MICR, IfscResponse.ADDRESS);
+    // console.log(IfscResponse.MICR, IfscResponse.ADDRESS);
     var raw = JSON.stringify({
       org_Id: ORG_ID,
       lead_Id: localStorage.getItem("lead_Id"),
@@ -703,7 +703,7 @@ function PanBankEmail() {
         },
       }));
     }
-    console.log(PanDetails);
+    // console.log(PanDetails);
     if (PanDetails !== "") {
       // KRA FETCH API
       var myHeaders = new Headers();

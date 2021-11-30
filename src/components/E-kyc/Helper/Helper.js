@@ -1,5 +1,7 @@
 import $ from "jquery";
+import { useHistory } from "react-router-dom";
 const ORG_ID = "S001";
+
 function conVal() {
   $("#fieldSelectorNo").keypress(function (e) {
     var length = $(this).val().length;
@@ -101,7 +103,40 @@ function getLocation(callback) {
 //   console.log("Your latitude is :" + lat + " and longitude is " + long);
 // }
 // handle success case
+function Routing() {
+  let history = useHistory();
+  const id = localStorage.getItem("raw");
+  switch (id) {
+    case 1:
+      history.push("/Email");
+      break;
+    case 2:
+      history.push("/Account");
+      break;
+    case 3:
+      history.push("/AdhaarKyc");
+      break;
+    case 4:
+      history.push("/Personal");
+      break;
+    case 5:
+      history.push("/IPV");
+      break;
+    case 6:
+      history.push("/Document");
+      break;
+    case 7:
+      history.push("/Esign");
+      break;
+    case 8:
+      history.push("/FnoNominee");
+      break;
 
+    default:
+      history.push("/");
+      break;
+  }
+}
 export {
   conVal,
   namVal,
@@ -110,5 +145,6 @@ export {
   OtpVal,
   mobileOtp,
   Space,
+  Routing,
   ORG_ID,
 };

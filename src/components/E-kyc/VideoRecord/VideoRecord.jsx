@@ -166,7 +166,7 @@ function VideoRecord({ props, sendToParent }) {
     SetMpData(myFile);
   }, [ipvData]);
   let history = useHistory();
-
+  // video component start recording
   const onStartRecordVideo = () => {
     setTimeout(() => {
       var canvas = document.getElementById("canvas");
@@ -180,7 +180,7 @@ function VideoRecord({ props, sendToParent }) {
     }, 7000);
     handleStart();
     getLocation(function (data) {
-      console.log("data from child:", data);
+      // console.log("data from child:", data);
       // work with your data came from server
     });
     SetBImg(null);
@@ -228,7 +228,7 @@ function VideoRecord({ props, sendToParent }) {
     fetch(`${SERVER_ID}/api/in_person_verification/IPV_OTP`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        // console.log("xwxwwcccw", result);
+        console.log("xwxwwcccw", result);
         SetNumData(result.res_Output[0].result_Description);
       })
       .catch((err) => console.log(err));
@@ -245,7 +245,7 @@ function VideoRecord({ props, sendToParent }) {
         const data = (videoElement.current.src = URL.createObjectURL(
           recorder.getBlob()
         ));
-        console.log("VideoRecord Data: ", data);
+        // console.log("VideoRecord Data: ", data);
         SetIpvData(data);
         recorder.camera.stop();
         recorder.destroy();

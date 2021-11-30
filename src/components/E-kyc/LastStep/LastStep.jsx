@@ -9,7 +9,13 @@ import SERVER_ID from "../Configure/configure";
 import Script from "react-load-script";
 const LastStep = () => {
   const [docId, setDocId] = useState("");
+  const [buttonDis, setButtonDis] = useState(true);
   const history = useHistory();
+  useEffect(() => {
+    setTimeout(() => {
+      setButtonDis(false);
+    }, 5000);
+  }, []);
   useEffect(() => {
     // console.log("wdcwd");
     const unsuscribe = async () => {
@@ -210,6 +216,7 @@ const LastStep = () => {
                 type="submit"
                 className="btn-comman text-white"
                 onClick={handleClick}
+                disabled={buttonDis}
               >
                 E-sign
               </Button>

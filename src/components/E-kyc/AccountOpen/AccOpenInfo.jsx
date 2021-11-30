@@ -24,6 +24,7 @@ const AccOpenInfo = () => {
     });
   }
   const __DEV__ = document.domain === "localhost";
+  // Razor pay integrate as well as on suceced update staged ID
   const handlePay = async () => {
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
@@ -35,7 +36,8 @@ const AccOpenInfo = () => {
     }
 
     const options = {
-      key: __DEV__ ? "rzp_live_q8gUCOxfHIbCkb" : "PRODUCTION_KEY",
+      // key: __DEV__ ? "rzp_live_q8gUCOxfHIbCkb" : "PRODUCTION_KEY",
+      key: "rzp_live_q8gUCOxfHIbCkb",
       currency: "INR",
       amount: 100,
       // order_id: data.id,
@@ -49,9 +51,9 @@ const AccOpenInfo = () => {
         contact: "9999999999",
       },
       handler: async function (response) {
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
         console.log("success");
         // window.location.href = "/PersonalInfo";
         // post to database

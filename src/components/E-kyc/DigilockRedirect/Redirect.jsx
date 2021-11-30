@@ -147,6 +147,7 @@ const Redirect = () => {
       Lead_Id: Ret_Lead_Id,
       hmac: Ret_hmac,
       code: Ret_code,
+      source: 0,
       Method_Name: "DigiLocker_Res",
     }),
   }).then((res) => {
@@ -183,16 +184,18 @@ const Redirect = () => {
     fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result.res_Output[0].stage_Id);
+        // console.log(result.res_Output[0].stage_Id);
         history.push(result.res_Output[0].stage_Id);
       })
       .catch((error) => console.log("error", error));
     // history.push("/Personal");
   };
   useEffect(() => {
-    setTimeout(() => {
-      handleProceed();
-    }, 6000);
+    if (address !== "") {
+      setTimeout(() => {
+        handleProceed();
+      }, 7000);
+    }
   }, [address]);
   useEffect(() => {
     console.log(Params);

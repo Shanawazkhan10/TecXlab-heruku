@@ -21,10 +21,10 @@ const WebCam = () => {
     // console.log('IPV Data:', index);
     SetData(index);
   };
-  history.listen((location, action) => {
-    console.log("one change");
-    // Do stuff.
-  });
+  // history.listen((location, action) => {
+  //   console.log("one change");
+  //   // Do stuff.
+  // });
   return (
     <div>
       <Container>
