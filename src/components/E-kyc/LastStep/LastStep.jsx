@@ -183,7 +183,7 @@ const LastStep = () => {
             <Col>
               <h3 className="float-left">Esign</h3>
               <br />
-              <hr className="hr-personal color-gradiant" />
+              <hr className="hr-personal color-red" />
             </Col>
             <Col>
               <p>
@@ -214,7 +214,7 @@ const LastStep = () => {
               <Button
                 fullWidth="true"
                 type="submit"
-                className="btn-comman text-white"
+                className="btn-comman text-white color-red"
                 onClick={handleClick}
                 disabled={buttonDis}
               >

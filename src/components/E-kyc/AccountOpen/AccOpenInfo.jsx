@@ -175,14 +175,14 @@ const AccOpenInfo = () => {
             <Col md="8" className="mt-3 p-1">
               <div className="total-sec">
                 <div>Total</div>
-                <div style={{ color: "#3457D5" }}>₹200</div>
+                <div style={{ color: "#c41e1c" }}>₹200</div>
               </div>
             </Col>
             <Col className="ml-2 mt-4" md="8">
               <Button
                 onClick={handlePay}
                 type="submit"
-                className="btn-comman text-white"
+                className="btn-comman color-red text-white"
               >
                 PAY
               </Button>

@@ -453,7 +453,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               <Col>
                 <h3 className="float-left">Registration</h3>
                 <br />
-                <hr className="hr-personal color-gradiant" />
+                <hr className="hr-personal color-red" />
               </Col>
             </Row>
 
@@ -665,7 +665,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
                   type="submit"
                   // fullWidth="true"
                   onClick={handleProceed}
-                  className="btn font-weight-bold color-gradiant form-control text-white border-0 btn-block"
+                  className="btn font-weight-bold form-control color-red text-white border-0 btn-block"
                 >
                   Proceed
                 </Button>

@@ -39,10 +39,11 @@ input[type="number"] {
 .text-error {
   font-size: 14px;
   text-align: center;
-  color: red;
+  color: #c41e1c;
 }
 .color-gradiant {
-  background-image: linear-gradient(to right, #6a4eee, #6a4eee);
+  /* background-image: linear-gradient(to right, #6a4eee, #6a4eee); */
+  background-color: #ffd3cf;
 }
 .text-white {
   color: white !important;
@@ -53,11 +54,15 @@ input[type="number"] {
 .btn-radius {
   border-radius: 10px;
 }
+.color-red {
+  background-color: #c41e1c !important;
+}
 .btn-comman {
   width: 300px;
   height: 40px;
   border-radius: 5px;
-  background-image: linear-gradient(to right, #6a4eee, #6a4eee);
+  /* background-image: linear-gradient(to right, #6a4eee, #6a4eee); */
+
   color: white;
   border: none;
 }
@@ -65,13 +70,14 @@ input[type="number"] {
   width: 117px;
   height: 40px;
   border-radius: 5px;
-  background-image: linear-gradient(to right, #6a4eee, #6a4eee);
+  /* background-image: linear-gradient(to right, #6a4eee, #6a4eee); */
+  background-color: #c41e1c;
   color: white;
   border: none;
 }
 .link-comman {
   text-decoration: underline;
-  color: #7f00ff;
+  color: #c41e1c;
   cursor: pointer;
 }
 .div-center {

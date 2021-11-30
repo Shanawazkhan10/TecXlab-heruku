@@ -440,7 +440,7 @@ const PersonalInfo = () => {
                 <Col>
                   <h3 className="float-left">Personal Details</h3>
                   <br />
-                  <hr className="hr-personal color-gradiant" />
+                  <hr className="hr-personal color-red color-gradiant" />
                 </Col>
               </Row>
               <Row>
@@ -926,7 +926,7 @@ const PersonalInfo = () => {
                     type="submit"
                     // disabled={isBtnVisible}
                     onClick={handleSubmit}
-                    className="btn-comman text-white"
+                    className="btn-comman color-red text-white"
                     // disabled={isBtnVisible}
                   >
                     Proceed

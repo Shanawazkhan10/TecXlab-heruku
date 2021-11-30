@@ -16,9 +16,9 @@ const AdhaarKyc = (url) => {
   const history = useHistory();
   // API Call for Calling digio API after this it will redrect to /Redirect page an futher process happens
   const handleClick = () => {
-    url = `https://api.digitallocker.gov.in/public/oauth2/authorize?response_type=code&client_id=F98631E8&state=${localStorage.getItem(
+    url = `https://api.digitallocker.gov.in/public/oauth2/authorize?response_type=code&client_id=87544AEF&state=${localStorage.getItem(
       "lead_Id"
-    )}&redirect_uri=http://localhost:3000/Redirect`;
+    )}&redirect_uri=https://mkyc.mangalkeshav.com/Redirect`;
     window.open(url, "_self");
     // window.open(url, "name", "height=500,width=500");
     // if (window.focus) {
@@ -62,7 +62,7 @@ const AdhaarKyc = (url) => {
                 <Col style={{ marginLeft: "30px" }}>
                   <h3 className="float-left ml=2">Adhaar KYC</h3>
                   <br />
-                  <hr className="hr-personal color-gradiant" />
+                  <hr className="hr-personal color-red" />
                 </Col>
               </Row>
               <Col>
@@ -87,7 +87,7 @@ const AdhaarKyc = (url) => {
                   // fullWidth="true"
                   type="submit"
                   onClick={handleClick}
-                  className="btn-comman text-white"
+                  className="btn-comman color-red text-white"
                   style={{ textTransform: "capitalize", marginLeft: "10px" }}
                 >
                   Contine to DigiLocker

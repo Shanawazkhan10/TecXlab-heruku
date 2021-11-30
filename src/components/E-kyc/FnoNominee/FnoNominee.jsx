@@ -150,7 +150,7 @@ const FnoNominee = () => {
               <Button
                 type="submit"
                 onClick={HandleFund}
-                className="btn-comman text-white mb-3"
+                className="btn-comman color-red text-white mb-3"
               >
                 Add Funds to Trade Quickly <ArrowForwardIosIcon />
               </Button>
@@ -159,7 +159,7 @@ const FnoNominee = () => {
             <br />
             <Col className="text-center">
               <h3>Congratulations !</h3>
-              <hr className="hr-center color-gradiant" />
+              <hr className="hr-center color-red" />
             </Col>
             <Col className="text-center">
               <p>
@@ -211,7 +211,7 @@ const FnoNominee = () => {
                       <Button
                         fullWidth
                         type="submit"
-                        className="btn-comman text-white"
+                        className="btn-comman color-red text-white"
                       >
                         Open FNO Account
                       </Button>
@@ -223,7 +223,7 @@ const FnoNominee = () => {
                       <Button
                         fullWidth
                         type="submit"
-                        className="btn-comman text-white"
+                        className="btn-comman color-red text-white"
                       >
                         Open Commodity
                       </Button>
@@ -235,7 +235,7 @@ const FnoNominee = () => {
                       <Button
                         fullWidth
                         type="submit"
-                        className="btn-comman text-white"
+                        className="btn-comman color-red text-white"
                       >
                         Add Nominee
                       </Button>
@@ -254,7 +254,7 @@ const FnoNominee = () => {
                         fullWidth
                         onClick={handleView}
                         type="submit"
-                        className="btn-comman text-white"
+                        className="btn-comman color-red text-white"
                       >
                         View Form
                       </Button>

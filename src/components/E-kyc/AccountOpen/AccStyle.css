@@ -1,12 +1,12 @@
 .insider {
   font-size: 13px;
-  border: 1.5px solid #3457d5;
+  border: 1.5px solid #c41e1c;
   border-radius: 10px;
   padding: 10px;
 }
 .total-sec {
-  border-top: 1px solid #8c92ac;
-  border-bottom: 1px solid #8c92ac;
+  border-top: 1px solid #c41e1c;
+  border-bottom: 1px solid #c41e1c;
   display: flex;
   justify-content: space-between;
   padding: 8px;

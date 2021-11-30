@@ -334,32 +334,32 @@ const AdhaarKyc = () => {
     //   alert("Please upload sign image");
     // }
     // if (Data1 && Data2 !== "") {
-      // upload signature
-      SignatureUpload(croppedImage2);
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append(
-        "Authorization",
-        `Bearer ${localStorage.getItem("userToken")}`
-      );
-      var raw = JSON.stringify({
-        method_Name: "Update_Stage_Id",
-        org_Id: ORG_ID,
-        lead_Id: localStorage.getItem("lead_Id"),
-      });
+    // upload signature
+    SignatureUpload(croppedImage2);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("userToken")}`
+    );
+    var raw = JSON.stringify({
+      method_Name: "Update_Stage_Id",
+      org_Id: ORG_ID,
+      lead_Id: localStorage.getItem("lead_Id"),
+    });
 
-      var requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-      };
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
 
-      fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
-      history.push("/Esign");
+    fetch(`${SERVER_ID}/api/lead/Update_StageId`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+    history.push("/Esign");
     // }
   };
 
@@ -397,10 +397,16 @@ const AdhaarKyc = () => {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClick} color="primary">
+          <Button
+            style={{ backgroundColor: "#c41e1c", color: "#FFF" }}
+            onClick={handleClick}
+          >
             CROP
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button
+            style={{ backgroundColor: "#c41e1c", color: "#FFF" }}
+            onClick={handleClose}
+          >
             CANCEL
           </Button>
         </DialogActions>
@@ -420,10 +426,16 @@ const AdhaarKyc = () => {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClickCrop} color="primary">
+          <Button
+            onClick={handleClickCrop}
+            style={{ backgroundColor: "#c41e1c", color: "#FFF" }}
+          >
             CROP
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button
+            onClick={handleClose}
+            style={{ backgroundColor: "#c41e1c", color: "#FFF" }}
+          >
             CANCEL
           </Button>
         </DialogActions>
@@ -442,7 +454,7 @@ const AdhaarKyc = () => {
                           {" "}
                           <h3 className="float-left">Upload Documents</h3>
                           <br />
-                          <hr className="hr-personal color-gradiant" />
+                          <hr className="hr-personal color-red" />
                         </Col>
                       </Row>
                       <Row>
@@ -559,7 +571,7 @@ const AdhaarKyc = () => {
                       <Button
                         type="submit"
                         onClick={HandleOpen}
-                        className="btn-comman-small  text-white"
+                        className="btn-comman-small color-red  text-white"
                         style={{
                           textTransform: "capitalize",
                         }}
@@ -583,7 +595,7 @@ const AdhaarKyc = () => {
                       <Button
                         type="submit"
                         onClick={handleTriggerSign}
-                        className="btn-comman-small  text-white"
+                        className="btn-comman-small color-red text-white"
                         style={{
                           textTransform: "capitalize",
                         }}
@@ -605,7 +617,7 @@ const AdhaarKyc = () => {
                   <Button
                     type="submit"
                     onClick={handlePush}
-                    className="btn-comman-small mt-2  text-white"
+                    className="btn-comman-small mt-2  color-red text-white"
                     style={{
                       textTransform: "capitalize",
                       width: "245px",
